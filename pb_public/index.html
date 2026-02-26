@@ -408,7 +408,7 @@
                     email,
                     password,
                     passwordConfirm,
-                    verified: true // Mark as verified since they used a valid invite link
+                    // verified: true - REMOVED: Guests usually cannot set this field directly
                 });
 
                 // 3. Mark invite as used
@@ -420,7 +420,15 @@
                 window.location.href = 'dashboard.html';
             } catch (err) {
                 console.error('Registration error:', err);
-                showError(err.message || 'Failed to create account.');
+
+                // Try to get more specific error info from PocketBase
+                let detailedError = err.message;
+                if (err.data && err.data.data) {
+                    const firstKey = Object.keys(err.data.data)[0];
+                    detailedError += `: ${firstKey} - ${err.data.data[firstKey].message}`;
+                }
+
+                showError(detailedError || 'Failed to create account.');
             } finally {
                 setSubmitting('register-btn', false);
             }
