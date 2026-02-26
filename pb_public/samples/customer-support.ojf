@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "persona": "Sam, Tech-Savvy Parent",
+  "pointOfView": "Getting a broken smart toy fixed before a birthday",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "Problem Discovery"
+    },
+    {
+      "id": "s2",
+      "name": "Initial Support Contact"
+    },
+    {
+      "id": "s3",
+      "name": "Troubleshooting"
+    },
+    {
+      "id": "s4",
+      "name": "Resolution"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "User Activity"
+    },
+    {
+      "id": "sl2",
+      "name": "Emotional State"
+    },
+    {
+      "id": "sl3",
+      "name": "Pain Points"
+    },
+    {
+      "id": "sl4",
+      "name": "Support Channel"
+    }
+  ],
+  "nodes": [
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Toy won't turn on",
+      "description": "Sam tries to charge the toy, but it remains unresponsive.",
+      "score": -2,
+      "tags": [
+        "Hardware",
+        "Issue"
+      ]
+    },
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Frustrated",
+      "description": "Annoyed that a new product is already failing.",
+      "score": -3,
+      "sentiment": "frustrated",
+      "purpose": "pain-point",
+      "icon": "mood_bad",
+      "iconColor": "#ef4444"
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Initiate Live Chat",
+      "description": "Sam uses the website live chat to speak with an agent.",
+      "score": 1,
+      "tags": [
+        "Chat",
+        "Digital"
+      ]
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl3",
+      "title": "Bot Loop",
+      "description": "Spent 5 minutes talking to a bot before reaching a human.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "annoyed",
+      "purpose": "bottleneck",
+      "icon": "smart_toy",
+      "iconColor": "#f59e0b"
+    },
+    {
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Follow reset instructions",
+      "description": "Agent guides Sam through a hard reset of the device.",
+      "score": 0,
+      "isMomentOfTruth": true,
+      "purpose": "touchpoint",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Hopeful",
+      "description": "The reset seems to be doing something...",
+      "score": 1,
+      "sentiment": "relieved",
+      "purpose": "milestone",
+      "icon": "hourglass_empty",
+      "iconColor": "#4f46e5"
+    },
+    {
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Device Revived",
+      "description": "The toy turns on and functions perfectly after the reset.",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "gain",
+      "icon": "auto_awesome",
+      "iconColor": "#10b981",
+      "tags": [
+        "Success"
+      ]
+    },
+    {
+      "stageId": "s4",
+      "swimlaneId": "sl4",
+      "title": "Post-Chat Survey",
+      "description": "Sam leaves a positive review for the agent.",
+      "score": 4,
+      "tags": [
+        "Feedback"
+      ]
+    }
+  ]
+}

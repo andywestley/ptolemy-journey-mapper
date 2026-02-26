@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "persona": "Online Shopper (Sarah)",
+  "pointOfView": "Trying to return a defective sweater she bought online",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Discovery & Frustration"
+    },
+    {
+      "id": "s2",
+      "name": "2. Initiating Return"
+    },
+    {
+      "id": "s3",
+      "name": "3. Shipping it Back"
+    },
+    {
+      "id": "s4",
+      "name": "4. Waiting for Refund"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Customer Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "Digital Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Physical Touchpoints"
+    },
+    {
+      "id": "sl4",
+      "name": "Pain Points"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Opens Package",
+      "description": "Sarah opens the delivery and discovers the sweater has a tear in the sleeve.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "upset",
+      "purpose": "action",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "offline"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Checks Return Policy",
+      "description": "Goes to the website on her phone to find the return policy. It is buried in the footer.",
+      "severity": "low",
+      "score": -1,
+      "sentiment": "frustrated",
+      "purpose": "touchpoint",
+      "iconColor": "#ffffff",
+      "tags": [
+        "mobile"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Return Portal",
+      "description": "Logs into the return portal. The system cannot find her order number automatically.",
+      "severity": "high",
+      "score": -3,
+      "sentiment": "angry",
+      "purpose": "bottleneck",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "bug",
+        "friction"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl4",
+      "title": "Restocking Fee",
+      "description": "The portal says there is a $5 return shipping fee, even though the item arrived damaged.",
+      "severity": "high",
+      "score": -4,
+      "sentiment": "angry",
+      "purpose": "pain",
+      "iconColor": "#fecaca",
+      "tags": [
+        "policy"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n5",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Live Chat Support",
+      "description": "Sarah opens live chat to get the fee waived. The bot is unhelpful, but a human agent finally waives it.",
+      "severity": "medium",
+      "score": 1,
+      "sentiment": "relieved",
+      "purpose": "touchpoint",
+      "iconColor": "#fef08a",
+      "tags": [
+        "support"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl3",
+      "title": "Printing Label",
+      "description": "Sarah has to find a friend with a printer to print the return label.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "frustrated",
+      "purpose": "action",
+      "iconColor": "#ffffff",
+      "tags": [
+        "offline"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n7",
+      "stageId": "s3",
+      "swimlaneId": "sl3",
+      "title": "Drop off at Carrier",
+      "description": "Drives 15 minutes to drop the package off at a shipping center.",
+      "severity": "low",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "iconColor": "#ffffff",
+      "tags": [
+        "offline"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n8",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Radio Silence",
+      "description": "It has been 10 days and there is no email confirming the return was processed.",
+      "severity": "low",
+      "score": -2,
+      "sentiment": "anxious",
+      "purpose": "pain",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "communication"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n9",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Refund Issued",
+      "description": "Finally receives the refund notification. Will probably not shop here again.",
+      "severity": "low",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "milestone",
+      "iconColor": "#ffffff",
+      "tags": [
+        "finance"
+      ],
+      "isMomentOfTruth": false
+    }
+  ]
+}

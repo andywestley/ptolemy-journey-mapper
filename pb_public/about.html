@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Ptolemy - the OpenJourney editor</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --accent-color: #6366f1;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        [data-bs-theme="dark"] .hero {
+            background-color: #1e293b;
+        }
+
+        [data-bs-theme="dark"] .content-section .bg-light {
+            background-color: #1e293b !important;
+            border-color: #475569 !important;
+            color: #f8fafc;
+        }
+
+        [data-bs-theme="dark"] .list-group-item {
+            color: #f8fafc;
+        }
+
+        .content-section {
+            padding: 3rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="hero">
+        <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
+        <p class="lead mb-4">A simple, open-source editor for human-centered journey mapping.</p>
+        <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank"
+            class="btn btn-light btn-lg shadow-sm fw-semibold text-primary">
+            Visit the Repository
+        </a>
+    </header>
+
+    <main class="content-section">
+        <div class="mb-5">
+            <a href="index.html" class="text-decoration-none fw-semibold" style="color: var(--accent-color);">&larr;
+                Back to the App</a>
+        </div>
+
+        <h2 class="mb-4">Why I Built This</h2>
+        <p class="mb-4" style="font-size: 1.1rem;">
+            If you've ever worked in UX, you know the drill: we spend days researching and building beautiful journey
+            maps, only for them to get trapped inside a proprietary tool or a static image.
+        </p>
+        <p class="mb-4" style="font-size: 1.1rem;">
+            I built Ptolemy because I believe our work shouldn't be held hostage by a subscription. We need a way to
+            collaborate, version-control our insights, and share our data freely.
+        </p>
+
+        <h3 class="mb-3">The OpenJourney Format (.ojf)</h3>
+        <p class="mb-4">
+            At the heart of this project is a simple idea: an open, human-readable JSON format for user journeys.
+            By using <strong>.ojf</strong>, your data stays in your hands. You can track changes with Git, build
+            custom reports, or even move your data to a completely different tool without losing a single node.
+        </p>
+
+        <div class="bg-light p-4 rounded-3 border mb-5 shadow-sm">
+            <h4 class="mb-3 h6 text-uppercase fw-bold text-muted">A look inside an .ojf file</h4>
+            <pre class="mb-0" style="font-size: 0.9rem;"><code>{
+  "metadata": {
+    "title": "A Day in the Life",
+    "version": "1.0"
+  },
+  "stages": [
+    { "id": "s1", "name": "Discovery" }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stage": "s1",
+      "title": "Found a better way",
+      "description": "User realizes they don't need proprietary software."
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <h3 class="mb-3">A Hobby Project with Heart</h3>
+        <p class="mb-4">
+            Just to be clear: this isn't a venture-backed enterprise platform. It's a hobby project built by a UX
+            professional who wanted a tool that didn't exist yet. It's built with <strong>PocketBase</strong> and
+            plain old JavaScript, which makes it fast, privacy-focused, and easy to host yourself.
+        </p>
+
+        <h3 class="mb-3">Human-Led, AI-Built</h3>
+        <p class="mb-4">
+            There’s one more thing you should know about how Ptolemy was made. While I provided the vision, the UX
+            requirements, and the final design calls, I actually wrote very little of the source code by hand.
+        </p>
+        <p class="mb-4">
+            Instead, Ptolemy was built using **Google Antigravity**, an agentic AI coding assistant. We worked together
+            in a high-intensity pair-programming process where I acted as the navigator and the AI acted as the
+            primary builder. It allowed me to focus on the problem I wanted to solve, while the AI handled the
+            heavy lifting of implementation.
+        </p>
+
+        <h3 class="mb-3">Help Make it Better</h3>
+        <p class="mb-4">
+            Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for
+            a new feature, find a bug, or just want to chat about the future of open journey standards, I'd love to
+            hear from you.
+        </p>
+        <p class="mb-5">
+            Feel free to open an issue or submit a pull request on GitHub. Let's make journey mapping better for
+            everyone.
+        </p>
+
+        <hr class="mb-4" style="opacity: 0.15;">
+
+        <footer id="colophon-ptolemy" class="text-muted" style="font-size: 0.9rem;">
+            <p class="mb-0">
+                <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy"
+                    target="_blank" class="text-decoration-none" style="color: var(--accent-color);">Claudius
+                    Ptolemy</a>, who used grids to turn the messy,
+                unknown world into maps that people could actually use. This tool is a small attempt to do the same
+                for the complex landscape of human experiences.
+            </p>
+        </footer>
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

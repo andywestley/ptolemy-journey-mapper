@@ -1,0 +1,192 @@
+{
+  "version": "1.0",
+  "persona": "IT Director",
+  "pointOfView": "Procuring a new project management suite for the enterprise",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Awareness & Research"
+    },
+    {
+      "id": "s2",
+      "name": "2. Evaluation & Demo"
+    },
+    {
+      "id": "s3",
+      "name": "3. Security & Compliance"
+    },
+    {
+      "id": "s4",
+      "name": "4. Procurement & Contract"
+    },
+    {
+      "id": "s5",
+      "name": "5. Go-Live & Onboarding"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Customer Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "Vendor Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Emotional State"
+    },
+    {
+      "id": "sl4",
+      "name": "Internal Blockers"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Search for Solutions",
+      "description": "Searches G2 and Gartner for 'Enterprise PM tools'. Reads top 3 vendor websites.",
+      "severity": "low",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "iconColor": "#ffffff",
+      "tags": [
+        "research"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Marketing Website",
+      "description": "Vendor site is clear, but pricing is hidden behind 'Contact Sales'.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "frustrated",
+      "purpose": "touchpoint",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "friction"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Request Demo",
+      "description": "Fills out the lead gen form to schedule a demo.",
+      "severity": "low",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "iconColor": "#ffffff",
+      "tags": [
+        "sales"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Live Product Demo",
+      "description": "Account Executive gives a tailored presentation. The product looks like it solves the pain points.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "positive",
+      "purpose": "touchpoint",
+      "iconColor": "#dcfce7",
+      "tags": [
+        "sales"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n5",
+      "stageId": "s3",
+      "swimlaneId": "sl4",
+      "title": "InfoSec Review",
+      "description": "Internal security team requires a 100-question vendor risk assessment.",
+      "severity": "high",
+      "score": -2,
+      "sentiment": "anxious",
+      "purpose": "bottleneck",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "compliance"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Trust Center",
+      "description": "Vendor provides a self-serve Trust Center with SOC2 reports, speeding up the InfoSec review.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "relieved",
+      "purpose": "opportunity",
+      "iconColor": "#e0f2fe",
+      "tags": [
+        "compliance",
+        "win"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n7",
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Legal Redlines",
+      "description": "Procurement team goes back and forth on the MSA terms.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "frustrated",
+      "purpose": "action",
+      "iconColor": "#ffffff",
+      "tags": [
+        "legal"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n8",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Contract Signature",
+      "description": "Deal is signed via DocuSign. Welcome email dispatched.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "iconColor": "#dcfce7",
+      "tags": [
+        "legal"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n9",
+      "stageId": "s5",
+      "swimlaneId": "sl2",
+      "title": "Kickoff Call",
+      "description": "Customer Success Manager hosts a welcome call and sets up the implementation timeline.",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "positive",
+      "purpose": "touchpoint",
+      "iconColor": "#ffffff",
+      "tags": [
+        "onboarding"
+      ],
+      "isMomentOfTruth": false
+    }
+  ]
+}

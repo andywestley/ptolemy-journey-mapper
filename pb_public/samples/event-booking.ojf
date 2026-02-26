@@ -1,0 +1,136 @@
+{
+  "version": "1.0",
+  "persona": "Alex, Tech Lead",
+  "pointOfView": "Registering for an international developer conference",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "Registration"
+    },
+    {
+      "id": "s2",
+      "name": "Travel Logistics"
+    },
+    {
+      "id": "s3",
+      "name": "Pre-Event"
+    },
+    {
+      "id": "s4",
+      "name": "Day 1 Arrival"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Interaction"
+    },
+    {
+      "id": "sl2",
+      "name": "User Health (Sentiment)"
+    },
+    {
+      "id": "sl3",
+      "name": "Issues & Roadblocks"
+    },
+    {
+      "id": "sl4",
+      "name": "Tools Used"
+    }
+  ],
+  "nodes": [
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Fill out registration form",
+      "description": "Alex enters professional details and selects ticket type.",
+      "score": 3,
+      "tags": [
+        "Form",
+        "Web"
+      ]
+    },
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl3",
+      "title": "Coupon Code Error",
+      "description": "The early bird discount code kept failing at first.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "frustrated",
+      "purpose": "pain-point",
+      "icon": "error_outline",
+      "iconColor": "#f59e0b"
+    },
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl4",
+      "title": "Conference Website",
+      "description": "The main portal for all registration activities.",
+      "tags": [
+        "Desktop"
+      ]
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Book Flight & Hotel",
+      "description": "Using the 'official' conference hotel link.",
+      "score": 2,
+      "isMomentOfTruth": false
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Stress over budget",
+      "description": "Worried about getting approval for the travel expenses.",
+      "score": 0,
+      "sentiment": "anxious",
+      "purpose": "personal-hurdle",
+      "icon": "trending_down",
+      "iconColor": "#f59e0b"
+    },
+    {
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Download Event App",
+      "description": "Alex installs the official app to build their schedule.",
+      "score": 4,
+      "isMomentOfTruth": true,
+      "sentiment": "satisfied",
+      "purpose": "touchpoint",
+      "icon": "smartphone",
+      "iconColor": "#4f46e5",
+      "tags": [
+        "Mobile",
+        "App"
+      ]
+    },
+    {
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Check-in & Badge Pickup",
+      "description": "Scanning the QR code at the registration desk.",
+      "score": 5,
+      "sentiment": "relieved",
+      "purpose": "milestone",
+      "icon": "verified",
+      "iconColor": "#10b981",
+      "tags": [
+        "In-Person"
+      ]
+    },
+    {
+      "stageId": "s4",
+      "swimlaneId": "sl3",
+      "title": "Long Queues",
+      "description": "Wait time for badge pickup was over 45 minutes.",
+      "severity": "high",
+      "score": -3,
+      "sentiment": "bored",
+      "purpose": "bottleneck",
+      "icon": "timer",
+      "iconColor": "#ef4444"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "version": "1.0",
+  "persona": "Jane Doe, First-time Homeowner",
+  "pointOfView": "Buying a high-end coffee maker for a new kitchen",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "Discovery"
+    },
+    {
+      "id": "s2",
+      "name": "Research"
+    },
+    {
+      "id": "s3",
+      "name": "Purchase"
+    },
+    {
+      "id": "s4",
+      "name": "Onboarding"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "User Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "Emotional State"
+    },
+    {
+      "id": "sl3",
+      "name": "Pain Points"
+    },
+    {
+      "id": "sl4",
+      "name": "Digital Touchpoints"
+    }
+  ],
+  "nodes": [
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Search for best coffee makers",
+      "description": "Jane searches Google for top-rated espresso machines.",
+      "score": 2,
+      "tags": [
+        "Search",
+        "Mobile"
+      ]
+    },
+    {
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Excitement",
+      "description": "Feeling optimistic about finding a great addition to the kitchen.",
+      "score": 3,
+      "sentiment": "positive",
+      "purpose": "observation",
+      "icon": "mood",
+      "iconColor": "#10b981"
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Compare specs and reviews",
+      "description": "Reading blog posts and watching YouTube reviews.",
+      "score": 1,
+      "tags": [
+        "Research",
+        "Desktop"
+      ]
+    },
+    {
+      "stageId": "s2",
+      "swimlaneId": "sl3",
+      "title": "Information Overload",
+      "description": "Too many models and conflicting reviews make it hard to choose.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "confused",
+      "purpose": "bottleneck",
+      "icon": "warning",
+      "iconColor": "#f59e0b"
+    },
+    {
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Select Product & Checkout",
+      "description": "Decides on the 'BrewMaster Pro' and completes the purchase.",
+      "score": 0,
+      "isMomentOfTruth": true,
+      "purpose": "touchpoint",
+      "icon": "shopping_cart",
+      "iconColor": "#4f46e5",
+      "tags": [
+        "Checkout",
+        "Mobile"
+      ]
+    },
+    {
+      "stageId": "s3",
+      "swimlaneId": "sl3",
+      "title": "Hidden Shipping Fees",
+      "description": "Shipping costs were not shown until the very last step.",
+      "severity": "high",
+      "score": -3,
+      "sentiment": "angry",
+      "purpose": "pain-point",
+      "icon": "money_off",
+      "iconColor": "#ef4444"
+    },
+    {
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Unboxing & Setup",
+      "description": "Recedes the unit and follows the quick-start guide.",
+      "score": 4,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "icon": "done_all",
+      "iconColor": "#10b981",
+      "tags": [
+        "Support",
+        "Product"
+      ]
+    }
+  ]
+}

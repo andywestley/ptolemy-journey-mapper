@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Ptolemy - the OpenJourney editor</title>
+    <meta name="description" content="Login or register to access the Ptolemy Editor.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --accent-color: #6366f1;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            margin: 0;
+        }
+
+        .auth-card {
+            max-width: 400px;
+            width: 100%;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            background: white;
+            transition: transform 0.2s ease;
+        }
+
+        .auth-header {
+            background: var(--accent-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-body {
+            padding: 2rem;
+        }
+
+        .nav-pills .nav-link {
+            color: #6c757d;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            padding: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+        }
+
+        #error-alert {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            vertical-align: middle;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: #0f172a;
+        }
+
+        [data-bs-theme="dark"] .auth-card {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+
+        [data-bs-theme="dark"] .form-control {
+            background-color: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        /* Post-it Note Styles */
+        .hobby-note {
+            background-color: #fef08a;
+            /* classic post-it yellow */
+            color: #422006;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(200, 150, 0, 0.1);
+            transform: rotate(-3deg);
+            max-width: 320px;
+            border-bottom-right-radius: 10px 30px;
+            /* Slight curl effect */
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .hobby-note::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 80px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.4);
+            /* Tape effect */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transform: translateX(-50%) rotate(2deg);
+        }
+
+        .hobby-note a {
+            color: #854d0e;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .hobby-note a:hover {
+            color: #422006;
+        }
+
+        [data-bs-theme="dark"] .hobby-note {
+            background-color: #ca8a04;
+            color: #fefce8;
+        }
+
+        [data-bs-theme="dark"] .hobby-note::before {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-bs-theme="dark"] .hobby-note a {
+            color: #fef08a;
+        }
+
+        [data-bs-theme="dark"] .hobby-note a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center gap-5 w-100"
+        style="max-width: 900px;">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 id="app-title">Ptolemy</h1>
+                <p class="mb-0 opacity-75">the OpenJourney editor</p>
+            </div>
+
+            <div class="auth-body">
+                <!-- Tabs -->
+                <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="pill"
+                            data-bs-target="#login-pane" type="button" role="tab">Login</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane"
+                            type="button" role="tab">Register</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Login Pane -->
+                    <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="login-email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="login-email" required
+                                    placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="login-password" required
+                                    placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="login-btn">
+                                <span class="btn-text">Sign In</span>
+                                <div class="spinner-border loading-spinner" role="status"></div>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Registration Pane -->
+                    <div class="tab-pane fade" id="register-pane" role="tabpanel">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label for="reg-email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="reg-email" required
+                                    placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="reg-password" required minlength="8"
+                                    placeholder="Minimum 8 characters">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password-confirm" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="reg-password-confirm" required
+                                    placeholder="••••••••">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
+                                <input type="text" class="form-control" id="reg-invite" required
+                                    placeholder="Paste your invite code here">
+                                <div class="form-text">Ask your administrator for a beta invite code.</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="register-btn">
+                                <span class="btn-text">Create Account</span>
+                                <div class="spinner-border loading-spinner" role="status"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Error Feedback -->
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hobby Project Note -->
+        <div class="hobby-note">
+            <p class="mb-2"><strong>👋 Hi there!</strong></p>
+            <p class="mb-3">Just a quick note: this is a personal hobby project built by a UX professional, not
+                corporate enterprise software.</p>
+            <p class="mb-0"><a href="about.html">Read the story behind it &rarr;</a></p>
+        </div>
+    </div>
+
+    <!-- Ad/Tease for open standard -->
+    <div class="open-standard-teaser text-center mt-5" style="max-width: 600px;">
+        <h2 class="h5 mb-3" style="font-weight: 600; color: var(--accent-color);">Powered by the OpenJourney Format
+            (.ojf)</h2>
+        <p class="text-muted mb-3">
+            Ptolemy uses the open, human-readable <code>.ojf</code> JSON format to store and share customer journeys
+            without proprietary lock-in.
+        </p>
+        <div class="text-start p-3 rounded-3 mb-4 shadow-sm"
+            style="background-color: #1e293b; color: #e2e8f0; font-size: 0.85rem; overflow-x: auto; max-height: 200px;">
+            <pre class="mb-0"><code>{
+  "metadata": {
+    "title": "Example Journey",
+    "version": "1.0"
+  },
+  "phases": [ { "id": "p1", "name": "Discovery" } ],
+  "nodes": [ { "id": "n1", "phase": "p1", "text": "Customer searches online" } ]
+}</code></pre>
+        </div>
+        <a href="about.html" class="btn btn-outline-secondary px-4 py-2"
+            style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- PocketBase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.1/dist/pocketbase.umd.js"></script>
+
+    <script>
+        // Initialize PocketBase
+        const pb = new PocketBase();
+
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const errorAlert = document.getElementById('error-alert');
+        const errorMessage = document.getElementById('error-message');
+
+        // Auto-fill Invite from URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const invite = params.get('invite');
+            if (invite) {
+                document.getElementById('reg-invite').value = invite;
+                // Switch to register tab if invite present
+                const registerTab = document.getElementById('register-tab');
+                bootstrap.Tab.getOrCreateInstance(registerTab).show();
+            }
+        });
+
+        /**
+         * Show/Hide error alerts
+         */
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorAlert.style.display = 'block';
+        }
+
+        function hideError() {
+            errorAlert.style.display = 'none';
+        }
+
+        /**
+         * Toggle loading state on buttons
+         */
+        function setSubmitting(btnId, isSubmitting) {
+            const btn = document.getElementById(btnId);
+            const text = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('.loading-spinner');
+
+            if (isSubmitting) {
+                btn.disabled = true;
+                text.style.display = 'none';
+                spinner.style.display = 'inline-block';
+            } else {
+                btn.disabled = false;
+                text.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        }
+
+        // --- Auth Actions ---
+
+        // Login Handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+            setSubmitting('login-btn', true);
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const authData = await pb.collection('users').authWithPassword(email, password);
+                console.log('Login successful:', authData);
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                console.error('Login error:', err);
+                showError(err.message || 'Failed to login. Please check your credentials.');
+            } finally {
+                setSubmitting('login-btn', false);
+            }
+        });
+
+        // Registration Handler
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const passwordConfirm = document.getElementById('reg-password-confirm').value;
+            const inviteToken = document.getElementById('reg-invite').value.trim();
+
+            if (password !== passwordConfirm) {
+                showError("Passwords do not match.");
+                return;
+            }
+
+            setSubmitting('register-btn', true);
+
+            try {
+                // 1. Validate Invite Token
+                const invite = await pb.collection('invites').getFirstListItem(`token="${inviteToken}" && isUsed=false`);
+                if (!invite) {
+                    throw new Error("Invalid or already used invite code.");
+                }
+
+                // 2. Create the user
+                await pb.collection('users').create({
+                    email,
+                    password,
+                    passwordConfirm,
+                    verified: true // Mark as verified since they used a valid invite link
+                });
+
+                // 3. Mark invite as used
+                await pb.collection('invites').update(invite.id, { isUsed: true });
+
+                // 2. Automatically log in after registration
+                await pb.collection('users').authWithPassword(email, password);
+
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                console.error('Registration error:', err);
+                showError(err.message || 'Failed to create account.');
+            } finally {
+                setSubmitting('register-btn', false);
+            }
+        });
+
+        // Clear error when switching tabs
+        document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.addEventListener('shown.bs.tab', hideError);
+        });
+    </script>
+</body>
+
+</html>

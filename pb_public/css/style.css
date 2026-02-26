@@ -1,0 +1,137 @@
+/* Global variables and design tokens */
+:root {
+    --primary-bg: #f8f9fa;
+    --accent-color: #6366f1;
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --navbar-height: 70px;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--primary-bg);
+    margin: 0;
+    transition: background-color 0.3s ease;
+}
+
+/* Common Components */
+.btn-primary, .btn-accent {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-accent:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    transform: translateY(-1px);
+    color: white;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.cursor-pointer { cursor: pointer; }
+
+/* Auth Card Styles */
+.auth-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    max-width: 400px;
+    width: 100%;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    background: white;
+}
+
+.auth-header {
+    background: var(--accent-color);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.auth-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.auth-body {
+    padding: 2rem;
+}
+
+.nav-pills .nav-link {
+    color: #6c757d;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Dashboard Styles */
+.dashboard-page {
+    padding-top: var(--navbar-height);
+}
+
+.navbar {
+    height: var(--navbar-height);
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.journey-card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journey-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Support */
+[data-bs-theme="dark"] body {
+    background-color: #0f172a;
+}
+[data-bs-theme="dark"] .auth-card, 
+[data-bs-theme="dark"] .navbar, 
+[data-bs-theme="dark"] .card {
+    background-color: #1e293b;
+    color: #f8fafc;
+}
+[data-bs-theme="dark"] .form-control {
+    background-color: #334155;
+    border-color: #475569;
+    color: white;
+}

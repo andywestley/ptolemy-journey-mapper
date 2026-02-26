@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Ptolemy - the OpenJourney editor</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .comment-pin {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50% 50% 50% 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -100%) rotate(-45deg);
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s;
+        }
+
+        .comment-pin i {
+            transform: rotate(45deg);
+            font-size: 12px;
+        }
+
+        .comment-pin:hover {
+            transform: translate(-50%, -100%) rotate(-45deg) scale(1.2);
+        }
+
+        .feedback-active {
+            cursor: crosshair !important;
+        }
+
+        .feedback-active .node-card {
+            cursor: alias !important;
+            outline: 2px solid #f59e0b !important;
+            outline-offset: 2px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-map-fill me-2"></i>Ptolemy <small class="text-muted fw-normal ms-1 fs-6">- the
+                    OpenJourney editor</small>
+            </a>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3 d-none d-sm-inline text-muted" id="user-email"></span>
+                <span id="save-status" class="opacity-0 save-status">
+                    <span class="save-indicator-dot"></span>
+                    <span id="save-text">Saved</span>
+                </span>
+                <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+                    <i class="bi bi-box-arrow-right me-1"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <!-- View: Journey List -->
+        <div id="journey-list-view" class="view-container active">
+            <div class="row">
+                <!-- Sidebar for Folders -->
+                <div class="col-md-3 col-lg-2">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0 text-muted text-uppercase small">Folders</h6>
+                    </div>
+                    <div class="list-group list-group-flush mb-4 folder-group" id="folder-list">
+                        <button class="list-group-item list-group-item-action border-0 rounded p-2 active"
+                            data-folder="inbox" onclick="filterByFolder('inbox')">
+                            <i class="bi bi-inbox-fill me-2"></i> Inbox
+                        </button>
+                        <hr class="my-2 text-muted opacity-25">
+                        <div id="dynamic-folders">
+                            <!-- Folders will be injected here -->
+                        </div>
+                        <hr class="my-2 text-muted opacity-25">
+                        <button class="list-group-item list-group-item-action border-0 rounded p-2" data-folder="all"
+                            onclick="filterByFolder(null)">
+                            <i class="bi bi-grid-fill me-2"></i> All Journeys
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-lg-10">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex align-items-center">
+                            <h2 class="fw-bold mb-0 me-4">Journeys</h2>
+                            <ul class="nav nav-pills" id="journey-tabs">
+                                <li class="nav-item">
+                                    <button class="nav-link active" onclick="loadJourneys('my')">My Journeys</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" onclick="loadJourneys('shared')">Shared with Me</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" onclick="loadJourneys('trash')">
+                                        <i class="bi bi-trash3 me-1"></i> Trash
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" onclick="showInvitesView()">Invites</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary px-3"
+                                onclick="document.getElementById('import-ojf').click()">
+                                <i class="bi bi-file-earmark-arrow-up me-2"></i>Import OJF
+                            </button>
+                            <input type="file" id="import-ojf" style="display: none;" accept=".ojf,.json"
+                                onchange="importJourney(this)">
+                            <button class="btn btn-accent px-4" onclick="createNewJourney()">
+                                <i class="bi bi-plus-lg me-2"></i>New Journey
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="journey-grid" class="row g-4 mb-5">
+                        <!-- Journey cards will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="templates-section">
+                <hr class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold mb-0">Templates & Samples</h3>
+                    <p class="text-muted mb-0 small">Start your map with a pre-configured template to learn the ropes or
+                        jumpstart your project.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100 border-primary bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold text-primary">Self-Guided Tutorial</h5>
+                                    <i class="bi bi-mortarboard fs-4 text-primary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">Learn how to use Ptolemy interactively by
+                                    exploring a map that explains how to build a map. Highly recommended for first-time
+                                    users.</p>
+                                <button class="btn btn-primary w-100"
+                                    onclick="importTemplate('samples/self-guided-tutorial.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold">B2B Software Purchase</h5>
+                                    <i class="bi bi-buildings fs-4 text-secondary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">A complex enterprise procurement journey
+                                    involving multiple stakeholders, security reviews, and vendor touchpoints.</p>
+                                <button class="btn btn-outline-primary w-100"
+                                    onclick="importTemplate('samples/b2b-software-purchase.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold">E-commerce Return</h5>
+                                    <i class="bi bi-box-seam fs-4 text-secondary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">A negative friction flow demonstrating how an
+                                    unhappy path (returning a broken item) is tracked with low Emotion scores and pain
+                                    point tags.</p>
+                                <button class="btn btn-outline-primary w-100"
+                                    onclick="importTemplate('samples/ecommerce-return.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold">E-commerce Purchase</h5>
+                                    <i class="bi bi-cart-check fs-4 text-secondary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">A happy-path flow for a high-end product
+                                    purchase, from initial discovery to onboarding.</p>
+                                <button class="btn btn-outline-primary w-100"
+                                    onclick="importTemplate('samples/ecommerce-purchase.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold">Customer Support</h5>
+                                    <i class="bi bi-headset fs-4 text-secondary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">A service-focused journey documenting a
+                                    support interaction for a technical hardware issue.</p>
+                                <button class="btn btn-outline-primary w-100"
+                                    onclick="importTemplate('samples/customer-support.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title fw-bold">Event Booking</h5>
+                                    <i class="bi bi-calendar-event fs-4 text-secondary"></i>
+                                </div>
+                                <p class="card-text text-muted small mb-3">Tracking travel logistics and registration
+                                    for an international conference.</p>
+                                <button class="btn btn-outline-primary w-100"
+                                    onclick="importTemplate('samples/event-booking.ojf')">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="invites-view" style="display: none;" class="mt-4">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Beta Invites</h4>
+                        <button class="btn btn-primary" onclick="generateInvite()">
+                            <i class="bi bi-person-plus me-2"></i>Generate Invite
+                        </button>
+                    </div>
+                    <p class="text-muted small">Generate unique codes to invite colleagues. Share the link manually.</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Token</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invites-table-body">
+                                <!-- Invites injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="bi bi-journal-plus display-1 mb-3"></i>
+                <h3>No journeys yet</h3>
+                <p>Create your first user journey map to get started.</p>
+            </div>
+        </div>
+
+        <!-- View: Editor Container -->
+        <div id="editor-view" class="view-container">
+            <!-- Editor Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-link link-secondary me-3" onclick="showListView()">
+                        <i class="bi bi-arrow-left fs-4"></i>
+                    </button>
+                    <div>
+                        <input type="text" id="editor-title"
+                            class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 mb-2"
+                            style="max-width: 500px;" value="Untitled Journey">
+
+                        <div class="metadata-bar">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Persona</span>
+                                <input type="text" id="editor-persona" class="metadata-input"
+                                    placeholder="e.g. Frequent Traveler">
+                            </div>
+                            <div class="vr mx-1 text-muted opacity-25"></div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">POV</span>
+                                <input type="text" id="editor-pov" class="metadata-input"
+                                    placeholder="e.g. Booking a flight">
+                            </div>
+                            <div class="vr mx-3 text-muted opacity-25"></div>
+                            <div class="metadata-item pe-none">
+                                <span class="metadata-label">Journey Score</span>
+                                <div class="d-flex align-items-center">
+                                    <span id="scorecard-value" class="fw-bold fs-5 me-2">-</span>
+                                    <span id="scorecard-sentiment"
+                                        class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Toggle Switch -->
+                        <div class="btn-group btn-group-sm mt-1" role="group">
+                            <input type="radio" class="btn-check" name="editor-mode" id="mode-table" checked
+                                onclick="switchEditorMode('table')">
+                            <label class="btn btn-outline-primary" for="mode-table">Table Editor</label>
+
+                            <input type="radio" class="btn-check" name="editor-mode" id="mode-visual"
+                                onclick="switchEditorMode('visual')">
+                            <label class="btn btn-outline-primary" for="mode-visual">Visual Map</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-accent px-4" onclick="saveJourney()">
+                        <i class="bi bi-cloud-upload me-2"></i>Save Changes
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle px-4" type="button"
+                            data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots-vertical me-1"></i> Actions
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item py-2" href="#" onclick="openShareModal()"><i
+                                        class="bi bi-person-plus me-2"></i>Share Journey</a></li>
+                            <li id="menu-item-feedback" style="display: none;"><a class="dropdown-item py-2" href="#"
+                                    onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span
+                                        id="feedback-menu-text">Feedback: OFF</span></a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
+                            <li><a class="dropdown-item py-2" href="#" onclick="exportToOJF()"><i
+                                        class="bi bi-filetype-json me-2"></i>.ojf (JSON)</a></li>
+                            <li><a class="dropdown-item py-2" href="#" onclick="exportToMarkdown()"><i
+                                        class="bi bi-filetype-md me-2"></i>.md (Markdown)</a></li>
+                            <li><a class="dropdown-item py-2" href="#" onclick="exportTextualPDF()"><i
+                                        class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</a></li>
+                            <li><a class="dropdown-item py-2" href="#" onclick="exportToPNG()"><i
+                                        class="bi bi-file-earmark-image me-2"></i>PNG Image</a></li>
+                            <li><a class="dropdown-item py-2" href="#" onclick="exportToPDF()"><i
+                                        class="bi bi-file-earmark-pdf me-2"></i>PDF Document</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-View: Table Editor -->
+            <div id="table-editor-view" class="table-editor-container">
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between align-items-baseline mb-3">
+                        <div>
+                            <h4 class="mb-0">Stages (Columns)</h4>
+                            <p class="text-muted small mb-0">Define the chronological steps. Examples: <em>Awareness,
+                                    Discovery, Evaluation, Purchase, Retention.</em></p>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="addStage()">
+                            <i class="bi bi-plus"></i> Add Stage
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered oj-table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Stage Name</th>
+                                    <th style="width: 150px;" title="Optional score from -5 to +5">Emotion Override</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="stages-body">
+                                <!-- Stages rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="d-flex justify-content-between align-items-baseline mb-3">
+                        <div>
+                            <h4 class="mb-0">Swimlanes (Rows)</h4>
+                            <p class="text-muted small mb-0">Define the layers of data. Examples: <em>User Actions, Pain
+                                    Points, Emotional State, Tools.</em></p>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="addSwimlane()">
+                            <i class="bi bi-plus"></i> Add Swimlane
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered oj-table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Swimlane Name</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="swimlanes-body">
+                                <!-- Swimlane rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Nodes (Journey Steps)</h4>
+                        <button class="btn btn-sm btn-outline-primary" onclick="openNodeModal()">
+                            <i class="bi bi-plus"></i> Add Node
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Stage</th>
+                                    <th>Swimlane</th>
+                                    <th>Severity</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="nodes-body">
+                                <!-- Nodes injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-View: Visual Map -->
+            <div id="visual-map-view" class="visual-map-wrapper" style="display: none;">
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="toggle-emotional-curve" checked
+                            onchange="drawEmotionalCurve()">
+                        <label class="form-check-label text-muted small" for="toggle-emotional-curve">Show Emotional
+                            Curve</label>
+                    </div>
+                </div>
+                <div id="map-grid" class="journey-grid position-relative">
+                    <svg id="emotional-curve-svg"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></svg>
+                    <!-- Map will be rendered here -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shareModalLabel">Manage Collaborators</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label for="share-email" class="form-label">Add via Email</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="share-email"
+                                placeholder="collaborator@example.com">
+                            <button class="btn btn-primary" onclick="addCollaborator()">Add</button>
+                        </div>
+                    </div>
+                    <h6>Current Collaborators</h6>
+                    <ul class="list-group list-group-flush" id="collaborators-list">
+                        <!-- Collaborators injected here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Node Modal -->
+    <div class="modal fade" id="nodeModal" tabindex="-1" aria-labelledby="nodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nodeModalLabel">Edit Node</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="node-form">
+                        <input type="hidden" id="node-id">
+
+                        <div class="mb-3">
+                            <label for="node-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="node-title" required placeholder="Node title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="node-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="node-description" rows="3"
+                                placeholder="Brief description"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="node-stage-id" class="form-label">Stage</label>
+                                <select class="form-select" id="node-stage-id"></select>
+                            </div>
+                            <div class="col-6">
+                                <label for="node-swimlane-id" class="form-label">Swimlane</label>
+                                <select class="form-select" id="node-swimlane-id"></select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="node-severity" class="form-label">Severity</label>
+                                <select class="form-select" id="node-severity">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="node-score" class="form-label">Emotion score (-5 to +5)</label>
+                                <input type="number" class="form-control" id="node-score" min="-5" max="5"
+                                    placeholder="Emotion score">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="node-sentiment" class="form-label">Sentiment (Tone)</label>
+                                <select class="form-select" id="node-sentiment">
+                                    <option value="">None / Neutral</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="negative">Negative</option>
+                                    <option value="anxious">Anxious</option>
+                                    <option value="frustrated">Frustrated</option>
+                                    <option value="delighted">Delighted</option>
+                                    <option value="surprised">Surprised</option>
+                                    <option value="confused">Confused</option>
+                                    <option value="relieved">Relieved</option>
+                                    <option value="bored">Bored</option>
+                                    <option value="angry">Angry</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="node-purpose" class="form-label">Purpose (Role)</label>
+                                <select class="form-select" id="node-purpose">
+                                    <option value="">None</option>
+                                    <option value="touchpoint">Touchpoint</option>
+                                    <option value="pain-point">Pain Point</option>
+                                    <option value="gain">Gain</option>
+                                    <option value="opportunity">Opportunity</option>
+                                    <option value="milestone">Milestone</option>
+                                    <option value="bottleneck">Bottleneck</option>
+                                    <option value="decision">Decision</option>
+                                    <option value="observation">Observation</option>
+                                    <option value="note">Note</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Background Theme</label>
+                                <div class="color-grid" id="color-picker-grid">
+                                    <!-- Colors will be injected here -->
+                                </div>
+                                <input type="hidden" id="node-icon-color">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="node-tags" class="form-label">Tags (comma separated)</label>
+                                <input type="text" class="form-control" id="node-tags" placeholder="tag1, tag2">
+                            </div>
+                            <div class="col-6 d-flex align-items-end">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="node-moment-of-truth">
+                                    <label class="form-check-label" for="node-moment-of-truth">Moment of Truth</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger me-auto" id="delete-node-btn"
+                        onclick="deleteNodeFromModal()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNode()">Save Node</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div class="modal fade" id="commentModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header py-2">
+                    <h6 class="modal-title" id="commentModalTitle">Add Feedback</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="comment-x">
+                    <input type="hidden" id="comment-y">
+                    <input type="hidden" id="comment-parent-id">
+                    <input type="hidden" id="comment-node-id">
+                    <textarea id="comment-content" class="form-control mb-3" rows="3"
+                        placeholder="Drop a note..."></textarea>
+                    <button class="btn btn-warning w-100" onclick="saveComment()">Post Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thread Modal -->
+    <div class="modal fade" id="threadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Discussion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="thread-list" class="mb-4"></div>
+                    <div class="input-group mb-2">
+                        <input type="hidden" id="reply-parent-id">
+                        <input type="text" id="reply-content" class="form-control" placeholder="Write a reply...">
+                        <button class="btn btn-primary" onclick="saveReply()">Reply</button>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="reply-resolve">
+                        <label class="form-check-label text-muted small" for="reply-resolve">
+                            Resolve this thread (hides it from the map)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.1/dist/pocketbase.umd.js"></script>
+    <script src="js/dashboard.js" defer></script>
+    <script src="js/invites.js" defer></script>
+    <script src="js/comments.js" defer></script>
+</body>
+
+</html>

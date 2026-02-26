@@ -1,0 +1,203 @@
+{
+  "version": "1.0",
+  "persona": "New User",
+  "pointOfView": "Learning how to use Ptolemy",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. The Table Editor"
+    },
+    {
+      "id": "s2",
+      "name": "2. The Visual Map"
+    },
+    {
+      "id": "s3",
+      "name": "3. The Data (NodeCards)"
+    },
+    {
+      "id": "s4",
+      "name": "4. Magic Features"
+    },
+    {
+      "id": "s5",
+      "name": "5. Outputs"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "User Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "Thoughts & Feelings"
+    },
+    {
+      "id": "sl3",
+      "name": "Friction Points"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Start in Table Mode",
+      "description": "It's easiest to start outlining your journey in the Table Editor. Use the buttons below the header to toggle back and forth.",
+      "severity": "low",
+      "score": 1,
+      "sentiment": "surprised",
+      "purpose": "note",
+      "iconColor": "#ffffff",
+      "tags": [
+        "basics"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Columns vs Rows",
+      "description": "Stages are chronological phases (Columns). Swimlanes are the types of data you want to track (Rows). They form your Map Grid.",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "delighted",
+      "purpose": "touchpoint",
+      "iconColor": "#ffffff",
+      "tags": [
+        "structure"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Welcome to the Map!",
+      "description": "The visual map draws everything automatically! You can drag and drop these cards to move them between stages and lanes.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "surprised",
+      "purpose": "opportunity",
+      "iconColor": "#ffffff",
+      "tags": [
+        "visuals"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl3",
+      "title": "Inline Editing",
+      "description": "You can click on the column and row headers straight from the visual map to rename them instantly without going back to the table!",
+      "severity": "medium",
+      "score": 1,
+      "sentiment": "relieved",
+      "purpose": "gain",
+      "iconColor": "#ffffff",
+      "tags": [
+        "productivity"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Editing Nodes",
+      "description": "Click any card to open its editor. Try changing my color, icon, tags, or Emotion Emotion score and see how I update in real-time.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "positive",
+      "purpose": "touchpoint",
+      "iconColor": "#e0f2fe",
+      "tags": [
+        "interaction"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl3",
+      "title": "Moments of Truth",
+      "description": "If a step is critical to the customer journey (where they might abandon the process), toggle the 'Moment of Truth' switch. It gets a special star.",
+      "severity": "high",
+      "score": -1,
+      "sentiment": "anxious",
+      "purpose": "bottleneck",
+      "iconColor": "#fee2e2",
+      "tags": [
+        "danger"
+      ],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n7",
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Feedback Mode",
+      "description": "Turn on Feedback Mode using the toggle in the header. You can drop pins securely on the map, or right onto specific nodes.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "delighted",
+      "purpose": "gain",
+      "iconColor": "#ffedd5",
+      "tags": [
+        "magic"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n8",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Emotional Curves",
+      "description": "See that blue line tracking across the map? That's drawn automatically based on the -5 to +5 'Emotion score' value assigned inside the node editor.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "surprised",
+      "purpose": "note",
+      "iconColor": "#ffffff",
+      "tags": [
+        "magic"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n9",
+      "stageId": "s5",
+      "swimlaneId": "sl1",
+      "title": "JSON Portability",
+      "description": "Export the map as an .ojf (OpenJourney Format) JSON file. It's fully open source and yours forever.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "relieved",
+      "purpose": "touchpoint",
+      "iconColor": "#ffffff",
+      "tags": [
+        "export"
+      ],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s5",
+      "swimlaneId": "sl2",
+      "title": "Generated Reports",
+      "description": "Click the Export button to instantly generate a Markdown brief or a PDF Text Report containing all node data and resolved feedback!",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "iconColor": "#dcfce7",
+      "tags": [
+        "export"
+      ],
+      "isMomentOfTruth": true
+    }
+  ]
+}

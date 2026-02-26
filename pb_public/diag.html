@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PB Journey Diagnostic</title>
+    <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.1/dist/pocketbase.umd.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .log {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        button {
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Journey Management Diagnostic</h1>
+    <div id="auth-status">Checking auth...</div>
+    <div id="test-controls" style="display:none; margin-top:20px;">
+        <button onclick="testLoad()">1. Test Load Journeys</button>
+        <button onclick="testTrashFirst()">2. Try Trash First Journey</button>
+        <button onclick="testDeleteFirst()">3. Try Delete First Journey (IRREVERSIBLE)</button>
+    </div>
+    <div id="output" class="log"></div>
+
+    <script>
+        const pb = new PocketBase();
+        const output = document.getElementById('output');
+        const controls = document.getElementById('test-controls');
+
+        function log(msg, type = '') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerText = typeof msg === 'object' ? JSON.stringify(msg, null, 2) : msg;
+            output.appendChild(div);
+        }
+
+        async function init() {
+            if (!pb.authStore.isValid) {
+                log("Not authenticated. Please log in to the main app first.", "error");
+                return;
+            }
+            const email = pb.authStore.record?.email || pb.authStore.model?.email || pb.authStore.admin?.email || 'Unknown User';
+            document.getElementById('auth-status').innerText = "Authenticated as: " + email;
+            controls.style.display = 'block';
+        }
+
+        async function testLoad() {
+            log("\n--- Testing Load ---");
+            try {
+                const res = await pb.collection('journeys').getFullList();
+                log(`Loaded ${res.length} journeys.`);
+                if (res.length > 0) {
+                    log("First Journey ID: " + res[0].id);
+                    log("Status: " + res[0].journey_status);
+                }
+            } catch (err) {
+                log("Load failed!", "error");
+                log(err);
+            }
+        }
+
+        async function testTrashFirst() {
+            log("\n--- Testing Trash (Update) ---");
+            try {
+                const res = await pb.collection('journeys').getFullList();
+                if (res.length === 0) { log("No journeys found."); return; }
+                const id = res[0].id;
+                log(`Attempting to update ${id} to trash...`);
+                const updated = await pb.collection('journeys').update(id, { journey_status: 'trash' });
+                log("Update successful!", "success");
+                log(updated);
+            } catch (err) {
+                log("Update failed!", "error");
+                log(err);
+                if (err.data) log("Error Data: " + JSON.stringify(err.data));
+            }
+        }
+
+        async function testDeleteFirst() {
+            log("\n--- Testing Delete ---");
+            try {
+                const res = await pb.collection('journeys').getFullList();
+                if (res.length === 0) { log("No journeys found."); return; }
+                const id = res[0].id;
+                log(`Attempting to delete ${id}...`);
+                await pb.collection('journeys').delete(id);
+                log("Delete successful!", "success");
+            } catch (err) {
+                log("Delete failed!", "error");
+                log(err);
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
