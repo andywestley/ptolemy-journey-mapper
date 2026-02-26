@@ -1,6 +1,6 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate((app) => {
-  const collection = app.findCollectionByNameOrId("pbc_1666204432");
+  const collection = app.findCollectionByNameOrId("journeys");
 
   // Ensure journeyStatus and folder exist as simple text fields
   // We remove them first to be absolutely sure there's no collision or type mismatch

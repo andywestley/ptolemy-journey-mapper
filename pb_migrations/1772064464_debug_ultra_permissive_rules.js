@@ -1,6 +1,6 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate((app) => {
-  const collection = app.findCollectionByNameOrId("pbc_1666204432");
+  const collection = app.findCollectionByNameOrId("journeys");
 
   collection.updateRule = "@request.auth.id != ''";
   collection.deleteRule = "@request.auth.id != ''";
