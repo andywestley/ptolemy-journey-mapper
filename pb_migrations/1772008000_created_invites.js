@@ -28,7 +28,7 @@ migrate((app) => {
                 "type": "relation",
                 "collectionId": "_pb_users_auth_",
                 "maxSelect": 1,
-                "required": true
+                "required": false
             },
             {
                 "id": "bool_isUsed",
