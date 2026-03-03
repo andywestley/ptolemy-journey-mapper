@@ -11,6 +11,14 @@ Commercial journey mapping tools often lock your data into a proprietary ecosyst
 - **Visual & Data-Driven:** Switch between a rich Visual Map (with emotional curves!) and a structured Table Editor.
 - **Portable:** Export your maps as JSON (.ojf), Markdown (.md), PDF, or PNG images.
 
+## 🌐 Try the Beta
+
+Ptolemy is currently in public beta. You can try the latest version at:
+
+**[https://ptolemy.andrewwestley.co.uk](https://ptolemy.andrewwestley.co.uk)**
+
+*Note: Registration requires an **Invite Code**. Please [open a GitHub Issue](https://github.com/andywestley/ptolemy-journey-mapper/issues) to request one!*
+
 ## 🛠️ The Tech Stack
 
 Ptolemy is designed to be fast, privacy-focused, and easy to host.
