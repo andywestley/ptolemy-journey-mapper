@@ -67,6 +67,13 @@ This is the project's source of truth for milestones and progress.
     - [x] Admin UI to generate and copy invite links
     - [x] Refactor `index.html` to support invite-code registration
 - [x] **Pinned Feedback Notes:**
+    - [x] Research existing OJF schema and codebase
+    - [x] Review README and AppRequirements
+    - [x] Review OJF_SPEC.md and data structures
+    - [x] Explore frontend rendering logic for nodes
+    - [/] Design Service Blueprint extensions
+        - [/] Define additional data fields for Service Blueprints
+        - [/] conceptualize "drill-down" or "multi-layer" UI
     - [x] Create `comments` collection in PocketBase
     - [x] Implement "Add Comment" tool in Map View
     - [x] Render feedback pins visually over the grid

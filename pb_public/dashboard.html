@@ -461,7 +461,12 @@
 
             <!-- Sub-View: Visual Map -->
             <div id="visual-map-view" class="visual-map-wrapper" style="display: none;">
-                <div class="d-flex justify-content-end mb-2">
+                <div class="d-flex justify-content-end mb-2 gap-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode"
+                            onchange="toggleBlueprintMode()">
+                        <label class="form-check-label text-muted small" for="toggle-blueprint-mode">Blueprint Mode</label>
+                    </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="toggle-emotional-curve" checked
                             onchange="drawEmotionalCurve()">
@@ -513,99 +518,169 @@
                     <h5 class="modal-title" id="nodeModalLabel">Edit Node</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form id="node-form">
-                        <input type="hidden" id="node-id">
+                <div class="modal-body p-0">
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-tabs nav-fill border-bottom-0 bg-light" id="nodeModalTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active py-3 fw-bold" id="journey-tab" data-bs-toggle="tab" data-bs-target="#journey-panel" type="button" role="tab">
+                                <i class="bi bi-geo-alt me-2"></i>Journey Step
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link py-3 fw-bold" id="blueprint-tab" data-bs-toggle="tab" data-bs-target="#blueprint-panel" type="button" role="tab">
+                                <i class="bi bi-diagram-3 me-2"></i>Service Blueprint
+                            </button>
+                        </li>
+                    </ul>
 
-                        <div class="mb-3">
-                            <label for="node-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="node-title" required placeholder="Node title">
-                        </div>
-                        <div class="mb-3">
-                            <label for="node-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="node-description" rows="3"
-                                placeholder="Brief description"></textarea>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label for="node-stage-id" class="form-label">Stage</label>
-                                <select class="form-select" id="node-stage-id"></select>
-                            </div>
-                            <div class="col-6">
-                                <label for="node-swimlane-id" class="form-label">Swimlane</label>
-                                <select class="form-select" id="node-swimlane-id"></select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label for="node-severity" class="form-label">Severity</label>
-                                <select class="form-select" id="node-severity">
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="node-score" class="form-label">Emotion score (-5 to +5)</label>
-                                <input type="number" class="form-control" id="node-score" min="-5" max="5"
-                                    placeholder="Emotion score">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label for="node-sentiment" class="form-label">Sentiment (Tone)</label>
-                                <select class="form-select" id="node-sentiment">
-                                    <option value="">None / Neutral</option>
-                                    <option value="positive">Positive</option>
-                                    <option value="negative">Negative</option>
-                                    <option value="anxious">Anxious</option>
-                                    <option value="frustrated">Frustrated</option>
-                                    <option value="delighted">Delighted</option>
-                                    <option value="surprised">Surprised</option>
-                                    <option value="confused">Confused</option>
-                                    <option value="relieved">Relieved</option>
-                                    <option value="bored">Bored</option>
-                                    <option value="angry">Angry</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="node-purpose" class="form-label">Purpose (Role)</label>
-                                <select class="form-select" id="node-purpose">
-                                    <option value="">None</option>
-                                    <option value="touchpoint">Touchpoint</option>
-                                    <option value="pain-point">Pain Point</option>
-                                    <option value="gain">Gain</option>
-                                    <option value="opportunity">Opportunity</option>
-                                    <option value="milestone">Milestone</option>
-                                    <option value="bottleneck">Bottleneck</option>
-                                    <option value="decision">Decision</option>
-                                    <option value="observation">Observation</option>
-                                    <option value="note">Note</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12">
-                                <label class="form-label">Background Theme</label>
-                                <div class="color-grid" id="color-picker-grid">
-                                    <!-- Colors will be injected here -->
+                    <div class="tab-content border-top">
+                        <!-- Tab 1: Journey Details -->
+                        <div class="tab-pane fade show active p-4" id="journey-panel" role="tabpanel">
+                            <form id="node-form">
+                                <input type="hidden" id="node-id">
+
+                                <div class="mb-3">
+                                    <label for="node-title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="node-title" required placeholder="Node title">
                                 </div>
-                                <input type="hidden" id="node-icon-color">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label for="node-tags" class="form-label">Tags (comma separated)</label>
-                                <input type="text" class="form-control" id="node-tags" placeholder="tag1, tag2">
-                            </div>
-                            <div class="col-6 d-flex align-items-end">
-                                <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="node-moment-of-truth">
-                                    <label class="form-check-label" for="node-moment-of-truth">Moment of Truth</label>
+                                <div class="mb-3">
+                                    <label for="node-description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="node-description" rows="3"
+                                        placeholder="Brief description"></textarea>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="node-stage-id" class="form-label">Stage</label>
+                                        <select class="form-select" id="node-stage-id"></select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-swimlane-id" class="form-label">Swimlane</label>
+                                        <select class="form-select" id="node-swimlane-id"></select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="node-severity" class="form-label">Severity</label>
+                                        <select class="form-select" id="node-severity">
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-score" class="form-label">Emotion score (-5 to +5)</label>
+                                        <input type="number" class="form-control" id="node-score" min="-5" max="5"
+                                            placeholder="Emotion score">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="node-sentiment" class="form-label">Sentiment (Tone)</label>
+                                        <select class="form-select" id="node-sentiment">
+                                            <option value="">None / Neutral</option>
+                                            <option value="positive">Positive</option>
+                                            <option value="negative">Negative</option>
+                                            <option value="anxious">Anxious</option>
+                                            <option value="frustrated">Frustrated</option>
+                                            <option value="delighted">Delighted</option>
+                                            <option value="surprised">Surprised</option>
+                                            <option value="confused">Confused</option>
+                                            <option value="relieved">Relieved</option>
+                                            <option value="bored">Bored</option>
+                                            <option value="angry">Angry</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-purpose" class="form-label">Purpose (Role)</label>
+                                        <select class="form-select" id="node-purpose">
+                                            <option value="">None</option>
+                                            <option value="touchpoint">Touchpoint</option>
+                                            <option value="pain-point">Pain Point</option>
+                                            <option value="gain">Gain</option>
+                                            <option value="opportunity">Opportunity</option>
+                                            <option value="milestone">Milestone</option>
+                                            <option value="bottleneck">Bottleneck</option>
+                                            <option value="decision">Decision</option>
+                                            <option value="observation">Observation</option>
+                                            <option value="note">Note</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label class="form-label">Background Theme</label>
+                                        <div class="color-grid" id="color-picker-grid">
+                                            <!-- Colors will be injected here -->
+                                        </div>
+                                        <input type="hidden" id="node-icon-color">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="node-tags" class="form-label">Tags (comma separated)</label>
+                                        <input type="text" class="form-control" id="node-tags" placeholder="tag1, tag2">
+                                    </div>
+                                    <div class="col-6 d-flex align-items-end">
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="node-moment-of-truth">
+                                            <label class="form-check-label" for="node-moment-of-truth">Moment of Truth</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Tab 2: Service Blueprint (Structured Data) -->
+                        <div class="tab-pane fade p-4" id="blueprint-panel" role="tabpanel">
+                            <div class="alert alert-info py-2 small mb-4">
+                                <i class="bi bi-info-circle me-2"></i> Document the internal processes and evidence that support this journey step.
+                            </div>
+
+                            <!-- Onstage Actions -->
+                            <div class="blueprint-section mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold mb-0 text-primary small text-uppercase">Onstage (Visible) Actions</h6>
+                                    <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('onstage')">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="blueprint-onstage-list" class="blueprint-item-list"></div>
+                            </div>
+
+                            <!-- Backstage Actions -->
+                            <div class="blueprint-section mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold mb-0 text-primary small text-uppercase">Backstage (Invisible) Actions</h6>
+                                    <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('backstage')">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="blueprint-backstage-list" class="blueprint-item-list"></div>
+                            </div>
+
+                            <!-- Support Processes -->
+                            <div class="blueprint-section mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold mb-0 text-primary small text-uppercase">Support Processes & Systems</h6>
+                                    <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('support')">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="blueprint-support-list" class="blueprint-item-list"></div>
+                            </div>
+
+                            <!-- Physical Evidence -->
+                            <div class="blueprint-section">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold mb-0 text-primary small text-uppercase">Physical Evidence</h6>
+                                    <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('evidence')">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="blueprint-evidence-list" class="blueprint-item-list"></div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger me-auto" id="delete-node-btn"

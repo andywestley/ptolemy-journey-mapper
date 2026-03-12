@@ -359,6 +359,20 @@ body {
     margin-right: 0.2rem;
 }
 
+.blueprint-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: #e0e7ff;
+    color: #4f46e5;
+    font-size: 0.75rem;
+    margin-left: auto;
+    border: 1px solid #c7d2fe;
+}
+
 /* Color Picker Styles */
 .table-row-themed td {
     border-bottom: 2px solid rgba(0, 0, 0, 0.05) !important;
@@ -505,4 +519,75 @@ body {
 
 .folder-group .list-group-item i {
     opacity: 0.7;
+}
+
+/* Service Blueprint Mode Styles */
+.bp-lane-header {
+    background-color: #f8fafc !important;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #475569;
+}
+
+.bp-cell {
+    min-height: 80px;
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-style: solid;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: flex-start;
+}
+
+.bp-item-card {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    color: #1e293b;
+    max-width: 100%;
+}
+
+.bp-row-evidence { border-top: 3px solid #cbd5e1; } /* Physical Evidence row */
+.bp-row-onstage { border-top: 2px dashed #6366f1; }  /* Line of Interaction */
+.bp-row-backstage { border-top: 2px dashed #94a3b8; } /* Line of Visibility */
+.bp-row-support { border-top: 2px solid #e2e8f0; }   /* Line of Internal Interaction */
+
+.bp-row-onstage.bp-lane-header::before {
+    content: "Line of Interaction";
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    font-size: 9px;
+    color: #6366f1;
+    background: white;
+    padding: 0 5px;
+}
+
+.bp-row-backstage.bp-lane-header::before {
+    content: "Line of Visibility";
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    font-size: 9px;
+    color: #94a3b8;
+    background: white;
+    padding: 0 5px;
+}
+
+.blueprint-item-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.border-dashed {
+    border-style: dashed !important;
+}
+
+.italic {
+    font-style: italic;
 }

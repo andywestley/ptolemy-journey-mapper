@@ -55,6 +55,7 @@ Represents a specific data point or event within the journey map.
 | `icon` | String | (Optional) Display hint for icons (e.g., "search", "mood_bad"). |
 | `iconColor`| String | (Optional) Hex code or CSS color for the icon. |
 | `tags` | Array | List of strings for categorizing nodes (e.g., ["Mobile", "Issue"]). |
+| `blueprint` | Object | (Optional) Structured data for service blueprints (evidence, onstage, backstage, support). |
 
 ---
 

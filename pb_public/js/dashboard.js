@@ -8,6 +8,7 @@ let currentJourney = null;
 let originalOJF = null;
 let activeEditorMode = 'table';
 let autoSaveTimer = null;
+let blueprintMode = false;
 
 /**
  * Debounce helper
@@ -644,6 +645,18 @@ function renderVisualMap() {
                     cardHTML += `<span class="node-score-badge">Emotion: ${node.score}</span>`;
                 }
                 cardHTML += (node.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('');
+                
+                // Blueprint Indicator
+                const hasBlueprint = node.blueprint && (
+                    (node.blueprint.onstage?.length > 0) || 
+                    (node.blueprint.backstage?.length > 0) || 
+                    (node.blueprint.support?.length > 0) || 
+                    (node.blueprint.evidence?.length > 0)
+                );
+                if (hasBlueprint) {
+                    cardHTML += `<span class="blueprint-indicator" title="Service Blueprint details available"><i class="bi bi-diagram-3"></i></span>`;
+                }
+
                 cardHTML += `</div>`;
 
                 card.innerHTML = cardHTML;
@@ -676,7 +689,80 @@ function renderVisualMap() {
 
     updateScorecard();
     // setTimeout to ensure DOM has fully painted the cards so bounding rects work
-    setTimeout(drawEmotionalCurve, 0);
+    setTimeout(() => {
+        drawEmotionalCurve();
+        if (blueprintMode) {
+            renderBlueprintLayers();
+        }
+    }, 0);
+}
+
+/**
+ * Service Blueprint Rendering (Dynamic Layers)
+ */
+function toggleBlueprintMode() {
+    blueprintMode = document.getElementById('toggle-blueprint-mode').checked;
+    renderVisualMap();
+}
+
+function renderBlueprintLayers() {
+    const grid = document.getElementById('map-grid');
+    const stages = originalOJF.stages || [];
+    const nodes = originalOJF.nodes || [];
+
+    // Define Blueprint Swimlanes
+    const bpLanes = [
+        { id: 'bp-evidence', name: 'Physical Evidence', type: 'evidence' },
+        { id: 'bp-onstage', name: 'Frontstage (Visible)', type: 'onstage' },
+        { id: 'bp-backstage', name: 'Backstage (Invisible)', type: 'backstage' },
+        { id: 'bp-support', name: 'Support Processes', type: 'support' }
+    ];
+
+    // Update grid template rows if needed (CSS Grid handles content size normally)
+    // We already have stages.length + 1 columns (Swimlane head + stages + add stage head)
+    
+    bpLanes.forEach(lane => {
+        // Line of Visibility / Interaction indicators (via CSS classes)
+        const rowClass = `bp-row-${lane.type}`;
+        
+        // Lane Header
+        const head = document.createElement('div');
+        head.className = `grid-header-swimlane bp-lane-header ${rowClass}`;
+        head.innerHTML = `<span>${lane.name}</span>`;
+        grid.appendChild(head);
+
+        // Cells per stage
+        stages.forEach(stage => {
+            const cell = document.createElement('div');
+            cell.className = `grid-cell bp-cell ${rowClass}`;
+            
+            // Find all nodes in this stage that have blueprint data for this lane type
+            const stageNodes = nodes.filter(n => n.stageId === stage.id && n.blueprint && n.blueprint[lane.type] && n.blueprint[lane.type].length > 0);
+            
+            stageNodes.forEach(node => {
+                node.blueprint[lane.type].forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'bp-item-card';
+                    
+                    let content = '';
+                    if (lane.type === 'evidence') content = `<strong>${item.item}</strong> <small class="text-muted">(${item.type})</small>`;
+                    else if (lane.type === 'support') content = `<strong>${item.system}</strong>: ${item.description}`;
+                    else content = `<strong>${item.actor}</strong>: ${item.action}`;
+                    
+                    el.innerHTML = content;
+                    el.title = `From: ${node.title}`;
+                    cell.appendChild(el);
+                });
+            });
+
+            grid.appendChild(cell);
+        });
+
+        // End spacer
+        const spacer = document.createElement('div');
+        spacer.className = 'grid-cell-empty';
+        grid.appendChild(spacer);
+    });
 }
 
 /**
@@ -1184,7 +1270,88 @@ function openNodeModal(nodeId = null, stageId = null, swimlaneId = null) {
         document.getElementById('nodeModalLabel').textContent = 'Add New Node';
     }
 
+    // Populate Blueprint Lists
+    renderBlueprintList('onstage', nodeId ? originalOJF.nodes.find(n => n.id === nodeId)?.blueprint?.onstage : []);
+    renderBlueprintList('backstage', nodeId ? originalOJF.nodes.find(n => n.id === nodeId)?.blueprint?.backstage : []);
+    renderBlueprintList('support', nodeId ? originalOJF.nodes.find(n => n.id === nodeId)?.blueprint?.support : []);
+    renderBlueprintList('evidence', nodeId ? originalOJF.nodes.find(n => n.id === nodeId)?.blueprint?.evidence : []);
+
+    // Reset to first tab
+    const firstTab = new bootstrap.Tab(document.getElementById('journey-tab'));
+    firstTab.show();
+
     modal.show();
+}
+
+function renderBlueprintList(type, items = []) {
+    const list = document.getElementById(`blueprint-${type}-list`);
+    list.innerHTML = '';
+    
+    if (!items || items.length === 0) {
+        list.innerHTML = '<div class="text-muted small italic opacity-50 py-2 border-bottom border-dashed">No items added yet.</div>';
+        return;
+    }
+
+    items.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'blueprint-item-row d-flex gap-2 mb-2 pb-2 border-bottom border-dashed';
+        
+        if (type === 'evidence') {
+            div.innerHTML = `
+                <input type="text" class="form-control form-control-sm" placeholder="Evidence item" value="${item.item || ''}" data-field="item">
+                <input type="text" class="form-control form-control-sm" placeholder="Type" value="${item.type || ''}" data-field="type">
+            `;
+        } else if (type === 'support') {
+            div.innerHTML = `
+                <input type="text" class="form-control form-control-sm" placeholder="System/Dept" value="${item.system || ''}" data-field="system">
+                <input type="text" class="form-control form-control-sm" placeholder="Description" value="${item.description || ''}" data-field="description">
+            `;
+        } else {
+            div.innerHTML = `
+                <input type="text" class="form-control form-control-sm" placeholder="Actor" value="${item.actor || ''}" data-field="actor">
+                <input type="text" class="form-control form-control-sm" placeholder="Action" value="${item.action || ''}" data-field="action">
+            `;
+        }
+        
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn btn-sm btn-outline-danger border-0';
+        delBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+        delBtn.onclick = () => {
+            div.remove();
+            if (list.children.length === 0) {
+                list.innerHTML = '<div class="text-muted small italic opacity-50 py-2 border-bottom border-dashed">No items added yet.</div>';
+            }
+        };
+        div.appendChild(delBtn);
+        list.appendChild(div);
+    });
+}
+
+function addBlueprintItem(type) {
+    const list = document.getElementById(`blueprint-${type}-list`);
+    // Remove "No items" message if present
+    if (list.querySelector('.text-muted')) list.innerHTML = '';
+    
+    renderBlueprintList(type, [...getBlueprintItemsFromUI(type), {}]);
+}
+
+function getBlueprintItemsFromUI(type) {
+    const list = document.getElementById(`blueprint-${type}-list`);
+    const rows = list.querySelectorAll('.blueprint-item-row');
+    const items = [];
+    
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const item = {};
+        inputs.forEach(input => {
+            item[input.dataset.field] = input.value;
+        });
+        if (Object.values(item).some(v => v.trim() !== '')) {
+            items.push(item);
+        }
+    });
+    
+    return items;
 }
 
 function saveNode() {
@@ -1202,6 +1369,13 @@ function saveNode() {
     const isMomentOfTruth = document.getElementById('node-moment-of-truth').checked;
     const tags = document.getElementById('node-tags').value.split(',').map(t => t.trim()).filter(t => t !== '');
 
+    const blueprint = {
+        onstage: getBlueprintItemsFromUI('onstage'),
+        backstage: getBlueprintItemsFromUI('backstage'),
+        support: getBlueprintItemsFromUI('support'),
+        evidence: getBlueprintItemsFromUI('evidence')
+    };
+
     if (!title) {
         alert('Title is required');
         return;
@@ -1214,7 +1388,7 @@ function saveNode() {
             originalOJF.nodes[idx] = {
                 ...originalOJF.nodes[idx],
                 stageId, swimlaneId, title, description, severity,
-                score, sentiment, purpose, iconColor, isMomentOfTruth, tags
+                score, sentiment, purpose, iconColor, isMomentOfTruth, tags, blueprint
             };
         }
     } else {
@@ -1231,7 +1405,8 @@ function saveNode() {
             purpose,
             iconColor,
             isMomentOfTruth,
-            tags
+            tags,
+            blueprint
         };
         originalOJF.nodes.push(newNode);
     }
