@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "title": "Hotel Arrival & Check-in",
+    "persona": "Business Traveler",
+    "pov": "Checking into a premium hotel after a long flight",
+    "version": "1.1.0"
+  },
+  "stages": [
+    { "id": "s1", "name": "Arrival" },
+    { "id": "s2", "name": "Check-in" },
+    { "id": "s3", "name": "Room Entry" }
+  ],
+  "swimlanes": [
+    { "id": "l1", "name": "Customer Actions" },
+    { "id": "l2", "name": "Pain Points" }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "l1",
+      "title": "Arrive at Entrance",
+      "description": "Customer pulls up to the hotel in a taxi.",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "positive",
+      "purpose": "touchpoint",
+      "blueprint": {
+        "evidence": [
+          { "item": "Hotel Signage", "type": "Physical" },
+          { "item": "Valet Stand", "type": "Physical" }
+        ],
+        "onstage": [
+          { "actor": "Doorman", "action": "Opens taxi door and greets guest" }
+        ],
+        "backstage": [
+          { "actor": "Security", "action": "Logs vehicle arrival" }
+        ],
+        "support": [
+          { "system": "Valet System", "description": "Registers arrival time" }
+        ]
+      }
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "l1",
+      "title": "Baggage Handover",
+      "description": "Bellhop takes bags from the trunk.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "delighted",
+      "purpose": "touchpoint",
+      "blueprint": {
+        "evidence": [
+          { "item": "Luggage Tag", "type": "Physical" }
+        ],
+        "onstage": [
+          { "actor": "Bellhop", "action": "Takes luggage and provides claim check" }
+        ],
+        "backstage": [
+          { "actor": "Luggage Room", "action": "Sorts bags by floor" }
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "l1",
+      "title": "Verification",
+      "description": "Providing ID and credit card at the desk.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "anxious",
+      "purpose": "touchpoint",
+      "blueprint": {
+        "evidence": [
+          { "item": "Reception Desk", "type": "Physical" },
+          { "item": "Registration Card", "type": "Digital/Physical" }
+        ],
+        "onstage": [
+          { "actor": "Front Desk Clerk", "action": "Verifies ID and processes payment" }
+        ],
+        "backstage": [
+          { "actor": "Credit Processor", "action": "Secures authorization" }
+        ],
+        "support": [
+          { "system": "PMS (Property Management)", "description": "Updates guest profile and room status" }
+        ]
+      }
+    },
+    {
+      "id": "n4",
+      "stageId": "s3",
+      "swimlaneId": "l1",
+      "title": "Room Access",
+      "description": "Opening the door with the keycard.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "relieved",
+      "purpose": "milestone",
+      "blueprint": {
+        "evidence": [
+          { "item": "Keycard", "type": "Physical" },
+          { "item": "Electronic Lock", "type": "System" }
+        ],
+        "support": [
+          { "system": "VingCard System", "description": "Syncs key authorization with PMS" },
+          { "system": "Housekeeping App", "description": "Notifies that guest has entered room" }
+        ]
+      }
+    }
+  ]
+}

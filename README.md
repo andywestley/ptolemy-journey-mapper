@@ -9,6 +9,7 @@ Commercial journey mapping tools often lock your data into a proprietary ecosyst
 - **Own Your Data:** Everything you create is stored in the open `.ojf` format.
 - **Collaborative by Nature:** Share journeys with teammates and collect pinned feedback directly on the map.
 - **Visual & Data-Driven:** Switch between a rich Visual Map (with emotional curves!) and a structured Table Editor.
+- **Service Blueprint Integration:** Seamlessly expand user journeys into full service blueprints with frontstage/backstage layers and physical evidence.
 - **Portable:** Export your maps as JSON (.ojf), Markdown (.md), PDF, or PNG images.
 
 ## 🌐 Try the Beta
@@ -54,7 +55,14 @@ Ptolemy isn't just an editor; it's a way to standardize how we document human ex
 {
   "metadata": { "title": "Example Journey" },
   "stages": [ { "id": "s1", "name": "Awareness" } ],
-  "nodes": [ { "id": "n1", "stage": "s1", "title": "Customer finds us" } ]
+  "nodes": [ { 
+    "id": "n1", 
+    "stage": "s1", 
+    "title": "Customer finds us",
+    "blueprint": {
+      "backstage": [ { "action": "Update SEO", "actor": "Marketing" } ]
+    }
+  } ]
 }
 ```
 

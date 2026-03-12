@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "title": "Patient Clinic Visit",
+    "persona": "Returning Patient",
+    "pov": "Annual check-up at a GP clinic",
+    "version": "1.1.0"
+  },
+  "stages": [
+    { "id": "s1", "name": "Check-in" },
+    { "id": "s2", "name": "Triage" },
+    { "id": "s3", "name": "Consultation" }
+  ],
+  "swimlanes": [
+    { "id": "l1", "name": "Patient Journey" }
+  ],
+  "nodes": [
+    {
+      "id": "cn1",
+      "stageId": "s1",
+      "swimlaneId": "l1",
+      "title": "Arrival & Reception",
+      "description": "Patient checks in at the front desk.",
+      "severity": "low",
+      "score": 1,
+      "sentiment": "neutral",
+      "purpose": "touchpoint",
+      "blueprint": {
+        "evidence": [
+          { "item": "Waiting Room", "type": "Physical" },
+          { "item": "Sign-in Sheet", "type": "Physical" }
+        ],
+        "onstage": [
+          { "actor": "Receptionist", "action": "Confirms appointment and collects co-pay" }
+        ],
+        "backstage": [
+          { "actor": "Billing Dept", "action": "Verifies insurance eligibility" }
+        ],
+        "support": [
+          { "system": "EMR Database", "description": "Loads patient record" }
+        ]
+      }
+    },
+    {
+      "id": "cn2",
+      "stageId": "s2",
+      "swimlaneId": "l1",
+      "title": "Vitals Assessment",
+      "description": "Nurse checks blood pressure and weight.",
+      "severity": "low",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "touchpoint",
+      "blueprint": {
+        "evidence": [
+          { "item": "Exam Room 1", "type": "Physical" },
+          { "item": "Medical Equipment", "type": "Physical" }
+        ],
+        "onstage": [
+          { "actor": "Nurse", "action": "Conducts triage and records vitals" }
+        ],
+        "backstage": [
+          { "actor": "Pharmacy", "action": "Pre-verifies current medications list" }
+        ],
+        "support": [
+          { "system": "VitalSync App", "description": "Streams vitals directly to record" }
+        ]
+      }
+    },
+    {
+      "id": "cn3",
+      "stageId": "s3",
+      "swimlaneId": "l1",
+      "title": "Doctor Consultation",
+      "description": "Physician reviews health and orders tests.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "positive",
+      "purpose": "milestone",
+      "blueprint": {
+        "evidence": [
+          { "item": "Prescription Paper", "type": "Physical" },
+          { "item": "Digital Chart", "type": "Digital" }
+        ],
+        "onstage": [
+          { "actor": "Physician", "action": "Performs exam and explains treatment" }
+        ],
+        "backstage": [
+          { "actor": "Lab Technician", "action": "Prepares for upcoming blood draw" }
+        ],
+        "support": [
+          { "system": "Decision Support", "description": "Checks for drug interactions" },
+          { "system": "LIS (Lab Info)", "description": "Registers new lab order" }
+        ]
+      }
+    }
+  ]
+}
