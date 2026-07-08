@@ -85,6 +85,14 @@ function switchView(viewId) {
     document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
     const target = document.getElementById(viewId);
     if (target) target.classList.add('active');
+
+    // GTM DataLayer Virtual Pageview
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'virtual_pageview',
+        page_path: '/' + viewId,
+        page_title: viewId === 'editor-view' ? 'Journey Editor' : 'Dashboard'
+    });
 }
 
 /**
@@ -109,6 +117,13 @@ function switchEditorMode(mode) {
             loadComments();
         }
     }
+
+    // GTM DataLayer Editor Mode Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'editor_mode_change',
+        editor_mode: mode
+    });
 }
 
 /**

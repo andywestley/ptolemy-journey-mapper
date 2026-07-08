@@ -268,6 +268,14 @@ function filterByFolder(folder) {
  */
 async function moveToTrash(id) {
     if (!confirm('Move this journey to trash?')) return;
+
+    // GTM Custom Trash Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_trash',
+        journey_id: id
+    });
+
     try {
         console.log(`[Action] Moving journey ${id} to trash`);
         const res = await fetch(`api/journeys.php?id=${id}`, {
@@ -347,6 +355,12 @@ async function updateFolder(id, folder) {
 
 async function createNewJourney() {
     toggleLoading(true);
+
+    // GTM Custom Create Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_create'
+    });
     const defaultOJF = {
         version: "1.0",
         persona: "",

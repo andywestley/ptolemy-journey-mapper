@@ -553,6 +553,13 @@ async function removeCollaborator(userId) {
 async function exportTextualPDF() {
     if (!currentJourney) return;
 
+    // GTM Custom Export Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_export',
+        export_format: 'textual_pdf'
+    });
+
     const title = document.getElementById('editor-title').value;
     const persona = document.getElementById('editor-persona').value;
     const pov = document.getElementById('editor-pov').value;
@@ -692,6 +699,13 @@ async function exportTextualPDF() {
 function exportToMarkdown() {
     if (!currentJourney) return;
 
+    // GTM Custom Export Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_export',
+        export_format: 'markdown'
+    });
+
     const title = document.getElementById('editor-title').value;
     const persona = document.getElementById('editor-persona').value;
     const pov = document.getElementById('editor-pov').value;
@@ -773,6 +787,13 @@ function exportToMarkdown() {
 function exportToOJF() {
     if (!currentJourney) return;
 
+    // GTM Custom Export Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_export',
+        export_format: 'ojf'
+    });
+
     const exportData = {
         ...originalOJF,
         title: document.getElementById('editor-title').value,
@@ -792,6 +813,13 @@ function exportToOJF() {
 }
 
 async function exportToPNG() {
+    // GTM Custom Export Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_export',
+        export_format: 'png'
+    });
+
     const wasTable = (activeEditorMode === 'table');
     if (wasTable) {
         document.getElementById('mode-visual').checked = true;
@@ -832,6 +860,13 @@ async function exportToPNG() {
 }
 
 async function exportToPDF() {
+    // GTM Custom Export Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'journey_export',
+        export_format: 'visual_pdf'
+    });
+
     const wasTable = (activeEditorMode === 'table');
     if (wasTable) {
         document.getElementById('mode-visual').checked = true;
