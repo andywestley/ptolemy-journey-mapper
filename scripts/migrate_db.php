@@ -7,10 +7,13 @@
 require_once __DIR__ . '/../config/database.php';
 
 // Path to PocketBase SQLite database
-$sqlitePath = __DIR__ . '/../pb_data/data.db';
+$sqlitePath = $argv[1] ?? (__DIR__ . '/../pb_data/data.db');
+$sqlitePath = realpath($sqlitePath) ?: $sqlitePath;
 
 if (!file_exists($sqlitePath)) {
-    echo "Error: PocketBase SQLite database not found at: $sqlitePath\n";
+    echo "Error: PocketBase SQLite database not found.\n";
+    echo "Checked path: $sqlitePath\n";
+    echo "Usage: php scripts/migrate_db.php [optional_custom_sqlite_path]\n";
     exit(1);
 }
 
