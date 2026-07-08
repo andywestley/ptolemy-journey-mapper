@@ -487,6 +487,7 @@ async function createNewJourney() {
         nodes: []
     };
 
+    try {
         const response = await fetch('api/journeys.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -510,6 +511,7 @@ async function createNewJourney() {
 
 async function openEditor(id) {
     toggleLoading(true);
+    try {
         const response = await fetch(`api/journeys.php?id=${id}`);
         if (!response.ok) throw new Error('Failed to load journey');
         currentJourney = await response.json();
