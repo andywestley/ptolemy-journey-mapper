@@ -43,7 +43,17 @@ if ($action === 'login') {
         ]);
     } else {
         http_response_code(401);
-        echo json_encode(["error" => "Invalid email or password."]);
+        echo json_encode([
+            "error" => "Invalid email or password.",
+            "debug" => [
+                "user_found" => $user ? true : false,
+                "input_email" => $email,
+                "db_email" => $user ? $user['email'] : null,
+                "verify_success" => $user ? password_verify($password, $user['password_hash']) : false,
+                "stored_hash" => $user ? $user['password_hash'] : null,
+                "input_password_length" => strlen($password)
+            ]
+        ]);
     }
     exit;
 }
