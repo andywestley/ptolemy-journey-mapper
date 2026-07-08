@@ -35,6 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Default to the dashboard list view (Inbox)
     showListView();
+
+    // GTM Emotional Curve Toggle listener
+    const curveToggle = document.getElementById('toggle-emotional-curve');
+    if (curveToggle) {
+        curveToggle.addEventListener('change', (e) => {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'toggle_emotional_curve',
+                enabled: e.target.checked
+            });
+        });
+    }
 });
 
 /**

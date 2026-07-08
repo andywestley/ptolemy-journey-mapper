@@ -48,6 +48,14 @@ const triggerAutoSave = debounce(async () => {
             dotEl.classList.remove('save-indicator-syncing');
             dotEl.style.background = '#ef4444'; // Red for error
         }
+
+        // GTM Auto-save error
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'app_error',
+            error_context: 'auto_save',
+            error_message: err.message || 'Auto-save failed'
+        });
     }
 }, 2000);
 
@@ -84,6 +92,10 @@ function addStage() {
         renderVisualMap();
     }
     triggerAutoSave();
+
+    // GTM Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'stage_add' });
 }
 
 function removeStage(idx) {
@@ -94,6 +106,10 @@ function removeStage(idx) {
         renderVisualMap();
     }
     triggerAutoSave();
+
+    // GTM Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'stage_remove' });
 }
 
 /**
@@ -120,6 +136,10 @@ function addSwimlane() {
         renderVisualMap();
     }
     triggerAutoSave();
+
+    // GTM Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'swimlane_add' });
 }
 
 function removeSwimlane(idx) {
@@ -130,6 +150,10 @@ function removeSwimlane(idx) {
         renderVisualMap();
     }
     triggerAutoSave();
+
+    // GTM Event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'swimlane_remove' });
 }
 
 /**
@@ -384,6 +408,17 @@ function saveNode() {
     const modal = bootstrap.Modal.getInstance(modalEl);
     modal.hide();
 
+    // GTM Node Save
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'node_save',
+        is_new: !id,
+        severity: severity,
+        has_score: score !== null,
+        is_moment_of_truth: isMomentOfTruth,
+        has_blueprint: (blueprint.onstage.length > 0 || blueprint.backstage.length > 0 || blueprint.support.length > 0 || blueprint.evidence.length > 0)
+    });
+
     // Refresh UI
     if (activeEditorMode === 'table') {
         renderEditorTables();
@@ -397,6 +432,14 @@ function saveNode() {
 function deleteNode(nodeId) {
     if (confirm('Are you sure you want to delete this node?')) {
         originalOJF.nodes = originalOJF.nodes.filter(n => n.id !== nodeId);
+
+        // GTM Node Delete
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'node_delete',
+            node_id: nodeId
+        });
+
         if (activeEditorMode === 'table') {
             renderEditorTables();
         } else {
@@ -513,6 +556,10 @@ async function addCollaborator() {
         emailInput.value = '';
         renderCollaborators();
         alert('Collaborator added!');
+
+        // GTM Collaborator Add
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'collaborator_add' });
     } catch (err) {
         console.error('Share error:', err);
         alert('Could not find user or error sharing.');
@@ -539,6 +586,10 @@ async function removeCollaborator(userId) {
 
         currentJourney = record;
         renderCollaborators();
+
+        // GTM Collaborator Remove
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'collaborator_remove' });
     } catch (err) {
         console.error('Remove error:', err);
         alert('Error removing collaborator.');
@@ -956,6 +1007,14 @@ async function importJourney(input) {
         } catch (err) {
             console.error('Import error:', err);
             alert('Failed to import: ' + err.message);
+
+            // GTM Import Error
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'app_error',
+                error_context: 'import_ojf',
+                error_message: err.message
+            });
         } finally {
             toggleLoading(false);
         }
@@ -1012,6 +1071,14 @@ async function importTemplate(url) {
     } catch (err) {
         console.error('Template import error:', err);
         alert('Failed to import template: ' + err.message);
+
+        // GTM Template Import Error
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'app_error',
+            error_context: 'import_template',
+            error_message: err.message
+        });
     } finally {
         toggleLoading(false);
     }

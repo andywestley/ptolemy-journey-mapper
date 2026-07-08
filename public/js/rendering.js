@@ -187,6 +187,14 @@ function renderVisualMap() {
  */
 function toggleBlueprintMode() {
     blueprintMode = document.getElementById('toggle-blueprint-mode').checked;
+    
+    // GTM Blueprint Toggle
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'toggle_blueprint_mode',
+        enabled: blueprintMode
+    });
+
     renderVisualMap();
 }
 
