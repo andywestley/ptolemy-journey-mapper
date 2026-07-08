@@ -695,6 +695,6 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <?php
-$extraJs = ["dashboard.js", "invites.js", "comments.js"];
+$extraJs = ["auth.js", "utils.js", "rendering.js", "editor.js", "dashboard.js", "invites.js", "comments.js"];
 include __DIR__ . '/includes/footer.php';
 ?>
