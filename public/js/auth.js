@@ -118,6 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Update UI if on dashboard
                         const emailEl = document.getElementById('user-email');
                         if (emailEl) emailEl.textContent = user.email;
+
+                        // Auto-redirect to dashboard if valid session exists on index
+                        if (isIndex) {
+                            window.location.href = 'dashboard.php';
+                        }
                     });
                 }
             })
@@ -132,6 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
     const errorAlert = document.getElementById('error-alert');
     const errorMessage = document.getElementById('error-message');
+
+    console.log('auth.js diagnostics:', {
+        isIndex,
+        pathname: window.location.pathname,
+        loginForm: loginForm ? 'found' : 'missing',
+        registerForm: registerForm ? 'found' : 'missing'
+    });
 
     if (isIndex && loginForm && registerForm) {
         // Auto-fill Invite code from URL
