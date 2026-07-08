@@ -4,7 +4,7 @@
  * Run this script via CLI: php scripts/migrate_db.php
  */
 
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/db_connect.php';
 
 // Path to PocketBase SQLite database
 $sqlitePath = $argv[1] ?? (__DIR__ . '/../pb_data/data.db');
