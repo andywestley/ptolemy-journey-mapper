@@ -3,7 +3,7 @@
 
     <?php if (isset($extraJs)): ?>
         <?php foreach ($extraJs as $jsFile): ?>
-            <script src="js/<?php echo $jsFile; ?>?v=1.0.4"></script>
+            <script src="js/<?php echo $jsFile; ?>?v=1.0.5"></script>
         <?php endforeach; ?>
     <?php endif; ?>
 </body>
