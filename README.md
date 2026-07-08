@@ -12,20 +12,13 @@ Commercial journey mapping tools often lock your data into a proprietary ecosyst
 - **Service Blueprint Integration:** Seamlessly expand user journeys into full service blueprints with frontstage/backstage layers and physical evidence.
 - **Portable:** Export your maps as JSON (.ojf), Markdown (.md), PDF, or PNG images.
 
-## 🌐 Try the Beta
-
-Ptolemy is currently in public beta. You can try the latest version at:
-
-**[https://ptolemy.andrewwestley.co.uk](https://ptolemy.andrewwestley.co.uk)**
-
-*Note: Registration requires an **Invite Code**. Please [open a GitHub Issue](https://github.com/andywestley/ptolemy-journey-mapper/issues) to request one!*
-
 ## 🛠️ The Tech Stack
 
-Ptolemy is designed to be fast, privacy-focused, and easy to host.
+Ptolemy is designed to run on simple, ubiquitous hosting environments.
 
-- **Backend:** [PocketBase](https://pocketbase.io/) (Go-based backend with SQLite and Auth).
-- **Frontend:** Vanilla JavaScript & Bootstrap 5 (No heavy frameworks required).
+- **Backend:** Vanilla PHP 8.x (No heavy frameworks, simple page-based routing and REST API).
+- **Database:** MySQL / MariaDB (Supports JSON columns and relational integrity constraints).
+- **Frontend:** Vanilla JavaScript & Bootstrap 5 (Centralized headers/footers with GA4/GTM tracking capabilities).
 - **Format:** OpenJourney Format (.ojf) JSON specification.
 
 ## 🤖 Built with Antigravity
@@ -36,17 +29,32 @@ The result isn't "AI slop"—it's a high-quality, functional application built t
 
 ## 📥 Getting Started
 
-### Hosting Your Own Instance
-Since Ptolemy is built on PocketBase, you can host it almost anywhere (even on a $5 VPS).
+### Prerequisites
+- A web server running PHP 8.0+ (Apache, Nginx, or PHP CLI Server)
+- MySQL / MariaDB server
 
-1.  Download the repository.
-2.  Install [PocketBase](https://pocketbase.io/docs/) for your OS.
-3.  Place the `pb_public` content into your PocketBase's `pb_public` directory.
-4.  Run `./pocketbase serve`.
-5.  Access the dashboard at `http://localhost:8090`.
+### Database Schema Setup
+1. Create a MySQL database (e.g., `ptolemy`).
+2. Import the database tables using the schema file:
+   ```bash
+   mysql -u your_user -p ptolemy < schema.sql
+   ```
 
-### Deploying to Production
-For a production deployment, we recommend using a reverse proxy like Nginx or Caddy with SSL provided by Let's Encrypt.
+### Configuration
+Create/update `config/database.php` in your root directory to match your environment credentials:
+```php
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'ptolemy');
+define('DB_USER', 'your_user');
+define('DB_PASS', 'your_password');
+```
+
+### Local Development
+To spin up a local PHP development server:
+```bash
+php -S localhost:8000 -t public/
+```
+Then visit `http://localhost:8000` in your web browser.
 
 ## ✨ The OpenJourney Format (.ojf)
 Ptolemy isn't just an editor; it's a way to standardize how we document human experiences. The `.ojf` format allows you to version-control your maps with Git and integrate them into your team's existing development workflows.

@@ -1,0 +1,57 @@
+-- Database Schema for Ptolemy (OpenJourney Editor)
+
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(15) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS journeys (
+    id VARCHAR(15) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    owner_id VARCHAR(15) NOT NULL,
+    ojf_data JSON NOT NULL,
+    folder VARCHAR(255) DEFAULT '',
+    journey_status VARCHAR(50) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS journey_collaborators (
+    journey_id VARCHAR(15) NOT NULL,
+    user_id VARCHAR(15) NOT NULL,
+    PRIMARY KEY (journey_id, user_id),
+    FOREIGN KEY (journey_id) REFERENCES journeys(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS invites (
+    id VARCHAR(15) PRIMARY KEY,
+    token VARCHAR(64) UNIQUE NOT NULL,
+    invited_by_id VARCHAR(15) NOT NULL,
+    is_used TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (invited_by_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS comments (
+    id VARCHAR(15) PRIMARY KEY,
+    journey_id VARCHAR(15) NOT NULL,
+    user_id VARCHAR(15) NOT NULL,
+    content TEXT NOT NULL,
+    x FLOAT NOT NULL,
+    y FLOAT NOT NULL,
+    node_id VARCHAR(255) DEFAULT NULL,
+    parent_id VARCHAR(15) DEFAULT NULL,
+    resolved TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (journey_id) REFERENCES journeys(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
