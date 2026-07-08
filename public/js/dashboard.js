@@ -2043,7 +2043,7 @@ async function importTemplate(url) {
         // capitalize first letters
         const formattedTitle = templateName.replace(/\b\w/g, l => l.toUpperCase());
 
-        const response = await fetch('api/journeys.php', {
+        const saveResponse = await fetch('api/journeys.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -2053,8 +2053,8 @@ async function importTemplate(url) {
                 ojf_data: data
             })
         });
-        if (!response.ok) throw new Error('Failed to import template');
-        const record = await response.json();
+        if (!saveResponse.ok) throw new Error('Failed to import template');
+        const record = await saveResponse.json();
 
         alert('Template imported successfully!');
         openEditor(record.id);
