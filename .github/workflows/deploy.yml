@@ -20,4 +20,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: ${{ secrets.VPS_TARGET }}
-          EXCLUDE: "/config/database.php" # Avoid overwriting production database credentials
+          EXCLUDE: "/config/database.php, /data.db, /pb_data/" # Avoid deleting DB and config files on VPS
