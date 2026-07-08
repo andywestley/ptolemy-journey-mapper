@@ -1501,6 +1501,7 @@ async function saveJourney() {
         ojf_data: originalOJF
     };
 
+    try {
         const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -1557,6 +1558,7 @@ async function addCollaborator() {
     if (!email) return;
 
     toggleLoading(true);
+    try {
         const userRes = await fetch(`api/auth.php?action=search&email=${encodeURIComponent(email)}`);
         if (!userRes.ok) throw new Error('User not found');
         const user = await userRes.json();
