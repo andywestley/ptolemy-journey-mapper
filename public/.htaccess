@@ -1,0 +1,2 @@
+# Ensure index.php is used as the default directory index
+DirectoryIndex index.php index.html
