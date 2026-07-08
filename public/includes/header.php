@@ -4,16 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBK5N6M620"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        gtag('config', 'G-VBK5N6M620');
-    </script>
-    
     <title><?php echo isset($pageTitle) ? $pageTitle . " | Ptolemy" : "Ptolemy - the OpenJourney editor"; ?></title>
     <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : "Ptolemy - collaborative open journey mapping tool"; ?>">
 
