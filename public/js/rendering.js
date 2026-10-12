@@ -24,7 +24,7 @@ function renderVisualMap() {
     stages.forEach((stage, idx) => {
         const head = document.createElement('div');
         head.className = 'grid-header-stage';
-        head.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${stage.name}</span>`;
+        head.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${escapeHtml(stage.name)}</span>`;
         grid.appendChild(head);
     });
 
@@ -58,7 +58,7 @@ function renderVisualMap() {
         // Swimlane Header (Left Column)
         const sHead = document.createElement('div');
         sHead.className = 'grid-header-swimlane';
-        sHead.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${swimlane.name}</span>`;
+        sHead.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${escapeHtml(swimlane.name)}</span>`;
         grid.appendChild(sHead);
 
         // Grid Cells for this row
@@ -118,18 +118,18 @@ function renderVisualMap() {
 
                 cardHTML += `<div class="d-flex align-items-baseline mb-1">`;
                 if (displayIcon) {
-                    cardHTML += `<i class="bi bi-${displayIcon} me-2"></i>`;
+                    cardHTML += `<i class="bi bi-${escapeHtml(displayIcon)} me-2"></i>`;
                 }
-                cardHTML += `<div class="fw-bold">${node.title || 'Untitled Node'}</div>`;
+                cardHTML += `<div class="fw-bold">${escapeHtml(node.title || 'Untitled Node')}</div>`;
                 cardHTML += `</div>`;
 
-                cardHTML += `<div class="text-muted small mb-2">${node.description || ''}</div>`;
+                cardHTML += `<div class="text-muted small mb-2">${escapeHtml(node.description || '')}</div>`;
 
                 cardHTML += `<div class="d-flex flex-wrap align-items-center">`;
                 if (node.score !== undefined && node.score !== null && node.score !== '') {
-                    cardHTML += `<span class="node-score-badge">Emotion: ${node.score}</span>`;
+                    cardHTML += `<span class="node-score-badge">Emotion: ${escapeHtml(node.score)}</span>`;
                 }
-                cardHTML += (node.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('');
+                cardHTML += (node.tags || []).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join('');
                 
                 // Blueprint Indicator
                 const hasBlueprint = node.blueprint && (
@@ -235,12 +235,12 @@ function renderBlueprintLayers() {
                     el.className = 'bp-item-card';
                     
                     let content = '';
-                    if (lane.type === 'evidence') content = `<strong>${item.item}</strong> <small class="text-muted">(${item.type})</small>`;
-                    else if (lane.type === 'support') content = `<strong>${item.system}</strong>: ${item.description}`;
-                    else content = `<strong>${item.actor}</strong>: ${item.action}`;
+                    if (lane.type === 'evidence') content = `<strong>${escapeHtml(item.item)}</strong> <small class="text-muted">(${escapeHtml(item.type)})</small>`;
+                    else if (lane.type === 'support') content = `<strong>${escapeHtml(item.system)}</strong>: ${escapeHtml(item.description)}`;
+                    else content = `<strong>${escapeHtml(item.actor)}</strong>: ${escapeHtml(item.action)}`;
                     
                     el.innerHTML = content;
-                    el.title = `From: ${node.title}`;
+                    el.title = `From: ${escapeHtml(node.title)}`;
                     cell.appendChild(el);
                 });
             });
@@ -268,9 +268,9 @@ function renderEditorTables() {
     (originalOJF.stages || []).forEach((stage, idx) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="text-muted small">${stage.id}</td>
-            <td><input type="text" class="w-100" value="${stage.name}" onchange="updateStage(${idx}, this.value)"></td>
-            <td><input type="number" class="w-100" min="-5" max="5" value="${stage.overrideEmotion || ''}" onchange="updateStageEmotionOverride(${idx}, this.value)" placeholder="auto"></td>
+            <td class="text-muted small">${escapeHtml(stage.id)}</td>
+            <td><input type="text" class="w-100" value="${escapeHtml(stage.name)}" onchange="updateStage(${idx}, this.value)"></td>
+            <td><input type="number" class="w-100" min="-5" max="5" value="${escapeHtml(stage.overrideEmotion || '')}" onchange="updateStageEmotionOverride(${idx}, this.value)" placeholder="auto"></td>
             <td><button class="btn btn-sm text-danger" onclick="removeStage(${idx})"><i class="bi bi-trash"></i></button></td>
         `;
         if (stagesBody) stagesBody.appendChild(tr);
@@ -279,8 +279,8 @@ function renderEditorTables() {
     (originalOJF.swimlanes || []).forEach((lane, idx) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="text-muted small">${lane.id}</td>
-            <td><input type="text" class="w-100" value="${lane.name}" onchange="updateSwimlane(${idx}, this.value)"></td>
+            <td class="text-muted small">${escapeHtml(lane.id)}</td>
+            <td><input type="text" class="w-100" value="${escapeHtml(lane.name)}" onchange="updateSwimlane(${idx}, this.value)"></td>
             <td><button class="btn btn-sm text-danger" onclick="removeSwimlane(${idx})"><i class="bi bi-trash"></i></button></td>
         `;
         if (swimlanesBody) swimlanesBody.appendChild(tr);
@@ -302,19 +302,19 @@ function renderEditorTables() {
         }
         tr.innerHTML = `
             <td class="fw-bold">
-                ${displayIcon ? `<i class="bi bi-${displayIcon} me-1"></i>` : ''}
-                ${node.title}
+                ${displayIcon ? `<i class="bi bi-${escapeHtml(displayIcon)} me-1"></i>` : ''}
+                ${escapeHtml(node.title || '')}
                 ${node.isMomentOfTruth ? '<span class="badge bg-warning text-dark ms-1" style="font-size: 0.6rem;">MT</span>' : ''}
             </td>
-            <td><span class="badge bg-light text-dark">${stage}</span></td>
-            <td><span class="badge bg-light text-dark">${lane}</span></td>
+            <td><span class="badge bg-light text-dark">${escapeHtml(stage)}</span></td>
+            <td><span class="badge bg-light text-dark">${escapeHtml(lane)}</span></td>
             <td>
-                <span class="badge node-severity-${node.severity || 'low'} border">${node.severity || 'low'}</span>
-                ${(node.score !== undefined && node.score !== null && node.score !== '') ? `<span class="badge bg-light text-muted border ms-1">Emotion: ${node.score}</span>` : ''}
+                <span class="badge node-severity-${escapeHtml(node.severity || 'low')} border">${escapeHtml(node.severity || 'low')}</span>
+                ${(node.score !== undefined && node.score !== null && node.score !== '') ? `<span class="badge bg-light text-muted border ms-1">Emotion: ${escapeHtml(node.score)}</span>` : ''}
             </td>
             <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="openNodeModal('${node.id}')"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteNode('${node.id}')"><i class="bi bi-trash"></i></button>
+                <button class="btn btn-sm btn-outline-secondary me-1" onclick="openNodeModal('${escapeHtml(node.id)}')"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteNode('${escapeHtml(node.id)}')"><i class="bi bi-trash"></i></button>
             </td>
         `;
         if (nodesBody) nodesBody.appendChild(tr);

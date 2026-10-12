@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db_connect.php';
-
-session_start();
+initSecureSession();
 
 header('Content-Type: application/json');
 
@@ -36,9 +35,9 @@ function expandInvite($db, $invite) {
 }
 
 if ($method === 'GET') {
-    // List all invites
-    $stmt = $db->prepare("SELECT * FROM invites ORDER BY created_at DESC");
-    $stmt->execute();
+    // List invites created by the current user
+    $stmt = $db->prepare("SELECT * FROM invites WHERE invited_by_id = ? ORDER BY created_at DESC");
+    $stmt->execute([$currentUserId]);
     $invites = $stmt->fetchAll();
     
     $expanded = [];
@@ -78,7 +77,7 @@ if ($method === 'DELETE') {
         exit;
     }
     
-    // Check if invite exists and is unused
+    // Check if invite exists, belongs to current user, and is unused
     $stmt = $db->prepare("SELECT * FROM invites WHERE id = ?");
     $stmt->execute([$id]);
     $invite = $stmt->fetch();
@@ -88,6 +87,12 @@ if ($method === 'DELETE') {
         echo json_encode(["error" => "Invite not found"]);
         exit;
     }
+
+    if ($invite['invited_by_id'] !== $currentUserId) {
+        http_response_code(403);
+        echo json_encode(["error" => "Access denied. You can only delete invites you created."]);
+        exit;
+    }
     
     if ($invite['is_used']) {
         http_response_code(400);
@@ -95,8 +100,8 @@ if ($method === 'DELETE') {
         exit;
     }
     
-    $stmt = $db->prepare("DELETE FROM invites WHERE id = ?");
-    $stmt->execute([$id]);
+    $stmt = $db->prepare("DELETE FROM invites WHERE id = ? AND invited_by_id = ?");
+    $stmt->execute([$id, $currentUserId]);
     
     echo json_encode(["success" => true]);
     exit;

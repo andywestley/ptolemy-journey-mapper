@@ -2,12 +2,7 @@
 require_once __DIR__ . '/../../config/db_connect.php';
 
 // Configure session options for security
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_samesite', 'Lax');
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-    ini_set('session.cookie_secure', 1);
-}
-session_start();
+initSecureSession();
 
 header('Content-Type: application/json');
 
@@ -31,6 +26,9 @@ if ($action === 'login') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password_hash'])) {
+        // Prevent session fixation
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
@@ -43,17 +41,7 @@ if ($action === 'login') {
         ]);
     } else {
         http_response_code(401);
-        echo json_encode([
-            "error" => "Invalid email or password.",
-            "debug" => [
-                "user_found" => $user ? true : false,
-                "input_email" => $email,
-                "db_email" => $user ? $user['email'] : null,
-                "verify_success" => $user ? password_verify($password, $user['password_hash']) : false,
-                "stored_hash" => $user ? $user['password_hash'] : null,
-                "input_password_length" => strlen($password)
-            ]
-        ]);
+        echo json_encode(["error" => "Invalid email or password."]);
     }
     exit;
 }
@@ -74,6 +62,12 @@ if ($action === 'register') {
     if ($password !== $passwordConfirm) {
         http_response_code(400);
         echo json_encode(["error" => "Passwords do not match."]);
+        exit;
+    }
+
+    if (strlen($password) < 8) {
+        http_response_code(400);
+        echo json_encode(["error" => "Password must be at least 8 characters long."]);
         exit;
     }
 
@@ -120,6 +114,9 @@ if ($action === 'register') {
 
         $db->commit();
 
+        // Prevent session fixation
+        session_regenerate_id(true);
+
         // Log in user
         $_SESSION['user_id'] = $userId;
         $_SESSION['user_email'] = $email;
@@ -132,8 +129,9 @@ if ($action === 'register') {
         ]);
     } catch (Exception $e) {
         $db->rollBack();
+        error_log("Failed to register user: " . $e->getMessage());
         http_response_code(500);
-        echo json_encode(["error" => "Failed to register user: " . $e->getMessage()]);
+        echo json_encode(["error" => "Failed to register user. Please try again."]);
     }
     exit;
 }

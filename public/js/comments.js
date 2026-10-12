@@ -180,10 +180,10 @@ function showCommentThread(commentId) {
         item.className = 'mb-2 p-2 border-bottom';
         item.innerHTML = `
             <div class="d-flex justify-content-between small text-muted mb-1">
-                <strong>${c.expand?.user?.email || 'User'}</strong>
+                <strong>${escapeHtml(c.expand?.user?.email || 'User')}</strong>
                 <span>${new Date(c.created).toLocaleString()}</span>
             </div>
-            <div>${c.content}</div>
+            <div>${escapeHtml(c.content)}</div>
         `;
         list.appendChild(item);
     });

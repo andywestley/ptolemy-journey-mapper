@@ -37,8 +37,8 @@ async function loadInvites() {
 
             tr.innerHTML = `
                 <td>
-                    <code class="user-select-all">${inv.token}</code>
-                    <button class="btn btn-sm btn-link py-0" onclick="copyToClipboard('${inviteUrl}')" title="Copy Invite Link">
+                    <code class="user-select-all">${escapeHtml(inv.token)}</code>
+                    <button class="btn btn-sm btn-link py-0" onclick="copyToClipboard('${escapeHtml(inviteUrl)}')" title="Copy Invite Link">
                         <i class="bi bi-clipboard"></i>
                     </button>
                 </td>
@@ -49,7 +49,7 @@ async function loadInvites() {
                 </td>
                 <td class="small text-muted">${new Date(inv.created).toLocaleString()}</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteInvite('${inv.id}')" ${inv.isUsed ? 'disabled' : ''}>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteInvite('${escapeHtml(inv.id)}')" ${inv.isUsed ? 'disabled' : ''}>
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>

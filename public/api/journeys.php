@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db_connect.php';
-
-session_start();
+initSecureSession();
 
 header('Content-Type: application/json');
 

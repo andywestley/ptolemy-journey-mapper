@@ -24,12 +24,34 @@ function getDBConnection() {
                 ]
             );
         } catch (PDOException $e) {
+            error_log("Database connection failed: " . $e->getMessage());
             http_response_code(500);
-            echo json_encode(["error" => "Database connection failed: " . $e->getMessage()]);
+            echo json_encode(["error" => "Database connection error."]);
             exit;
         }
     }
     return $pdo;
+}
+
+/**
+ * Initialize a secure PHP session across all endpoints
+ */
+function initSecureSession() {
+    if (session_status() === PHP_SESSION_NONE) {
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.cookie_samesite', 'Lax');
+        ini_set('session.use_strict_mode', '1');
+
+        $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+            || (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+            || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
+
+        if ($isHttps) {
+            ini_set('session.cookie_secure', '1');
+        }
+        session_start();
+    }
 }
 
 /**

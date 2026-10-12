@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /diag.php
+
+Sitemap: https://ptolemy.andrewwestley.co.uk/sitemap.xml

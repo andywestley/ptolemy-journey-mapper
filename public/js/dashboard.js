@@ -176,20 +176,20 @@ async function loadJourneys(type = null) {
                 }
 
                 col.innerHTML = `
-                    <div class="card h-100 cursor-pointer shadow-sm hover-shadow" onclick="openEditor('${j.id}')">
+                    <div class="card h-100 cursor-pointer shadow-sm hover-shadow" onclick="openEditor('${escapeHtml(j.id)}')">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title fw-bold mb-0">${j.title || 'Untitled Journey'}</h5>
+                                <h5 class="card-title fw-bold mb-0">${escapeHtml(j.title || 'Untitled Journey')}</h5>
                                 ${actionsHTML}
                             </div>
-                            <p class="card-text text-muted small mb-3 text-truncate-2">${j.description || 'No description provided.'}</p>
+                            <p class="card-text text-muted small mb-3 text-truncate-2">${escapeHtml(j.description || 'No description provided.')}</p>
                             <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
                                 <span class="badge bg-light text-dark border-0 rounded-pill px-2" style="font-size: 0.7rem;">
                                     ${j.ojf_data?.stages?.length || 0} Stages
                                 </span>
                                 <small class="text-muted" style="font-size: 0.7rem;">${new Date(j.updated).toLocaleDateString()}</small>
                             </div>
-                            ${j.folder ? `<div class="mt-2"><span class="badge bg-primary-subtle text-primary border-0 rounded-pill"><i class="bi bi-folder2 me-1"></i> ${j.folder}</span></div>` : ''}
+                            ${j.folder ? `<div class="mt-2"><span class="badge bg-primary-subtle text-primary border-0 rounded-pill"><i class="bi bi-folder2 me-1"></i> ${escapeHtml(j.folder)}</span></div>` : ''}
                         </div>
                     </div>
                 `;
@@ -255,9 +255,10 @@ async function loadFolders() {
             const count = journeys.filter(j => j.folder === folder).length;
             const li = document.createElement('li');
             li.className = 'nav-item mb-1';
+            const safeFolderAttr = encodeURIComponent(folder).replace(/'/g, "%27");
             li.innerHTML = `
-                <a class="nav-link ${currentFolder === folder ? 'active' : ''}" href="#" onclick="event.preventDefault(); filterByFolder('${folder}')">
-                    <i class="bi bi-folder2 me-2"></i> ${folder}
+                <a class="nav-link ${currentFolder === folder ? 'active' : ''}" href="#" onclick="event.preventDefault(); filterByFolder(decodeURIComponent('${safeFolderAttr}'))">
+                    <i class="bi bi-folder2 me-2"></i> ${escapeHtml(folder)}
                     <span class="badge bg-light text-dark rounded-pill float-end">${count}</span>
                 </a>
             `;

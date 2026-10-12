@@ -42,3 +42,8 @@ The journey map state must conform to the OpenJourney schema.
 - Read this file (`KNOWLEDGE.md`) at the start of every new task.
 - Ensure all UI changes are visually premium (Bootstrap 5 + custom CSS for "wow" factor).
 - Persist state frequently with auto-save/sync to PocketBase.
+
+## 5. Environment & Production Details
+- **Production URL:** `https://ptolemy.andrewwestley.co.uk/`
+- **Web Server Document Root:** `public/`
+- **Target Infrastructure:** Plesk-managed VPS deployed via GitHub Actions (`.github/workflows/deploy.yml`).

@@ -1,5 +1,6 @@
 <?php
 $pageTitle = "About | Ptolemy - the OpenJourney editor";
+$pageDescription = "Learn about Ptolemy, the open-source human-centered journey mapping editor and the OpenJourney Format (.ojf).";
 include __DIR__ . '/includes/header.php';
 ?>
 

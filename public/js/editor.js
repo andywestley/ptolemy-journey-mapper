@@ -288,18 +288,18 @@ function renderBlueprintList(type, items = []) {
         
         if (type === 'evidence') {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="Evidence item" value="${item.item || ''}" data-field="item">
-                <input type="text" class="form-control form-control-sm" placeholder="Type" value="${item.type || ''}" data-field="type">
+                <input type="text" class="form-control form-control-sm" placeholder="Evidence item" value="${escapeHtml(item.item || '')}" data-field="item">
+                <input type="text" class="form-control form-control-sm" placeholder="Type" value="${escapeHtml(item.type || '')}" data-field="type">
             `;
         } else if (type === 'support') {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="System/Dept" value="${item.system || ''}" data-field="system">
-                <input type="text" class="form-control form-control-sm" placeholder="Description" value="${item.description || ''}" data-field="description">
+                <input type="text" class="form-control form-control-sm" placeholder="System/Dept" value="${escapeHtml(item.system || '')}" data-field="system">
+                <input type="text" class="form-control form-control-sm" placeholder="Description" value="${escapeHtml(item.description || '')}" data-field="description">
             `;
         } else {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="Actor" value="${item.actor || ''}" data-field="actor">
-                <input type="text" class="form-control form-control-sm" placeholder="Action" value="${item.action || ''}" data-field="action">
+                <input type="text" class="form-control form-control-sm" placeholder="Actor" value="${escapeHtml(item.actor || '')}" data-field="actor">
+                <input type="text" class="form-control form-control-sm" placeholder="Action" value="${escapeHtml(item.action || '')}" data-field="action">
             `;
         }
         
@@ -515,8 +515,8 @@ function renderCollaborators() {
         const li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         li.innerHTML = `
-            <span>${user.email}</span>
-            <button class="btn btn-sm text-danger" onclick="removeCollaborator('${user.id}')">
+            <span>${escapeHtml(user.email)}</span>
+            <button class="btn btn-sm text-danger" onclick="removeCollaborator('${escapeHtml(user.id)}')">
                 <i class="bi bi-person-x"></i>
             </button>
         `;
