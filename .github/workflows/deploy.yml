@@ -11,6 +11,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Build Dependencies
+        run: npm ci
+
+      - name: Build Minified CSS & JS Assets
+        run: npm run minify
+
       - name: Deploy via SSH rsync
         uses: easingthemes/ssh-deploy@v6.0.1
         with:
@@ -20,4 +32,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
           TARGET: ${{ secrets.VPS_TARGET }}
-          EXCLUDE: "/.git/, /.github/, /config/database.php, /data.db, /pb_data/" # Avoid deleting DB, config files, and sending git history
+          EXCLUDE: "/.git/, /.github/, /node_modules/, /config/database.php, /data.db, /pb_data/" # Avoid sending git history, node_modules, and deleting server DB/config

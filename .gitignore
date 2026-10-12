@@ -8,3 +8,7 @@ Thumbs.db
 .DS_Store
 
 research/*.pdf
+
+# Node dependencies
+node_modules/
+npm-debug.log*

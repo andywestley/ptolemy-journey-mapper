@@ -1,0 +1,15 @@
+{
+  "name": "ptolemy-journey-mapper",
+  "version": "1.0.0",
+  "description": "The OpenJourney Editor",
+  "private": true,
+  "scripts": {
+    "minify": "node scripts/minify.js",
+    "build": "node scripts/minify.js",
+    "watch": "node scripts/minify.js --watch"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.3",
+    "terser": "^5.39.0"
+  }
+}

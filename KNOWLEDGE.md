@@ -47,3 +47,12 @@ The journey map state must conform to the OpenJourney schema.
 - **Production URL:** `https://ptolemy.andrewwestley.co.uk/`
 - **Web Server Document Root:** `public/`
 - **Target Infrastructure:** Plesk-managed VPS deployed via GitHub Actions (`.github/workflows/deploy.yml`).
+
+## 6. Asset Minification Pipeline
+- **Raw Assets:** `public/css/*.css` and `public/js/*.js`
+- **Minified Assets:** `public/css/*.min.css` and `public/js/*.min.js`
+- **Build Commands:**
+  - `npm run minify` (or `node scripts/minify.js`): Minifies all raw CSS and JS assets using `clean-css` and `terser`.
+  - `npm run watch`: Automatically rebuilds minified assets whenever changes are saved to raw CSS or JS files.
+- **CI/CD Integration:** GitHub Actions automatically builds minified assets during deploy (`.github/workflows/deploy.yml`).
+- **Templates:** Loaded dynamically in `public/includes/header.php` and `public/includes/footer.php` with automatic fallback and `filemtime` cache-busting.

@@ -37,10 +37,30 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/style.css">
+<?php
+// Asset loader helper for CSS with automatic minification detection & cache busting
+if (!function_exists('loadCssAsset')) {
+    function loadCssAsset($file) {
+        $baseName = preg_replace('/\.min\.css$|\.css$/', '', $file);
+        $minFile = $baseName . '.min.css';
+        $rawFile = $baseName . '.css';
+
+        $cssDir = __DIR__ . '/../css/';
+        if (file_exists($cssDir . $minFile)) {
+            $v = filemtime($cssDir . $minFile);
+            return 'css/' . $minFile . '?v=' . $v;
+        } elseif (file_exists($cssDir . $rawFile)) {
+            $v = filemtime($cssDir . $rawFile);
+            return 'css/' . $rawFile . '?v=' . $v;
+        }
+        return 'css/' . $file;
+    }
+}
+?>
+    <link rel="stylesheet" href="<?php echo loadCssAsset('style.css'); ?>">
     <?php if (isset($extraCss)): ?>
         <?php foreach ($extraCss as $cssFile): ?>
-            <link rel="stylesheet" href="css/<?php echo $cssFile; ?>">
+            <link rel="stylesheet" href="<?php echo loadCssAsset($cssFile); ?>">
         <?php endforeach; ?>
     <?php endif; ?>
 </head>
