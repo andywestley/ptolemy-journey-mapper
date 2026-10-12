@@ -254,7 +254,14 @@ async function handleCreateUser(e) {
         document.getElementById('create-user-form').reset();
         toggleAccountTypeFields('user');
 
-        alert(`Account '${data.name}' successfully created!\n\nLogin Identifier: ${data.username || data.email}\nPassword: ${password}`);
+        const loginIdent = data.username || data.email;
+        showCredentialsModal(
+            'Account Created',
+            `Account '${data.name}' successfully created!`,
+            loginIdent,
+            password,
+            !!data.username
+        );
         loadUsers();
     } catch (err) {
         alert('Error: ' + err.message);
@@ -347,12 +354,78 @@ async function handleResetPassword(e) {
         if (!res.ok) throw new Error(data.error || 'Failed to reset password');
 
         bootstrap.Modal.getInstance(document.getElementById('resetPasswordModal')).hide();
-        alert(`Password successfully updated!\n\nNew Password: ${password}`);
+        const userName = document.getElementById('reset-user-name').textContent;
+        const targetUser = allUsers.find(u => u.id === userId);
+        const loginIdent = targetUser ? (targetUser.username || targetUser.email) : userName;
+        
+        showCredentialsModal(
+            'Password Reset',
+            `Password successfully updated for '${userName}'!`,
+            loginIdent,
+            password,
+            targetUser ? !!targetUser.username : true
+        );
     } catch (err) {
         alert('Error: ' + err.message);
     } finally {
         btn.disabled = false;
     }
+}
+
+/**
+ * Display Credential Modal with copyable fields
+ */
+function showCredentialsModal(title, status, identifier, password, isService) {
+    document.getElementById('credentials-modal-title').textContent = title;
+    document.getElementById('credentials-modal-status').textContent = status;
+    document.getElementById('cred-identifier').value = identifier;
+    document.getElementById('cred-password').value = password;
+
+    const hint = document.getElementById('cred-hint');
+    if (hint) {
+        if (isService) {
+            hint.innerHTML = `You can log in using either <code>${escapeHtml(identifier)}</code> or with a leading @ (e.g. <code>@${escapeHtml(identifier)}</code>).`;
+            hint.style.display = 'block';
+        } else {
+            hint.innerHTML = 'Log in with this email address.';
+            hint.style.display = 'block';
+        }
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('credentialsModal'));
+    modal.show();
+}
+
+/**
+ * Copy credential field to clipboard with visual feedback
+ */
+function copyCredField(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(input.value).then(() => {
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check text-success"></i>';
+        btn.classList.add('btn-outline-success');
+        btn.classList.remove('btn-outline-secondary');
+
+        setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.classList.remove('btn-outline-success');
+            btn.classList.add('btn-outline-secondary');
+        }, 2000);
+    }).catch(() => {
+        // Fallback to execCommand
+        try {
+            document.execCommand('copy');
+            alert('Copied to clipboard!');
+        } catch (e) {
+            alert('Please select and copy manually: ' + input.value);
+        }
+    });
 }
 
 /**

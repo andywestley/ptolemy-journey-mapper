@@ -370,6 +370,52 @@ include __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<!-- Modal 4: Account Credentials Display -->
+<div class="modal fade" id="credentialsModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="credentials-modal-title">Account Credentials</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success d-flex align-items-center mb-3">
+                    <i class="bi bi-check-circle-fill fs-4 me-2"></i>
+                    <div>
+                        <span id="credentials-modal-status">Account successfully created!</span>
+                        <div class="small text-muted">Please copy these credentials now.</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small text-muted text-uppercase fw-bold">Login Identifier</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace" id="cred-identifier" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyCredField('cred-identifier', this)" title="Copy Identifier">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    <div class="form-text small" id="cred-hint">You can log in using either this username or with a leading @ (e.g. <code>@username</code>).</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small text-muted text-uppercase fw-bold">Password</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace" id="cred-password" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyCredField('cred-password', this)" title="Copy Password">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     window.currentUserId = "<?php echo htmlspecialchars($adminUser['id'], ENT_QUOTES, 'UTF-8'); ?>";
 </script>

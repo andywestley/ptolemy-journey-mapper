@@ -12,7 +12,7 @@ $db = getDBConnection();
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
 if ($action === 'login') {
-    $identifier = trim($input['identifier'] ?? $input['email'] ?? '');
+    $identifier = trim($input['identifier'] ?? $input['username'] ?? $input['email'] ?? '');
     $password = $input['password'] ?? '';
 
     if (empty($identifier) || empty($password)) {
@@ -21,16 +21,24 @@ if ($action === 'login') {
         exit;
     }
 
-    $stmt = $db->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
-    $stmt->execute([$identifier, $identifier]);
+    // Support usernames entered with or without a leading '@'
+    $cleanUsername = ltrim($identifier, '@');
+
+    $stmt = $db->prepare("
+        SELECT * FROM users 
+        WHERE LOWER(email) = LOWER(?) 
+           OR LOWER(username) = LOWER(?) 
+           OR LOWER(username) = LOWER(?)
+    ");
+    $stmt->execute([$identifier, $identifier, $cleanUsername]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
+    if ($user && (password_verify($password, $user['password_hash']) || password_verify(trim($password), $user['password_hash']))) {
         // Prevent session fixation
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_email'] = $user['email'] ?? $user['username'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['is_admin'] = (int)($user['is_admin'] ?? 0);
 

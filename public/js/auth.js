@@ -20,10 +20,16 @@ if (cachedUser) {
  */
 async function handleLogin(email, password) {
     try {
+        const cleanIdent = (email || '').trim();
         const response = await fetch('api/auth.php?action=login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ 
+                identifier: cleanIdent,
+                email: cleanIdent,
+                username: cleanIdent,
+                password 
+            })
         });
         const data = await response.json();
         
@@ -196,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hideError();
             setSubmitting('login-btn', true);
 
-            const email = document.getElementById('login-email').value;
+            const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
             try {
