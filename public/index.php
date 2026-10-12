@@ -193,8 +193,8 @@ include __DIR__ . '/includes/header.php';
                 <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
                     <form id="login-form">
                         <div class="mb-3">
-                            <label for="login-email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="login-email" required placeholder="name@example.com">
+                            <label for="login-email" class="form-label">Email or Username</label>
+                            <input type="text" class="form-control" id="login-email" required placeholder="name@example.com or username" autocomplete="username">
                         </div>
                         <div class="mb-3">
                             <label for="login-password" class="form-label">Password</label>

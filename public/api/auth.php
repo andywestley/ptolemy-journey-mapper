@@ -12,17 +12,17 @@ $db = getDBConnection();
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
 if ($action === 'login') {
-    $email = trim($input['email'] ?? '');
+    $identifier = trim($input['identifier'] ?? $input['email'] ?? '');
     $password = $input['password'] ?? '';
 
-    if (empty($email) || empty($password)) {
+    if (empty($identifier) || empty($password)) {
         http_response_code(400);
-        echo json_encode(["error" => "Email and password are required."]);
+        echo json_encode(["error" => "Email/Username and password are required."]);
         exit;
     }
 
-    $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->execute([$email]);
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$identifier, $identifier]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password_hash'])) {
@@ -32,16 +32,20 @@ if ($action === 'login') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
+        $_SESSION['is_admin'] = (int)($user['is_admin'] ?? 0);
 
         echo json_encode([
             "id" => $user['id'],
             "email" => $user['email'],
+            "username" => $user['username'] ?? null,
             "name" => $user['name'],
-            "avatar" => $user['avatar']
+            "avatar" => $user['avatar'],
+            "is_admin" => (bool)($user['is_admin'] ?? 0),
+            "is_service_account" => (bool)($user['is_service_account'] ?? 0)
         ]);
     } else {
         http_response_code(401);
-        echo json_encode(["error" => "Invalid email or password."]);
+        echo json_encode(["error" => "Invalid email/username or password."]);
     }
     exit;
 }
@@ -184,16 +188,20 @@ if ($action === 'me') {
         exit;
     }
 
-    $stmt = $db->prepare("SELECT id, email, name, avatar FROM users WHERE id = ?");
+    $stmt = $db->prepare("SELECT id, email, username, name, avatar, is_admin, is_service_account FROM users WHERE id = ?");
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
 
     if ($user) {
+        $_SESSION['is_admin'] = (int)($user['is_admin'] ?? 0);
         echo json_encode([
             "id" => $user['id'],
             "email" => $user['email'],
+            "username" => $user['username'] ?? null,
             "name" => $user['name'],
-            "avatar" => $user['avatar']
+            "avatar" => $user['avatar'],
+            "is_admin" => (bool)($user['is_admin'] ?? 0),
+            "is_service_account" => (bool)($user['is_service_account'] ?? 0)
         ]);
     } else {
         http_response_code(401);

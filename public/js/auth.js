@@ -117,7 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         // Update UI if on dashboard
                         const emailEl = document.getElementById('user-email');
-                        if (emailEl) emailEl.textContent = user.email;
+                        if (emailEl) emailEl.textContent = user.email || user.username;
+
+                        const adminLink = document.getElementById('admin-nav-link');
+                        if (adminLink && user.is_admin) {
+                            adminLink.classList.remove('d-none');
+                        }
 
                         // Auto-redirect to dashboard if valid session exists on index
                         if (isIndex) {

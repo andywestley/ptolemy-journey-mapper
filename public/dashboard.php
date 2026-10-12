@@ -63,6 +63,9 @@ include __DIR__ . '/includes/header.php';
                 <span class="save-indicator-dot"></span>
                 <span id="save-text">Saved</span>
             </span>
+            <a href="admin.php" id="admin-nav-link" class="btn btn-outline-primary btn-sm me-2 d-none">
+                <i class="bi bi-shield-lock me-1"></i>Admin
+            </a>
             <button class="btn btn-outline-danger btn-sm" onclick="logout()">
                 <i class="bi bi-box-arrow-right me-1"></i>Logout
             </button>

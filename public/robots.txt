@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /diag.php
+Disallow: /admin.php
 
 Sitemap: https://ptolemy.andrewwestley.co.uk/sitemap.xml
