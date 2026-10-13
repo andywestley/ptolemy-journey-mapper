@@ -26,7 +26,7 @@ if (!$journeyRecord || $journeyRecord['journey_status'] === 'trash') {
 }
 
 // Verify write/read access for user
-$isOwner = ($journeyRecord['owner_id'] === $currentUser['id']);
+$isOwner = ((string)$journeyRecord['owner_id'] === (string)$currentUser['id']);
 $stmtCollab = $db->prepare("SELECT 1 FROM journey_collaborators WHERE journey_id = ? AND user_id = ?");
 $stmtCollab->execute([$journeyId, $currentUser['id']]);
 $isCollaborator = (bool)$stmtCollab->fetch();
@@ -524,9 +524,23 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 </div>
 
+<?php
+$ojfData = is_string($journeyRecord['ojf_data']) ? json_decode($journeyRecord['ojf_data'], true) : $journeyRecord['ojf_data'];
+?>
 <script>
     const INITIAL_JOURNEY_ID = "<?php echo htmlspecialchars($journeyId, ENT_QUOTES, 'UTF-8'); ?>";
     const INITIAL_EDITOR_MODE = "<?php echo htmlspecialchars($initialMode, ENT_QUOTES, 'UTF-8'); ?>";
+    window.currentJourney = <?php echo json_encode([
+        'id' => $journeyRecord['id'],
+        'title' => $journeyRecord['title'],
+        'description' => $journeyRecord['description'],
+        'owner' => (string)$journeyRecord['owner_id'],
+        'folder' => $journeyRecord['folder'],
+        'journey_status' => $journeyRecord['journey_status'],
+        'is_public' => (bool)$journeyRecord['is_public'],
+        'ojf_data' => $ojfData
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+    window.originalOJF = window.currentJourney.ojf_data || {};
 </script>
 
 <?php

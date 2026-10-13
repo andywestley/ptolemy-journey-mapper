@@ -51,16 +51,16 @@ async function loadJourneys(type = null) {
     });
 
     try {
-        const response = await fetch('api/journeys.php');
+        const response = await fetch('/api/journeys.php');
         if (!response.ok) throw new Error('Failed to load journeys');
         const allJourneys = await response.json();
 
         const user = window.currentUser || {};
-        const currentUserId = user.id || '';
+        const currentUserId = user.id ? String(user.id) : '';
 
         const journeys = allJourneys.filter(j => {
-            const isOwner = j.owner === currentUserId;
-            const isCollaborator = Array.isArray(j.collaborators) && j.collaborators.includes(currentUserId);
+            const isOwner = currentUserId ? (String(j.owner) === currentUserId) : (typeToLoad !== 'shared');
+            const isCollaborator = Array.isArray(j.collaborators) && currentUserId && j.collaborators.map(String).includes(currentUserId);
 
             // Tab filter
             if (typeToLoad === 'my') {
@@ -170,16 +170,16 @@ async function loadJourneys(type = null) {
  */
 async function loadFolders() {
     try {
-        const response = await fetch('api/journeys.php');
+        const response = await fetch('/api/journeys.php');
         if (!response.ok) return;
         const allJourneys = await response.json();
 
         const user = window.currentUser || {};
-        const currentUserId = user.id || '';
+        const currentUserId = user.id ? String(user.id) : '';
 
         const journeys = allJourneys.filter(j => {
-            const isOwner = j.owner === currentUserId;
-            const isCollaborator = Array.isArray(j.collaborators) && j.collaborators.includes(currentUserId);
+            const isOwner = currentUserId ? (String(j.owner) === currentUserId) : true;
+            const isCollaborator = Array.isArray(j.collaborators) && currentUserId && j.collaborators.map(String).includes(currentUserId);
             return (isOwner || isCollaborator) && j.journey_status !== 'trash';
         });
 
@@ -245,7 +245,7 @@ async function createNewJourney() {
     };
 
     try {
-        const response = await fetch('api/journeys.php', {
+        const response = await fetch('/api/journeys.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -290,7 +290,7 @@ async function importJourney(input) {
                 });
             }
 
-            const response = await fetch('api/journeys.php', {
+            const response = await fetch('/api/journeys.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -317,7 +317,7 @@ async function moveToTrash(id) {
     if (!confirm('Move this journey to trash?')) return;
     toggleLoading(true);
     try {
-        const res = await fetch(`api/journeys.php?id=${id}`, {
+        const res = await fetch(`/api/journeys.php?id=${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ journey_status: 'trash' })
@@ -334,7 +334,7 @@ async function moveToTrash(id) {
 async function restoreJourney(id) {
     toggleLoading(true);
     try {
-        const res = await fetch(`api/journeys.php?id=${id}`, {
+        const res = await fetch(`/api/journeys.php?id=${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ journey_status: 'active' })
@@ -352,7 +352,7 @@ async function deletePermanently(id) {
     if (!confirm('Permanently delete this journey? This cannot be undone.')) return;
     toggleLoading(true);
     try {
-        const res = await fetch(`api/journeys.php?id=${id}`, { method: 'DELETE' });
+        const res = await fetch(`/api/journeys.php?id=${id}`, { method: 'DELETE' });
         if (!res.ok) throw new Error('Failed to delete journey');
         loadJourneys();
     } catch (err) {
@@ -371,7 +371,7 @@ function promptFolder(id, current) {
 async function updateFolder(id, folder) {
     toggleLoading(true);
     try {
-        const res = await fetch(`api/journeys.php?id=${id}`, {
+        const res = await fetch(`/api/journeys.php?id=${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ folder: folder.trim() })

@@ -41,8 +41,8 @@ function expandJourney($db, $journey) {
     $collaborators = $stmt->fetchAll();
     
     // Format to match PocketBase's structure
-    $journey['owner'] = $journey['owner_id'];
-    $journey['collaborators'] = array_column($collaborators, 'id');
+    $journey['owner'] = (string)$journey['owner_id'];
+    $journey['collaborators'] = array_map('strval', array_column($collaborators, 'id'));
     $journey['is_public'] = (bool)($journey['is_public'] ?? 0);
     
     $journey['expand'] = [
@@ -65,7 +65,7 @@ function hasJourneyAccess($db, $journeyId, $userId, $requireWrite = false) {
     $journey = $stmt->fetch();
     if (!$journey) return false;
     
-    if ($journey['owner_id'] === $userId) return true;
+    if ((string)$journey['owner_id'] === (string)$userId) return true;
     
     // Check if collaborator
     $stmt = $db->prepare("SELECT 1 FROM journey_collaborators WHERE journey_id = ? AND user_id = ?");
@@ -278,7 +278,7 @@ if ($method === 'DELETE') {
         exit;
     }
     
-    if ($journey['owner_id'] !== $currentUserId) {
+    if ((string)$journey['owner_id'] !== (string)$currentUserId) {
         http_response_code(403);
         echo json_encode(["error" => "Only the owner can delete this journey"]);
         exit;

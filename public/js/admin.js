@@ -58,7 +58,7 @@ async function loadUsers() {
     tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border text-primary spinner-border-sm me-2"></div>Loading users...</td></tr>';
 
     try {
-        const response = await fetch('api/users.php');
+        const response = await fetch('/api/users.php');
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.error || 'Failed to load users');
@@ -240,7 +240,7 @@ async function handleCreateUser(e) {
     };
 
     try {
-        const res = await fetch('api/users.php', {
+        const res = await fetch('/api/users.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -305,7 +305,7 @@ async function handleEditUser(e) {
     };
 
     try {
-        const res = await fetch(`api/users.php?id=${encodeURIComponent(userId)}`, {
+        const res = await fetch(`/api/users.php?id=${encodeURIComponent(userId)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -345,7 +345,7 @@ async function handleResetPassword(e) {
     const password = document.getElementById('reset-password').value;
 
     try {
-        const res = await fetch(`api/users.php?id=${encodeURIComponent(userId)}`, {
+        const res = await fetch(`/api/users.php?id=${encodeURIComponent(userId)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
@@ -437,7 +437,7 @@ async function deleteUser(userId, userName) {
     }
 
     try {
-        const res = await fetch(`api/users.php?id=${encodeURIComponent(userId)}`, {
+        const res = await fetch(`/api/users.php?id=${encodeURIComponent(userId)}`, {
             method: 'DELETE'
         });
         const data = await res.json();

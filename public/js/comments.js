@@ -86,7 +86,7 @@ async function saveComment() {
             data.nodeId = nodeId;
         }
 
-        const response = await fetch('api/comments.php', {
+        const response = await fetch('/api/comments.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -107,7 +107,7 @@ async function loadComments() {
     if (!currentJourney) return;
 
     try {
-        const response = await fetch(`api/comments.php?journey_id=${currentJourney.id}`);
+        const response = await fetch(`/api/comments.php?journey_id=${currentJourney.id}`);
         if (!response.ok) throw new Error('Failed to load comments');
         const comments = await response.json();
 
@@ -218,7 +218,7 @@ async function saveReply() {
             data.nodeId = parent.nodeId;
         }
 
-        const replyResponse = await fetch('api/comments.php', {
+        const replyResponse = await fetch('/api/comments.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -227,13 +227,13 @@ async function saveReply() {
 
         const isResolving = document.getElementById('reply-resolve').checked;
         if (isResolving && !parent.resolved) {
-            await fetch(`api/comments.php?id=${parentId}`, {
+            await fetch(`/api/comments.php?id=${parentId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resolved: true })
             });
         } else if (!isResolving && parent.resolved) {
-            await fetch(`api/comments.php?id=${parentId}`, {
+            await fetch(`/api/comments.php?id=${parentId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resolved: false })

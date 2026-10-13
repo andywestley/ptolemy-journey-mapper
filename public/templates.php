@@ -45,7 +45,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-mortarboard fs-3 text-primary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Learn how to use Ptolemy interactively by exploring a map that explains how to build a map. Highly recommended for first-time users.</p>
-                    <button class="btn btn-primary w-100" onclick="importTemplate('samples/self-guided-tutorial.ojf')">
+                    <button class="btn btn-primary w-100" onclick="importTemplate('/samples/self-guided-tutorial.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -61,7 +61,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-buildings fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A complex enterprise procurement journey involving multiple stakeholders, security reviews, and vendor touchpoints.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('samples/b2b-software-purchase.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/b2b-software-purchase.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -77,7 +77,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-box-seam fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A negative friction flow demonstrating how an unhappy path (returning a broken item) is tracked with low Emotion scores and pain point tags.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('samples/ecommerce-return.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-return.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -93,7 +93,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-cart-check fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A happy-path flow for a high-end product purchase, from initial discovery to onboarding.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('samples/ecommerce-purchase.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-purchase.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -109,7 +109,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-headset fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A service-focused journey documenting a support interaction for a technical hardware issue.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('samples/customer-support.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/customer-support.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -125,7 +125,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-calendar-event fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Tracking travel logistics and registration for an international conference.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('samples/event-booking.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/event-booking.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -141,7 +141,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-diagram-3 fs-3 text-info"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A multi-layered service blueprint demonstrating Frontstage/Backstage actions and Physical Evidence for a luxury hotel arrival.</p>
-                    <button class="btn btn-info text-white w-100" onclick="importTemplate('samples/hotel-check-in-blueprint.ojf')">
+                    <button class="btn btn-info text-white w-100" onclick="importTemplate('/samples/hotel-check-in-blueprint.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -157,7 +157,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-hospital fs-3 text-success"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A healthcare service blueprint focusing on clinical triage, backstage record management, and EMR support systems.</p>
-                    <button class="btn btn-success text-white w-100" onclick="importTemplate('samples/clinic-visit-blueprint.ojf')">
+                    <button class="btn btn-success text-white w-100" onclick="importTemplate('/samples/clinic-visit-blueprint.ojf')">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>

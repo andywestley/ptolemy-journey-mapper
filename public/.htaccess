@@ -5,6 +5,9 @@ DirectoryIndex index.php index.html
 Options -MultiViews
 Options -Indexes
 
+# Serve OpenJourney Format files as JSON
+AddType application/json .ojf
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 

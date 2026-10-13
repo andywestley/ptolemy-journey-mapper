@@ -2,6 +2,11 @@
  * Ptolemy Workspace Actions & Editor Controllers (Stages, Swimlanes, Nodes, Exporters)
  */
 
+let currentJourney = window.currentJourney || null;
+let originalOJF = window.originalOJF || {};
+let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+let blueprintMode = false;
+
 // Auto-save logic definition
 const triggerAutoSave = debounce(async () => {
     if (!currentJourney) return;
@@ -23,7 +28,7 @@ const triggerAutoSave = debounce(async () => {
                 pointOfView: document.getElementById('editor-pov').value
             }
         };
-        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+        const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedData)
@@ -472,7 +477,7 @@ async function saveJourney() {
     };
 
     try {
-        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+        const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedData)
@@ -524,7 +529,7 @@ async function togglePublicShare(isPublic) {
     if (!currentJourney) return;
     toggleLoading(true);
     try {
-        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+        const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ is_public: isPublic ? 1 : 0 })
@@ -599,7 +604,7 @@ async function addCollaborator() {
 
     toggleLoading(true);
     try {
-        const userRes = await fetch(`api/auth.php?action=search&email=${encodeURIComponent(email)}`);
+        const userRes = await fetch(`/api/auth.php?action=search&email=${encodeURIComponent(email)}`);
         if (!userRes.ok) throw new Error('User not found');
         const user = await userRes.json();
 
@@ -612,7 +617,7 @@ async function addCollaborator() {
 
         const updatedCollaborators = [...currentIds, user.id];
 
-        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+        const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ collaborators: updatedCollaborators })
@@ -644,7 +649,7 @@ async function removeCollaborator(userId) {
         const currentIds = currentJourney.collaborators || [];
         const updatedCollaborators = currentIds.filter(id => id !== userId);
 
-        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+        const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ collaborators: updatedCollaborators })
@@ -1056,7 +1061,7 @@ async function importJourney(input) {
                     return node;
                 });
             }
-            const response = await fetch('api/journeys.php', {
+            const response = await fetch('/api/journeys.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1097,7 +1102,8 @@ async function importTemplate(url) {
 
     toggleLoading(true);
     try {
-        const response = await fetch(url);
+        const fetchUrl = url.startsWith('/') ? url : '/' + url;
+        const response = await fetch(fetchUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1121,7 +1127,7 @@ async function importTemplate(url) {
         const templateName = url.split('/').pop().replace('.ojf', '').replace(/-/g, ' ');
         const formattedTitle = templateName.replace(/\b\w/g, l => l.toUpperCase());
 
-        const saveResponse = await fetch('api/journeys.php', {
+        const saveResponse = await fetch('/api/journeys.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1131,7 +1137,10 @@ async function importTemplate(url) {
                 ojf_data: data
             })
         });
-        if (!saveResponse.ok) throw new Error('Failed to import template');
+        if (!saveResponse.ok) {
+            const errData = await saveResponse.json().catch(() => ({}));
+            throw new Error(errData.error || 'Failed to import template');
+        }
         const record = await saveResponse.json();
 
         alert('Template imported successfully!');
@@ -1163,9 +1172,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadEditorJourney(id, initialMode = 'table') {
     toggleLoading(true);
     try {
-        const response = await fetch(`api/journeys.php?id=${id}`);
-        if (!response.ok) throw new Error('Failed to load journey');
-        currentJourney = await response.json();
+        let record = null;
+        if (window.currentJourney && String(window.currentJourney.id) === String(id)) {
+            record = window.currentJourney;
+        } else {
+            const response = await fetch(`/api/journeys.php?id=${id}`);
+            if (!response.ok) throw new Error('Failed to load journey');
+            record = await response.json();
+        }
+        currentJourney = record;
+        window.currentJourney = record;
 
         const titleEl = document.getElementById('editor-title');
         if (titleEl) titleEl.value = currentJourney.title;
@@ -1178,9 +1194,12 @@ async function loadEditorJourney(id, initialMode = 'table') {
 
         originalOJF = JSON.parse(JSON.stringify(currentJourney.ojf_data || {}));
         if (!originalOJF.nodes) originalOJF.nodes = [];
+        window.originalOJF = originalOJF;
 
         sanitizeOJFIds(originalOJF);
 
+        activeEditorMode = initialMode;
+        window.activeEditorMode = initialMode;
         const modeRadio = document.getElementById(`mode-${initialMode}`);
         if (modeRadio) modeRadio.checked = true;
         switchEditorMode(initialMode);
@@ -1189,9 +1208,18 @@ async function loadEditorJourney(id, initialMode = 'table') {
             loadComments();
         }
 
-        if (titleEl) titleEl.addEventListener('input', () => triggerAutoSave());
-        if (personaEl) personaEl.addEventListener('input', () => triggerAutoSave());
-        if (povEl) povEl.addEventListener('input', () => triggerAutoSave());
+        if (titleEl && !titleEl.dataset.bound) {
+            titleEl.dataset.bound = 'true';
+            titleEl.addEventListener('input', () => triggerAutoSave());
+        }
+        if (personaEl && !personaEl.dataset.bound) {
+            personaEl.dataset.bound = 'true';
+            personaEl.addEventListener('input', () => triggerAutoSave());
+        }
+        if (povEl && !povEl.dataset.bound) {
+            povEl.dataset.bound = 'true';
+            povEl.addEventListener('input', () => triggerAutoSave());
+        }
 
     } catch (err) {
         console.error('Failed to load journey:', err);

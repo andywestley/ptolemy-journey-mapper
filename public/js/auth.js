@@ -3,16 +3,19 @@
  */
 
 // Global User State
-window.currentUser = null;
-
-// Initialize from LocalStorage cache
-const cachedUser = localStorage.getItem('ptolemy_user');
-if (cachedUser) {
-    try {
-        window.currentUser = JSON.parse(cachedUser);
-    } catch (e) {
-        localStorage.removeItem('ptolemy_user');
+if (!window.currentUser) {
+    const cachedUser = localStorage.getItem('ptolemy_user');
+    if (cachedUser) {
+        try {
+            window.currentUser = JSON.parse(cachedUser);
+        } catch (e) {
+            localStorage.removeItem('ptolemy_user');
+        }
     }
+} else {
+    try {
+        localStorage.setItem('ptolemy_user', JSON.stringify(window.currentUser));
+    } catch (e) {}
 }
 
 /**
@@ -21,7 +24,7 @@ if (cachedUser) {
 async function handleLogin(email, password) {
     try {
         const cleanIdent = (email || '').trim();
-        const response = await fetch('api/auth.php?action=login', {
+        const response = await fetch('/api/auth.php?action=login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
@@ -51,7 +54,7 @@ async function handleLogin(email, password) {
  */
 async function handleRegister(email, password, passwordConfirm, inviteToken, name) {
     try {
-        const response = await fetch('api/auth.php?action=register', {
+        const response = await fetch('/api/auth.php?action=register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -83,7 +86,7 @@ async function handleRegister(email, password, passwordConfirm, inviteToken, nam
  */
 async function logout() {
     try {
-        await fetch('api/auth.php?action=logout', { method: 'POST' });
+        await fetch('/api/auth.php?action=logout', { method: 'POST' });
     } catch (err) {
         console.error('Logout API error:', err);
     }
@@ -110,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Validate session with backend
     if (window.currentUser) {
-        fetch('api/auth.php?action=me')
+        fetch('/api/auth.php?action=me')
             .then(res => {
                 if (!res.ok) {
                     window.currentUser = null;

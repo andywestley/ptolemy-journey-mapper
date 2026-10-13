@@ -2,6 +2,16 @@
  * Ptolemy Shared Utilities & UI Controllers
  */
 
+let autoSaveTimer = null;
+let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+
+function toggleLoading(show) {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.style.display = show ? 'flex' : 'none';
+    }
+}
+
 const colors = [
     '#ffffff', // Default White
     '#f8fafc', // Slate
@@ -112,6 +122,8 @@ function switchView(viewId) {
  * Editor mode switcher (Visual vs Table)
  */
 function switchEditorMode(mode) {
+    activeEditorMode = mode;
+    window.activeEditorMode = mode;
     const tableView = document.getElementById('table-editor-view');
     const visualView = document.getElementById('visual-map-view');
     const feedbackMenuItem = document.getElementById('menu-item-feedback');

@@ -21,7 +21,7 @@ async function loadInvites() {
     list.innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
 
     try {
-        const response = await fetch('api/invites.php');
+        const response = await fetch('/api/invites.php');
         if (!response.ok) throw new Error('Failed to fetch invites');
         const invites = await response.json();
 
@@ -70,7 +70,7 @@ async function generateInvite() {
         .join('');
 
     try {
-        const response = await fetch('api/invites.php', {
+        const response = await fetch('/api/invites.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: token })
@@ -91,7 +91,7 @@ async function deleteInvite(id) {
     if (!confirm('Delete this unused invite?')) return;
     toggleLoading(true);
     try {
-        const response = await fetch(`api/invites.php?id=${id}`, {
+        const response = await fetch(`/api/invites.php?id=${id}`, {
             method: 'DELETE'
         });
         if (!response.ok) {
