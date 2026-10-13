@@ -49,6 +49,8 @@ if ($isCli) {
     $destFileName = isset($_GET['dest']) ? basename($_GET['dest']) : 'sitemap.xml';
 }
 
+require_once __DIR__ . '/../config/db_connect.php';
+
 // Public crawlable pages
 $pages = [
     [
@@ -64,6 +66,27 @@ $pages = [
         'priority' => '0.8'
     ]
 ];
+
+// Dynamically include publicly shared journey maps
+try {
+    $db = getDBConnection(false);
+    if ($db) {
+        $stmt = $db->query("SELECT id, updated_at, created_at FROM journeys WHERE is_public = 1 AND journey_status != 'trash' ORDER BY updated_at DESC");
+        $publicJourneys = $stmt->fetchAll();
+        foreach ($publicJourneys as $pj) {
+            $dateSource = !empty($pj['updated_at']) ? $pj['updated_at'] : ($pj['created_at'] ?? null);
+            $lastmod = !empty($dateSource) ? date('Y-m-d', strtotime($dateSource)) : date('Y-m-d');
+            $pages[] = [
+                'path' => '/share/' . rawurlencode($pj['id']) . '/',
+                'lastmod' => $lastmod,
+                'changefreq' => 'weekly',
+                'priority' => '0.8'
+            ];
+        }
+    }
+} catch (Exception $e) {
+    error_log("Sitemap public journeys query error: " . $e->getMessage());
+}
 
 // Include authenticated app routes if requested for audit tools
 if ($includeAuth) {
@@ -102,7 +125,13 @@ foreach ($pages as $page) {
     $urlElement->appendChild($xml->createElement('loc', htmlspecialchars($loc, ENT_XML1, 'UTF-8')));
 
     // Last modified
-    $lastmodDate = file_exists($page['file']) ? date('Y-m-d', filemtime($page['file'])) : date('Y-m-d');
+    if (isset($page['lastmod'])) {
+        $lastmodDate = $page['lastmod'];
+    } elseif (isset($page['file']) && file_exists($page['file'])) {
+        $lastmodDate = date('Y-m-d', filemtime($page['file']));
+    } else {
+        $lastmodDate = date('Y-m-d');
+    }
     $urlElement->appendChild($xml->createElement('lastmod', $lastmodDate));
 
     // Change frequency

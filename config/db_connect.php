@@ -9,7 +9,7 @@ require_once __DIR__ . '/database.php';
 /**
  * Returns a PDO connection instance
  */
-function getDBConnection() {
+function getDBConnection($exitOnError = true) {
     static $pdo = null;
     if ($pdo === null) {
         try {
@@ -26,9 +26,12 @@ function getDBConnection() {
             ensureSchemaUpToDate($pdo);
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
-            http_response_code(500);
-            echo json_encode(["error" => "Database connection error."]);
-            exit;
+            if ($exitOnError) {
+                http_response_code(500);
+                echo json_encode(["error" => "Database connection error."]);
+                exit;
+            }
+            return null;
         }
     }
     return $pdo;
