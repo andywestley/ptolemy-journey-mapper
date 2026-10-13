@@ -1,47 +1,50 @@
 # Ensure index.php is used as the default directory index
 DirectoryIndex index.php index.html
 
+# Prevent MultiViews from intercepting clean URLs before mod_rewrite
+Options -MultiViews
+Options -Indexes
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
 
-    # Allow actual files and directories to be accessed directly
+    # Sitemap rule
+    RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
+
+    # Clean App Routes
+    RewriteRule ^about/?$ about.php [L,QSA]
+    RewriteRule ^admin/?$ admin.php [L,QSA]
+    RewriteRule ^templates/?$ templates.php [L,QSA]
+    RewriteRule ^invites/?$ invites.php [L,QSA]
+    RewriteRule ^logout/?$ api/auth.php?action=logout [L,QSA]
+
+    # Dashboard Routes (specific sub-routes first)
+    RewriteRule ^dashboard/shared/?$ dashboard.php?tab=shared [L,QSA]
+    RewriteRule ^dashboard/trash/?$ dashboard.php?tab=trash [L,QSA]
+    RewriteRule ^dashboard/folder/([^/]+)/?$ dashboard.php?folder=$1 [L,QSA]
+    RewriteRule ^dashboard/?$ dashboard.php?tab=my [L,QSA]
+
+    # Journey Editor Routes (specific sub-routes first)
+    RewriteRule ^journeys/?$ dashboard.php?tab=my [L,QSA]
+    RewriteRule ^journey/([^/]+)/visual/?$ editor.php?id=$1&mode=visual [L,QSA]
+    RewriteRule ^journey/([^/]+)/table/?$ editor.php?id=$1&mode=table [L,QSA]
+    RewriteRule ^journey/([^/]+)/?$ editor.php?id=$1 [L,QSA]
+
+    # Public Share Routes
+    RewriteRule ^share/([^/]+)/?$ share.php?id=$1 [L,QSA]
+    RewriteRule ^view/([^/]+)/?$ share.php?id=$1 [L,QSA]
+
+    # Allow actual physical files and directories to be accessed directly (fall-through)
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
-
-    # Sitemap rule
-    RewriteRule ^sitemap\.xml$ sitemap.php [QSA,L]
-
-    # Clean App Routes
-    RewriteRule ^about/?$ about.php [L]
-    RewriteRule ^admin/?$ admin.php [L]
-    RewriteRule ^templates/?$ templates.php [L]
-    RewriteRule ^invites/?$ invites.php [L]
-    RewriteRule ^logout/?$ api/auth.php?action=logout [L]
-
-    # Dashboard Routes
-    RewriteRule ^dashboard/?$ dashboard.php?tab=my [QSA,L]
-    RewriteRule ^dashboard/shared/?$ dashboard.php?tab=shared [QSA,L]
-    RewriteRule ^dashboard/trash/?$ dashboard.php?tab=trash [QSA,L]
-    RewriteRule ^dashboard/folder/([^/]+)/?$ dashboard.php?folder=$1 [QSA,L]
-
-    # Journey Editor Routes
-    RewriteRule ^journeys/?$ dashboard.php?tab=my [QSA,L]
-    RewriteRule ^journey/([^/]+)/?$ editor.php?id=$1 [QSA,L]
-    RewriteRule ^journey/([^/]+)/visual/?$ editor.php?id=$1&mode=visual [QSA,L]
-    RewriteRule ^journey/([^/]+)/table/?$ editor.php?id=$1&mode=table [QSA,L]
-
-    # Public Share Routes
-    RewriteRule ^share/([^/]+)/?$ share.php?id=$1 [QSA,L]
-    RewriteRule ^view/([^/]+)/?$ share.php?id=$1 [QSA,L]
 </IfModule>
 
 # Security Headers (OWASP Hardening)
 <IfModule mod_headers.c>
-    Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set X-XSS-Protection "1; mode=block"
-    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 </IfModule>
