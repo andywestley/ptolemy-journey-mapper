@@ -27,6 +27,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
+    <base href="/">
+
     <title><?php echo isset($pageTitle) ? $pageTitle . " | Ptolemy" : "Ptolemy - the OpenJourney editor"; ?></title>
     <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : "Ptolemy - collaborative open journey mapping tool"; ?>">
 
@@ -48,12 +50,12 @@ if (!function_exists('loadCssAsset')) {
         $cssDir = __DIR__ . '/../css/';
         if (file_exists($cssDir . $minFile)) {
             $v = filemtime($cssDir . $minFile);
-            return 'css/' . $minFile . '?v=' . $v;
+            return '/css/' . $minFile . '?v=' . $v;
         } elseif (file_exists($cssDir . $rawFile)) {
             $v = filemtime($cssDir . $rawFile);
-            return 'css/' . $rawFile . '?v=' . $v;
+            return '/css/' . $rawFile . '?v=' . $v;
         }
-        return 'css/' . $file;
+        return '/css/' . $file;
     }
 }
 ?>

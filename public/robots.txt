@@ -3,5 +3,6 @@ Allow: /
 Disallow: /api/
 Disallow: /diag.php
 Disallow: /admin.php
+Disallow: /admin/
 
 Sitemap: https://ptolemy.andrewwestley.co.uk/sitemap.xml

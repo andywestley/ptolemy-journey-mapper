@@ -3,7 +3,38 @@ DirectoryIndex index.php index.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
+
+    # Allow actual files and directories to be accessed directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Sitemap rule
     RewriteRule ^sitemap\.xml$ sitemap.php [QSA,L]
+
+    # Clean App Routes
+    RewriteRule ^about/?$ about.php [L]
+    RewriteRule ^admin/?$ admin.php [L]
+    RewriteRule ^templates/?$ templates.php [L]
+    RewriteRule ^invites/?$ invites.php [L]
+    RewriteRule ^logout/?$ api/auth.php?action=logout [L]
+
+    # Dashboard Routes
+    RewriteRule ^dashboard/?$ dashboard.php?tab=my [QSA,L]
+    RewriteRule ^dashboard/shared/?$ dashboard.php?tab=shared [QSA,L]
+    RewriteRule ^dashboard/trash/?$ dashboard.php?tab=trash [QSA,L]
+    RewriteRule ^dashboard/folder/([^/]+)/?$ dashboard.php?folder=$1 [QSA,L]
+
+    # Journey Editor Routes
+    RewriteRule ^journeys/?$ dashboard.php?tab=my [QSA,L]
+    RewriteRule ^journey/([^/]+)/?$ editor.php?id=$1 [QSA,L]
+    RewriteRule ^journey/([^/]+)/visual/?$ editor.php?id=$1&mode=visual [QSA,L]
+    RewriteRule ^journey/([^/]+)/table/?$ editor.php?id=$1&mode=table [QSA,L]
+
+    # Public Share Routes
+    RewriteRule ^share/([^/]+)/?$ share.php?id=$1 [QSA,L]
+    RewriteRule ^view/([^/]+)/?$ share.php?id=$1 [QSA,L]
 </IfModule>
 
 # Security Headers (OWASP Hardening)

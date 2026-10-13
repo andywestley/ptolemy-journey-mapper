@@ -67,6 +67,12 @@ function ensureSchemaUpToDate($pdo) {
         if ($emailCol && strtoupper($emailCol['Null']) === 'NO') {
             $pdo->exec("ALTER TABLE users MODIFY COLUMN email VARCHAR(255) NULL");
         }
+
+        // 5. is_public column on journeys table
+        $cols = $pdo->query("SHOW COLUMNS FROM journeys LIKE 'is_public'")->fetchAll();
+        if (empty($cols)) {
+            $pdo->exec("ALTER TABLE journeys ADD COLUMN is_public TINYINT(1) DEFAULT 0 AFTER journey_status");
+        }
     } catch (Exception $e) {
         error_log("Schema auto-update notice: " . $e->getMessage());
     }

@@ -58,7 +58,7 @@ $pages = [
         'priority' => '1.0'
     ],
     [
-        'path' => '/about.php',
+        'path' => '/about/',
         'file' => __DIR__ . '/about.php',
         'changefreq' => 'monthly',
         'priority' => '0.8'
@@ -68,10 +68,22 @@ $pages = [
 // Include authenticated app routes if requested for audit tools
 if ($includeAuth) {
     $pages[] = [
-        'path' => '/dashboard.php',
+        'path' => '/dashboard/',
         'file' => __DIR__ . '/dashboard.php',
         'changefreq' => 'weekly',
         'priority' => '0.9'
+    ];
+    $pages[] = [
+        'path' => '/templates/',
+        'file' => __DIR__ . '/templates.php',
+        'changefreq' => 'monthly',
+        'priority' => '0.7'
+    ];
+    $pages[] = [
+        'path' => '/invites/',
+        'file' => __DIR__ . '/invites.php',
+        'changefreq' => 'monthly',
+        'priority' => '0.6'
     ];
 }
 

@@ -12,12 +12,12 @@
             $jsDir = __DIR__ . '/../js/';
             if (file_exists($jsDir . $minFile)) {
                 $v = filemtime($jsDir . $minFile);
-                return 'js/' . $minFile . '?v=' . $v;
+                return '/js/' . $minFile . '?v=' . $v;
             } elseif (file_exists($jsDir . $rawFile)) {
                 $v = filemtime($jsDir . $rawFile);
-                return 'js/' . $rawFile . '?v=' . $v;
+                return '/js/' . $rawFile . '?v=' . $v;
             }
-            return 'js/' . $file;
+            return '/js/' . $file;
         }
     }
     ?>

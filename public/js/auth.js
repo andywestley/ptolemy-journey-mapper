@@ -39,7 +39,7 @@ async function handleLogin(email, password) {
 
         window.currentUser = data;
         localStorage.setItem('ptolemy_user', JSON.stringify(data));
-        window.location.href = 'dashboard.php';
+        window.location.href = '/dashboard/';
     } catch (err) {
         console.error('Login error:', err);
         throw err;
@@ -71,7 +71,7 @@ async function handleRegister(email, password, passwordConfirm, inviteToken, nam
         // Auto log in after registration
         window.currentUser = data;
         localStorage.setItem('ptolemy_user', JSON.stringify(data));
-        window.location.href = 'dashboard.php';
+        window.location.href = '/dashboard/';
     } catch (err) {
         console.error('Registration error:', err);
         throw err;
@@ -89,24 +89,24 @@ async function logout() {
     }
     window.currentUser = null;
     localStorage.removeItem('ptolemy_user');
-    window.location.href = 'index.php';
+    window.location.href = '/';
 }
 
 /**
  * Auth Guard
  */
 function checkAuth() {
-    const isIndex = window.location.pathname.endsWith('index.php') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+    const isIndex = window.location.pathname === '/' || window.location.pathname.endsWith('/index.php') || window.location.pathname === '';
     if (!window.currentUser && !isIndex) {
-        window.location.href = 'index.php';
+        window.location.href = '/';
     } else if (window.currentUser && isIndex) {
-        window.location.href = 'dashboard.php';
+        window.location.href = '/dashboard/';
     }
 }
 
 // Session validation and form listeners
 document.addEventListener('DOMContentLoaded', () => {
-    const isIndex = window.location.pathname.endsWith('index.php') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+    const isIndex = window.location.pathname === '/' || window.location.pathname.endsWith('/index.php') || window.location.pathname === '';
 
     // Validate session with backend
     if (window.currentUser) {
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!res.ok) {
                     window.currentUser = null;
                     localStorage.removeItem('ptolemy_user');
-                    if (!isIndex) window.location.href = 'index.php';
+                    if (!isIndex) window.location.href = '/';
                 } else {
                     res.json().then(user => {
                         window.currentUser = user;
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Auto-redirect to dashboard if valid session exists on index
                         if (isIndex) {
-                            window.location.href = 'dashboard.php';
+                            window.location.href = '/dashboard/';
                         }
                     });
                 }
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(() => {
                 window.currentUser = null;
                 localStorage.removeItem('ptolemy_user');
-                if (!isIndex) window.location.href = 'index.php';
+                if (!isIndex) window.location.href = '/';
             });
     }
 

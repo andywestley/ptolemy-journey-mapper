@@ -117,14 +117,14 @@ include __DIR__ . '/includes/header.php';
 <!-- Top Admin Navigation -->
 <nav class="navbar navbar-expand-lg navbar-admin sticky-top">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+        <a class="navbar-brand d-flex align-items-center" href="/dashboard/">
             <i class="bi bi-map-fill me-2 text-primary"></i>
             <span class="fw-bold">Ptolemy</span>
             <span class="badge bg-primary ms-2 fs-7">Admin</span>
         </a>
 
         <div class="ms-auto d-flex align-items-center">
-            <a href="dashboard.php" class="btn btn-outline-secondary btn-sm me-3">
+            <a href="/dashboard/" class="btn btn-outline-secondary btn-sm me-3">
                 <i class="bi bi-arrow-left me-1"></i>Back to App
             </a>
             <span class="me-3 text-muted small d-none d-md-inline">

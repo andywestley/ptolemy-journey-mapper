@@ -10,10 +10,15 @@ function renderVisualMap() {
     const stages = originalOJF.stages || [];
     const swimlanes = originalOJF.swimlanes || [];
     const nodes = originalOJF.nodes || [];
+    const isReadOnly = !!window.isReadOnly;
 
     // Define grid structure
-    // Column 1 is for Swimlanes (200px), others for Stages (300px), last for Add Stage (50px)
-    grid.style.gridTemplateColumns = `200px repeat(${stages.length}, 300px) 50px`;
+    // Column 1 is for Swimlanes (200px), others for Stages (300px), last for Add Stage (50px, if editable)
+    if (isReadOnly) {
+        grid.style.gridTemplateColumns = `200px repeat(${stages.length}, 300px)`;
+    } else {
+        grid.style.gridTemplateColumns = `200px repeat(${stages.length}, 300px) 50px`;
+    }
 
     // 1. Top-Left spacer
     const spacer = document.createElement('div');
@@ -24,17 +29,23 @@ function renderVisualMap() {
     stages.forEach((stage, idx) => {
         const head = document.createElement('div');
         head.className = 'grid-header-stage';
-        head.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${escapeHtml(stage.name)}</span>`;
+        if (isReadOnly) {
+            head.innerHTML = `<span class="editable-header-text fw-bold">${escapeHtml(stage.name)}</span>`;
+        } else {
+            head.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${escapeHtml(stage.name)}</span>`;
+        }
         grid.appendChild(head);
     });
 
-    // 2b. Add Stage Button Header
-    const addStageHead = document.createElement('div');
-    addStageHead.className = 'grid-header-stage-add';
-    addStageHead.innerHTML = '<i class="bi bi-plus-lg"></i>';
-    addStageHead.title = "Add Stage";
-    addStageHead.onclick = () => addStage();
-    grid.appendChild(addStageHead);
+    // 2b. Add Stage Button Header (only if editable)
+    if (!isReadOnly) {
+        const addStageHead = document.createElement('div');
+        addStageHead.className = 'grid-header-stage-add';
+        addStageHead.innerHTML = '<i class="bi bi-plus-lg"></i>';
+        addStageHead.title = "Add Stage";
+        addStageHead.onclick = () => addStage();
+        grid.appendChild(addStageHead);
+    }
 
     // 2c. Sentiment Row (Dedicated space for curve)
     const sentimentHeader = document.createElement('div');
@@ -49,16 +60,22 @@ function renderVisualMap() {
         grid.appendChild(cell);
     });
 
-    const sentimentEndSpacer = document.createElement('div');
-    sentimentEndSpacer.className = 'grid-cell-empty';
-    grid.appendChild(sentimentEndSpacer);
+    if (!isReadOnly) {
+        const sentimentEndSpacer = document.createElement('div');
+        sentimentEndSpacer.className = 'grid-cell-empty';
+        grid.appendChild(sentimentEndSpacer);
+    }
 
     // 3. Rows
     swimlanes.forEach((swimlane, idx) => {
         // Swimlane Header (Left Column)
         const sHead = document.createElement('div');
         sHead.className = 'grid-header-swimlane';
-        sHead.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${escapeHtml(swimlane.name)}</span>`;
+        if (isReadOnly) {
+            sHead.innerHTML = `<span class="editable-header-text fw-bold">${escapeHtml(swimlane.name)}</span>`;
+        } else {
+            sHead.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${escapeHtml(swimlane.name)}</span>`;
+        }
         grid.appendChild(sHead);
 
         // Grid Cells for this row
@@ -68,20 +85,22 @@ function renderVisualMap() {
             cell.dataset.stageId = stage.id;
             cell.dataset.swimlaneId = swimlane.id;
 
-            // Drag & Drop for Cell
-            cell.ondragover = (e) => handleCellDragOver(e);
-            cell.ondragleave = (e) => handleCellDragLeave(e);
-            cell.ondrop = (e) => handleNodeDrop(e, stage.id, swimlane.id);
+            // Drag & Drop for Cell (editable only)
+            if (!isReadOnly) {
+                cell.ondragover = (e) => handleCellDragOver(e);
+                cell.ondragleave = (e) => handleCellDragLeave(e);
+                cell.ondrop = (e) => handleNodeDrop(e, stage.id, swimlane.id);
 
-            // Add Node Button (Hover)
-            const addBtn = document.createElement('button');
-            addBtn.className = 'add-node-btn';
-            addBtn.innerHTML = '<i class="bi bi-plus"></i>';
-            addBtn.onclick = (e) => {
-                e.stopPropagation();
-                openNodeModal(null, stage.id, swimlane.id);
-            };
-            cell.appendChild(addBtn);
+                // Add Node Button (Hover)
+                const addBtn = document.createElement('button');
+                addBtn.className = 'add-node-btn';
+                addBtn.innerHTML = '<i class="bi bi-plus"></i>';
+                addBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    openNodeModal(null, stage.id, swimlane.id);
+                };
+                cell.appendChild(addBtn);
+            }
 
             // Find nodes for this intersection
             const cellNodes = nodes.filter(n => n.stageId === stage.id && n.swimlaneId === swimlane.id);
@@ -93,83 +112,82 @@ function renderVisualMap() {
                 card.dataset.nodeTitle = node.title || 'Untitled Node';
                 if (node.isMomentOfTruth) card.classList.add('moment-of-truth');
                 card.setAttribute('tabindex', '0');
-                card.setAttribute('draggable', 'true'); // Make draggable
+                if (!isReadOnly) {
+                    card.setAttribute('draggable', 'true');
+                    card.ondragstart = (e) => handleNodeDragStart(e, node.id);
+                }
                 card.onclick = (e) => {
-                    if (window.feedbackMode) return; // Let it bubble up to the grid click handler
+                    if (window.feedbackMode) return;
                     openNodeModal(node.id);
                 };
 
-                // Apply background theme
-                if (node.iconColor) {
-                    card.style.backgroundColor = node.iconColor;
+                // Node content rendering
+                let scoreHTML = '';
+                if (node.score !== undefined && node.score !== null) {
+                    const val = Number(node.score);
+                    const pillClass = val > 0 ? 'score-pill-pos' : val < 0 ? 'score-pill-neg' : 'score-pill-zero';
+                    scoreHTML = `<span class="score-pill ${pillClass}">${val > 0 ? '+' : ''}${val}</span>`;
                 }
 
-                // Drag & Drop for Card
-                card.ondragstart = (e) => handleNodeDragStart(e, node.id);
-                card.ondragend = (e) => e.currentTarget.classList.remove('dragging');
-
-                let cardHTML = '';
-                if (node.isMomentOfTruth) {
-                    cardHTML += '<div class="moment-of-truth-badge"><i class="bi bi-star-fill"></i></div>';
+                let sentimentHTML = '';
+                if (node.sentiment) {
+                    const iconName = SENTIMENT_ICONS[node.sentiment] || 'emoji-smile';
+                    sentimentHTML = `<i class="bi bi-${iconName} sentiment-icon" title="Sentiment: ${escapeHtml(node.sentiment)}"></i>`;
                 }
 
-                // Determine icon: custom > sentiment > purpose
-                const displayIcon = node.icon || SENTIMENT_ICONS[node.sentiment] || PURPOSE_ICONS[node.purpose];
-
-                cardHTML += `<div class="d-flex align-items-baseline mb-1">`;
-                if (displayIcon) {
-                    cardHTML += `<i class="bi bi-${escapeHtml(displayIcon)} me-2"></i>`;
-                }
-                cardHTML += `<div class="fw-bold">${escapeHtml(node.title || 'Untitled Node')}</div>`;
-                cardHTML += `</div>`;
-
-                cardHTML += `<div class="text-muted small mb-2">${escapeHtml(node.description || '')}</div>`;
-
-                cardHTML += `<div class="d-flex flex-wrap align-items-center">`;
-                if (node.score !== undefined && node.score !== null && node.score !== '') {
-                    cardHTML += `<span class="node-score-badge">Emotion: ${escapeHtml(node.score)}</span>`;
-                }
-                cardHTML += (node.tags || []).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join('');
-                
-                // Blueprint Indicator
-                const hasBlueprint = node.blueprint && (
-                    (node.blueprint.onstage?.length > 0) || 
-                    (node.blueprint.backstage?.length > 0) || 
-                    (node.blueprint.support?.length > 0) || 
-                    (node.blueprint.evidence?.length > 0)
-                );
-                if (hasBlueprint) {
-                    cardHTML += `<span class="blueprint-indicator" title="Service Blueprint details available"><i class="bi bi-diagram-3"></i></span>`;
+                let purposeHTML = '';
+                if (node.purpose) {
+                    const pIconName = PURPOSE_ICONS[node.purpose] || 'tag';
+                    purposeHTML = `<i class="bi bi-${pIconName} purpose-icon" title="Purpose: ${escapeHtml(node.purpose)}"></i>`;
                 }
 
-                cardHTML += `</div>`;
+                const themeColor = node.iconColor || '#ffffff';
+                const isLight = !themeColor || themeColor === '#ffffff' || themeColor === '#f8fafc' || themeColor === '#f1f5f9';
+                card.style.backgroundColor = themeColor;
+                if (!isLight) card.classList.add('has-custom-color');
 
-                card.innerHTML = cardHTML;
+                card.innerHTML = `
+                    <div class="node-card-header">
+                        <span class="node-card-title">${escapeHtml(node.title)}</span>
+                    </div>
+                    ${node.description ? `<p class="node-card-desc mb-2">${escapeHtml(node.description)}</p>` : ''}
+                    <div class="node-card-footer mt-auto pt-2 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-1">
+                            ${sentimentHTML}
+                            ${purposeHTML}
+                        </div>
+                        ${scoreHTML}
+                    </div>
+                `;
+
                 cell.appendChild(card);
             });
 
             grid.appendChild(cell);
         });
 
-        // 3b. Empty cell at end of row (below Add Stage button)
-        const rowEndSpacer = document.createElement('div');
-        rowEndSpacer.className = 'grid-cell-empty';
-        grid.appendChild(rowEndSpacer);
+        // 3b. Empty cell at end of row (below Add Stage button, only if editable)
+        if (!isReadOnly) {
+            const rowEndSpacer = document.createElement('div');
+            rowEndSpacer.className = 'grid-cell-empty';
+            grid.appendChild(rowEndSpacer);
+        }
     });
 
-    // 4. Add Swimlane Row (Bottom)
-    const addLaneHead = document.createElement('div');
-    addLaneHead.className = 'grid-header-swimlane-add';
-    addLaneHead.innerHTML = '<i class="bi bi-plus-lg"></i>';
-    addLaneHead.title = "Add Swimlane";
-    addLaneHead.onclick = () => addSwimlane();
-    grid.appendChild(addLaneHead);
+    // 4. Add Swimlane Row (Bottom, only if editable)
+    if (!isReadOnly) {
+        const addLaneHead = document.createElement('div');
+        addLaneHead.className = 'grid-header-swimlane-add';
+        addLaneHead.innerHTML = '<i class="bi bi-plus-lg"></i>';
+        addLaneHead.title = "Add Swimlane";
+        addLaneHead.onclick = () => addSwimlane();
+        grid.appendChild(addLaneHead);
 
-    // Fill the rest of the bottom row with empty cells
-    for (let i = 0; i < stages.length + 1; i++) {
-        const bottomSpacer = document.createElement('div');
-        bottomSpacer.className = 'grid-cell-empty';
-        grid.appendChild(bottomSpacer);
+        for (let i = 0; i < stages.length + 1; i++) {
+            const bottomSpacer = document.createElement('div');
+            bottomSpacer.className = 'grid-cell-empty';
+            grid.appendChild(bottomSpacer);
+        }
     }
 
     updateScorecard();

@@ -4,16 +4,17 @@ initSecureSession();
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id'])) {
+$currentUserId = $_SESSION['user_id'] ?? null;
+$db = getDBConnection();
+$method = $_SERVER['REQUEST_METHOD'];
+$id = $_GET['id'] ?? null;
+
+// Enforce authentication for state-modifying requests and collection listing
+if (!$currentUserId && ($method !== 'GET' || !$id)) {
     http_response_code(401);
     echo json_encode(["error" => "Unauthorized"]);
     exit;
 }
-
-$currentUserId = $_SESSION['user_id'];
-$db = getDBConnection();
-$method = $_SERVER['REQUEST_METHOD'];
-$id = $_GET['id'] ?? null;
 
 // Helper to expand owner & collaborators for a journey row
 function expandJourney($db, $journey) {
@@ -41,8 +42,8 @@ function expandJourney($db, $journey) {
     
     // Format to match PocketBase's structure
     $journey['owner'] = $journey['owner_id'];
-    // PocketBase collaborators field is an array of IDs
     $journey['collaborators'] = array_column($collaborators, 'id');
+    $journey['is_public'] = (bool)($journey['is_public'] ?? 0);
     
     $journey['expand'] = [
         'owner' => $owner ?: null,
@@ -58,6 +59,7 @@ function expandJourney($db, $journey) {
 
 // Check if user has access to this journey
 function hasJourneyAccess($db, $journeyId, $userId, $requireWrite = false) {
+    if (!$userId) return false;
     $stmt = $db->prepare("SELECT owner_id FROM journeys WHERE id = ?");
     $stmt->execute([$journeyId]);
     $journey = $stmt->fetch();
@@ -79,15 +81,28 @@ function hasJourneyAccess($db, $journeyId, $userId, $requireWrite = false) {
 if ($method === 'GET') {
     if ($id) {
         // Fetch a single journey
-        if (!hasJourneyAccess($db, $id, $currentUserId)) {
-            http_response_code(403);
-            echo json_encode(["error" => "Access denied"]);
-            exit;
-        }
-        
         $stmt = $db->prepare("SELECT * FROM journeys WHERE id = ?");
         $stmt->execute([$id]);
         $journey = $stmt->fetch();
+        
+        if (!$journey) {
+            http_response_code(404);
+            echo json_encode(["error" => "Journey not found"]);
+            exit;
+        }
+
+        $canAccess = false;
+        if ($currentUserId && hasJourneyAccess($db, $id, $currentUserId)) {
+            $canAccess = true;
+        } elseif (!empty($journey['is_public']) && ($journey['journey_status'] ?? '') !== 'trash') {
+            $canAccess = true;
+        }
+
+        if (!$canAccess) {
+            http_response_code($currentUserId ? 403 : 401);
+            echo json_encode(["error" => $currentUserId ? "Access denied" : "Unauthorized"]);
+            exit;
+        }
         
         echo json_encode(expandJourney($db, $journey));
         exit;
@@ -194,6 +209,7 @@ if ($method === 'PUT' || $method === 'PATCH') {
     $description = isset($input['description']) ? trim($input['description']) : $existing['description'];
     $folder = isset($input['folder']) ? trim($input['folder']) : $existing['folder'];
     $journeyStatus = isset($input['journey_status']) ? trim($input['journey_status']) : $existing['journey_status'];
+    $isPublic = isset($input['is_public']) ? (!empty($input['is_public']) ? 1 : 0) : (int)($existing['is_public'] ?? 0);
     
     $ojfData = $existing['ojf_data'];
     if (isset($input['ojf_data'])) {
@@ -202,7 +218,7 @@ if ($method === 'PUT' || $method === 'PATCH') {
     
     $stmt = $db->prepare("
         UPDATE journeys 
-        SET title = ?, description = ?, ojf_data = ?, folder = ?, journey_status = ? 
+        SET title = ?, description = ?, ojf_data = ?, folder = ?, journey_status = ?, is_public = ? 
         WHERE id = ?
     ");
     $stmt->execute([
@@ -211,6 +227,7 @@ if ($method === 'PUT' || $method === 'PATCH') {
         $ojfData,
         $folder,
         $journeyStatus,
+        $isPublic,
         $id
     ]);
     

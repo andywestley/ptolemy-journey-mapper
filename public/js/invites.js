@@ -112,3 +112,10 @@ function copyToClipboard(text) {
         alert('Invite link copied to clipboard!');
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('invites-table-body')) {
+        loadInvites();
+    }
+});
+

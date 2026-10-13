@@ -131,6 +131,14 @@ function switchEditorMode(mode) {
         }
     }
 
+    // Update clean URL if on dedicated journey or share page
+    if (window.currentJourney && (window.location.pathname.includes('/journey/') || window.location.pathname.includes('/share/'))) {
+        const basePath = window.location.pathname.includes('/share/') ? '/share/' : '/journey/';
+        try {
+            window.history.replaceState(null, '', `${basePath}${window.currentJourney.id}/${mode}/`);
+        } catch (e) {}
+    }
+
     // GTM DataLayer Editor Mode Event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({

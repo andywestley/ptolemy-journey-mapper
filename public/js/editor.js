@@ -495,8 +495,76 @@ async function saveJourney() {
 function openShareModal() {
     if (!currentJourney) return;
     renderCollaborators();
+
+    const publicToggle = document.getElementById('public-share-toggle');
+    const publicContainer = document.getElementById('public-link-container');
+    const publicUrlInput = document.getElementById('public-share-url');
+    const publicPreview = document.getElementById('public-share-preview');
+
+    const shareUrl = `${window.location.origin}/share/${currentJourney.id}/`;
+
+    if (publicToggle) {
+        publicToggle.checked = !!currentJourney.is_public;
+    }
+    if (publicUrlInput) {
+        publicUrlInput.value = shareUrl;
+    }
+    if (publicPreview) {
+        publicPreview.href = `/share/${currentJourney.id}/`;
+    }
+    if (publicContainer) {
+        publicContainer.style.display = currentJourney.is_public ? 'block' : 'none';
+    }
+
     const modal = new bootstrap.Modal(document.getElementById('shareModal'));
     modal.show();
+}
+
+async function togglePublicShare(isPublic) {
+    if (!currentJourney) return;
+    toggleLoading(true);
+    try {
+        const response = await fetch(`api/journeys.php?id=${currentJourney.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ is_public: isPublic ? 1 : 0 })
+        });
+        if (!response.ok) throw new Error('Failed to update public sharing setting');
+        const record = await response.json();
+        currentJourney = record;
+
+        const publicContainer = document.getElementById('public-link-container');
+        if (publicContainer) {
+            publicContainer.style.display = isPublic ? 'block' : 'none';
+        }
+    } catch (err) {
+        console.error('Toggle public share error:', err);
+        alert('Failed to update share setting: ' + err.message);
+        const publicToggle = document.getElementById('public-share-toggle');
+        if (publicToggle) publicToggle.checked = !isPublic;
+    } finally {
+        toggleLoading(false);
+    }
+}
+
+function copyPublicShareUrl(btn) {
+    const input = document.getElementById('public-share-url');
+    if (!input) return;
+    input.select();
+    input.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(input.value).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copied!';
+        btn.classList.add('btn-success');
+        btn.classList.remove('btn-primary');
+        setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-primary');
+        }, 2000);
+    }).catch(() => {
+        alert('Copied to clipboard: ' + input.value);
+    });
 }
 
 function renderCollaborators() {
@@ -1067,7 +1135,7 @@ async function importTemplate(url) {
         const record = await saveResponse.json();
 
         alert('Template imported successfully!');
-        openEditor(record.id);
+        window.location.href = `/journey/${record.id}/`;
     } catch (err) {
         console.error('Template import error:', err);
         alert('Failed to import template: ' + err.message);
@@ -1079,6 +1147,56 @@ async function importTemplate(url) {
             error_context: 'import_template',
             error_message: err.message
         });
+    } finally {
+        toggleLoading(false);
+    }
+}
+
+// Standalone Editor Initialization
+document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof INITIAL_JOURNEY_ID !== 'undefined' && INITIAL_JOURNEY_ID) {
+        const mode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+        await loadEditorJourney(INITIAL_JOURNEY_ID, mode);
+    }
+});
+
+async function loadEditorJourney(id, initialMode = 'table') {
+    toggleLoading(true);
+    try {
+        const response = await fetch(`api/journeys.php?id=${id}`);
+        if (!response.ok) throw new Error('Failed to load journey');
+        currentJourney = await response.json();
+
+        const titleEl = document.getElementById('editor-title');
+        if (titleEl) titleEl.value = currentJourney.title;
+
+        const personaEl = document.getElementById('editor-persona');
+        if (personaEl) personaEl.value = currentJourney.ojf_data?.persona || '';
+
+        const povEl = document.getElementById('editor-pov');
+        if (povEl) povEl.value = currentJourney.ojf_data?.pointOfView || '';
+
+        originalOJF = JSON.parse(JSON.stringify(currentJourney.ojf_data || {}));
+        if (!originalOJF.nodes) originalOJF.nodes = [];
+
+        sanitizeOJFIds(originalOJF);
+
+        const modeRadio = document.getElementById(`mode-${initialMode}`);
+        if (modeRadio) modeRadio.checked = true;
+        switchEditorMode(initialMode);
+
+        if (typeof loadComments === 'function') {
+            loadComments();
+        }
+
+        if (titleEl) titleEl.addEventListener('input', () => triggerAutoSave());
+        if (personaEl) personaEl.addEventListener('input', () => triggerAutoSave());
+        if (povEl) povEl.addEventListener('input', () => triggerAutoSave());
+
+    } catch (err) {
+        console.error('Failed to load journey:', err);
+        alert('Failed to load journey map: ' + err.message);
+        window.location.href = '/dashboard/';
     } finally {
         toggleLoading(false);
     }

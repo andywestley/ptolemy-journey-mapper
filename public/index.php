@@ -253,7 +253,7 @@ include __DIR__ . '/includes/header.php';
     <div class="hobby-note">
         <p class="mb-2"><strong>👋 Hi there!</strong></p>
         <p class="mb-3">Just a quick note: this is a personal hobby project built by a UX professional, not corporate enterprise software.</p>
-        <p class="mb-0"><a href="about.php">Read the story behind it &rarr;</a></p>
+        <p class="mb-0"><a href="/about/">Read the story behind it &rarr;</a></p>
     </div>
 </div>
 
@@ -273,7 +273,7 @@ include __DIR__ . '/includes/header.php';
   "nodes": [ { "id": "n1", "phase": "p1", "text": "Customer searches online" } ]
 }</code></pre>
     </div>
-    <a href="about.php" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
+    <a href="/about/" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
 </div>
 
 <?php
