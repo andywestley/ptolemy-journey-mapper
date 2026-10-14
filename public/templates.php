@@ -259,6 +259,7 @@ include __DIR__ . '/includes/navbar.php';
 </div>
 
 <?php
-$extraJs = ["auth.js", "utils.js", "editor.js"];
+$extraJs = ["auth.js", "utils.js", "templates.js"];
 include __DIR__ . '/includes/footer.php';
 ?>
+
