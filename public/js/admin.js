@@ -7,6 +7,7 @@ let currentFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
+    initPasswordToggles();
 
     // Search filter listener
     const searchInput = document.getElementById('user-search');
@@ -212,6 +213,15 @@ function generateRandomPassword(targetInputId) {
     if (input) {
         input.value = pwd;
         input.type = 'text'; // Show so admin can copy it
+        const toggleBtn = document.querySelector(`.toggle-password-btn[data-target="${targetInputId}"]`);
+        if (toggleBtn) {
+            toggleBtn.setAttribute('aria-label', 'Hide password');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        }
     }
 }
 
@@ -448,3 +458,34 @@ async function deleteUser(userId, userName) {
         alert('Error: ' + err.message);
     }
 }
+
+/**
+ * Initialize password show/hide toggles
+ */
+function initPasswordToggles() {
+    document.querySelectorAll('.toggle-password-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (!input) return;
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.setAttribute('aria-label', 'Hide password');
+                if (icon) {
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                }
+            } else {
+                input.type = 'password';
+                btn.setAttribute('aria-label', 'Show password');
+                if (icon) {
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            }
+        });
+    });
+}
+

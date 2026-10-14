@@ -194,3 +194,37 @@ pre[tabindex="0"]:focus-visible,
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
+
+/* Password Visibility Toggle Button */
+.input-group .toggle-password-btn {
+    border-color: #dee2e6;
+    color: #64748b;
+    background-color: transparent;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+}
+
+.input-group .toggle-password-btn:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+.input-group .toggle-password-btn:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+}
+
+[data-bs-theme="dark"] .input-group .toggle-password-btn {
+    border-color: #475569;
+    color: #94a3b8;
+}
+
+[data-bs-theme="dark"] .input-group .toggle-password-btn:hover {
+    background-color: #334155;
+    color: #f8fafc;
+}

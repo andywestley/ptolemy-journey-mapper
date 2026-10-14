@@ -263,7 +263,12 @@ include __DIR__ . '/includes/header.php';
                                 <i class="bi bi-dice-5 me-1"></i>Generate Strong Password
                             </button>
                         </div>
-                        <input type="password" class="form-control" id="create-password" required minlength="8" placeholder="Minimum 8 characters">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="create-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                            <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="create-password">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-check mt-3">
@@ -344,7 +349,12 @@ include __DIR__ . '/includes/header.php';
                                 <i class="bi bi-dice-5 me-1"></i>Generate Password
                             </button>
                         </div>
-                        <input type="password" class="form-control" id="reset-password" required minlength="8" placeholder="Minimum 8 characters">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="reset-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                            <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reset-password">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

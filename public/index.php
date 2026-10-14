@@ -202,7 +202,12 @@ include __DIR__ . '/includes/header.php';
                             </div>
                             <div class="mb-3">
                                 <label for="login-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+                                    <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="login-password">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary" id="login-btn">
                                 <span class="btn-text">Sign In</span>
@@ -224,11 +229,21 @@ include __DIR__ . '/includes/header.php';
                             </div>
                             <div class="mb-3">
                                 <label for="reg-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="reg-password" required minlength="8" placeholder="Minimum 8 characters">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="reg-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                                    <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reg-password">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="reg-password-confirm" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="reg-password-confirm" required placeholder="••••••••">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="reg-password-confirm" required placeholder="••••••••" autocomplete="new-password">
+                                    <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reg-password-confirm">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
