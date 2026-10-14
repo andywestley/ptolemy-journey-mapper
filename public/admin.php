@@ -98,7 +98,7 @@ include __DIR__ . '/includes/header.php';
 </style>
 
 <!-- Top Admin Navigation -->
-<nav class="navbar navbar-expand-lg navbar-admin sticky-top">
+<nav class="navbar navbar-expand-lg navbar-admin sticky-top" aria-label="Admin Navigation">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="/dashboard/">
             <i class="bi bi-map-fill me-2 text-primary"></i>
@@ -123,7 +123,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </nav>
 
-<div class="container my-5">
+<main id="main-content" class="container my-5">
 
     <!-- Header Section -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
@@ -204,7 +204,7 @@ include __DIR__ . '/includes/header.php';
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <!-- Modal 1: Create User / Service Account -->
 <div class="modal fade" id="createUserModal" tabindex="-1">

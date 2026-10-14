@@ -24,7 +24,7 @@ $activeNav = 'invites';
 include __DIR__ . '/includes/navbar.php'; 
 ?>
 
-<div class="container py-4" style="max-width: 900px;">
+<main id="main-content" class="container py-4" style="max-width: 900px;">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
             <h1 class="h3 fw-bold mb-1"><i class="bi bi-envelope-paper text-primary me-2"></i>Beta Invites</h1>
@@ -58,7 +58,7 @@ include __DIR__ . '/includes/navbar.php';
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <?php
 $extraJs = ["auth.js", "utils.js", "invites.js"];

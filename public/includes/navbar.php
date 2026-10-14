@@ -8,7 +8,7 @@
  */
 $activeNav = $activeNav ?? 'dashboard';
 ?>
-<nav class="navbar navbar-expand-lg fixed-top bg-white border-bottom shadow-sm">
+<nav class="navbar navbar-expand-lg fixed-top bg-white border-bottom shadow-sm" aria-label="Main Navigation">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="/dashboard/">
             <i class="bi bi-map-fill text-primary me-2 fs-5"></i>

@@ -94,7 +94,7 @@ $activeNav = 'dashboard';
 include __DIR__ . '/includes/navbar.php'; 
 ?>
 
-<div class="container-fluid px-lg-5 mt-4">
+<main id="main-content" class="container-fluid px-lg-5 mt-4">
     <!-- Editor Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div class="d-flex align-items-center">
@@ -260,7 +260,7 @@ include __DIR__ . '/includes/navbar.php';
             <svg id="emotional-curve-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></svg>
         </div>
     </div>
-</div>
+</main>
 
 <!-- Share Modal (with Public Link Sharing) -->
 <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">

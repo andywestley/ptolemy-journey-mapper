@@ -31,11 +31,11 @@ $activeNav = 'dashboard';
 include __DIR__ . '/includes/navbar.php'; 
 ?>
 
-<div class="container py-4">
+<main id="main-content" class="container py-4">
     <div id="journey-list-view" class="view-container active">
         <div class="row">
             <!-- Sidebar for Folders -->
-            <div class="col-md-3 col-lg-2 mb-4 mb-md-0">
+            <aside class="col-md-3 col-lg-2 mb-4 mb-md-0" aria-label="Folders">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold mb-0 text-muted text-uppercase small">Folders</h6>
                 </div>
@@ -48,13 +48,13 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-grid-fill me-2"></i> All Journeys
                     </button>
                 </div>
-            </div>
+            </aside>
 
             <!-- Journeys Grid Section -->
-            <div class="col-md-9 col-lg-10">
+            <section class="col-md-9 col-lg-10" aria-labelledby="journeys-heading">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                     <div class="d-flex align-items-center flex-wrap gap-2">
-                        <h2 class="fw-bold mb-0 me-3">Journeys</h2>
+                        <h2 id="journeys-heading" class="fw-bold mb-0 me-3">Journeys</h2>
                         <ul class="nav nav-pills" id="journey-tabs">
                             <li class="nav-item">
                                 <button class="nav-link <?php echo $currentTab === 'my' ? 'active' : ''; ?>" onclick="loadJourneys('my')">My Journeys</button>
@@ -91,10 +91,10 @@ include __DIR__ . '/includes/navbar.php';
                     <h3>No journeys found</h3>
                     <p class="text-muted">Create your first user journey map or import an existing .ojf file.</p>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
-</div>
+</main>
 
 <script>
     const INITIAL_TAB = "<?php echo htmlspecialchars($currentTab, ENT_QUOTES, 'UTF-8'); ?>";

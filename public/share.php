@@ -58,7 +58,7 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <?php if (!$isAllowed): ?>
-<div class="container py-5 text-center" style="max-width: 550px; margin-top: 60px;">
+<main id="main-content" class="container py-5 text-center" style="max-width: 550px; margin-top: 60px;">
     <div class="card p-5 border-0 shadow-sm rounded-4">
         <div class="mb-3">
             <i class="bi bi-shield-lock text-muted" style="font-size: 3.5rem;"></i>
@@ -72,11 +72,11 @@ include __DIR__ . '/includes/header.php';
             <a href="/about/" class="btn btn-outline-secondary px-3">Learn More</a>
         </div>
     </div>
-</div>
+</main>
 <?php else: ?>
 
 <!-- Clean Public Navbar (No administrative tools) -->
-<nav class="navbar navbar-expand-lg fixed-top public-navbar">
+<nav class="navbar navbar-expand-lg fixed-top public-navbar" aria-label="Public Journey Navigation">
     <div class="container-fluid px-lg-5">
         <a class="navbar-brand d-flex align-items-center" href="/">
             <i class="bi bi-map-fill text-primary me-2"></i>
@@ -121,7 +121,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </nav>
 
-<div class="container-fluid px-lg-5 mt-4">
+<main id="main-content" class="container-fluid px-lg-5 mt-4">
     <!-- Journey Header Banner -->
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
@@ -203,7 +203,7 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <!-- Read-Only Node Inspection Modal -->
 <div class="modal fade" id="publicNodeModal" tabindex="-1">

@@ -58,7 +58,7 @@ include __DIR__ . '/includes/header.php';
     </a>
 </header>
 
-<main class="content-section">
+<main id="main-content" class="content-section">
     <div class="mb-5">
         <a href="index.php" class="text-decoration-none fw-semibold" style="color: var(--accent-color);">&larr; Back to the App</a>
     </div>

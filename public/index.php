@@ -173,101 +173,102 @@ include __DIR__ . '/includes/header.php';
     }
 </style>
 
-<div class="d-flex flex-column flex-lg-row align-items-center justify-content-center gap-5 w-100" style="max-width: 900px;">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1 id="app-title">Ptolemy</h1>
-            <p class="mb-0 text-white" style="font-weight: 500;">the OpenJourney editor</p>
-        </div>
+<main id="main-content" class="w-100 d-flex flex-column align-items-center justify-content-center">
+    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center gap-5 w-100" style="max-width: 900px;">
+        <div class="auth-card">
+            <header class="auth-header">
+                <h1 id="app-title">Ptolemy</h1>
+                <p class="mb-0 text-white" style="font-weight: 500;">the OpenJourney editor</p>
+            </header>
 
-        <div class="auth-body">
-            <!-- Tabs -->
-            <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane" type="button" role="tab">Login</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane" type="button" role="tab">Register</button>
-                </li>
-            </ul>
+            <div class="auth-body">
+                <!-- Tabs -->
+                <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane" type="button" role="tab">Login</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane" type="button" role="tab">Register</button>
+                    </li>
+                </ul>
 
-            <div class="tab-content">
-                <!-- Login Pane -->
-                <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
-                    <form id="login-form">
-                        <div class="mb-3">
-                            <label for="login-email" class="form-label">Email or Username</label>
-                            <input type="text" class="form-control" id="login-email" required placeholder="name@example.com or username" autocomplete="username">
-                        </div>
-                        <div class="mb-3">
-                            <label for="login-password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="login-btn">
-                            <span class="btn-text">Sign In</span>
-                            <div class="spinner-border loading-spinner" role="status"></div>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Registration Pane -->
-                <div class="tab-pane fade" id="register-pane" role="tabpanel">
-                    <form id="register-form">
-                        <div class="mb-3">
-                            <label for="reg-name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="reg-name" required placeholder="Alex Smith">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="reg-email" required placeholder="name@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="reg-password" required minlength="8" placeholder="Minimum 8 characters">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-password-confirm" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="reg-password-confirm" required placeholder="••••••••">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
-                            <input type="text" class="form-control" id="reg-invite" required placeholder="Paste your invite code here">
-                            <div class="form-text">
-                                Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank">request an invite code via GitHub issues</a> to join the beta.
+                <div class="tab-content">
+                    <!-- Login Pane -->
+                    <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="login-email" class="form-label">Email or Username</label>
+                                <input type="text" class="form-control" id="login-email" required placeholder="name@example.com or username" autocomplete="username">
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="register-btn">
-                            <span class="btn-text">Create Account</span>
-                            <div class="spinner-border loading-spinner" role="status"></div>
-                        </button>
-                    </form>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="login-btn">
+                                <span class="btn-text">Sign In</span>
+                                <div class="spinner-border loading-spinner" role="status"></div>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Registration Pane -->
+                    <div class="tab-pane fade" id="register-pane" role="tabpanel">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label for="reg-name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="reg-name" required placeholder="Alex Smith">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="reg-email" required placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="reg-password" required minlength="8" placeholder="Minimum 8 characters">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password-confirm" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="reg-password-confirm" required placeholder="••••••••">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
+                                <input type="text" class="form-control" id="reg-invite" required placeholder="Paste your invite code here">
+                                <div class="form-text">
+                                    Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank">request an invite code via GitHub issues</a> to join the beta.
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="register-btn">
+                                <span class="btn-text">Create Account</span>
+                                <div class="spinner-border loading-spinner" role="status"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Error Feedback -->
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
-
-            <!-- Error Feedback -->
-            <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
-                <span id="error-message"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
         </div>
+
+        <!-- Hobby Project Note -->
+        <aside class="hobby-note" aria-label="About this hobby project">
+            <p class="mb-2"><strong>👋 Hi there!</strong></p>
+            <p class="mb-3">Just a quick note: this is a personal hobby project built by a UX professional, not corporate enterprise software.</p>
+            <p class="mb-0"><a href="/about/">Read the story behind it &rarr;</a></p>
+        </aside>
     </div>
 
-    <!-- Hobby Project Note -->
-    <div class="hobby-note">
-        <p class="mb-2"><strong>👋 Hi there!</strong></p>
-        <p class="mb-3">Just a quick note: this is a personal hobby project built by a UX professional, not corporate enterprise software.</p>
-        <p class="mb-0"><a href="/about/">Read the story behind it &rarr;</a></p>
-    </div>
-</div>
-
-<!-- Ad/Tease for open standard -->
-<div class="open-standard-teaser text-center mt-5" style="max-width: 600px;">
-    <h2 class="h5 mb-3" style="font-weight: 600; color: var(--accent-color);">Powered by the OpenJourney Format (.ojf)</h2>
-    <p class="text-muted mb-3">
-        Ptolemy uses the open, human-readable <code>.ojf</code> JSON format to store and share customer journeys without proprietary lock-in.
-    </p>
-    <div class="text-start p-3 rounded-3 mb-4 shadow-sm" style="background-color: #1e293b; color: #e2e8f0; font-size: 0.85rem; overflow-x: auto; max-height: 200px;">
-        <pre class="mb-0"><code>{
+    <!-- Ad/Tease for open standard -->
+    <section class="open-standard-teaser text-center mt-5" style="max-width: 600px;" aria-labelledby="teaser-heading">
+        <h2 id="teaser-heading" class="h5 mb-3" style="font-weight: 600; color: var(--accent-color);">Powered by the OpenJourney Format (.ojf)</h2>
+        <p class="text-muted mb-3">
+            Ptolemy uses the open, human-readable <code>.ojf</code> JSON format to store and share customer journeys without proprietary lock-in.
+        </p>
+        <div class="text-start p-3 rounded-3 mb-4 shadow-sm" style="background-color: #1e293b; color: #e2e8f0; font-size: 0.85rem; overflow-x: auto; max-height: 200px;">
+            <pre class="mb-0"><code>{
   "metadata": {
     "title": "Example Journey",
     "version": "1.0"
@@ -275,9 +276,10 @@ include __DIR__ . '/includes/header.php';
   "phases": [ { "id": "p1", "name": "Discovery" } ],
   "nodes": [ { "id": "n1", "phase": "p1", "text": "Customer searches online" } ]
 }</code></pre>
-    </div>
-    <a href="/about/" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
-</div>
+        </div>
+        <a href="/about/" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
+    </section>
+</main>
 
 <?php
 $extraJs = ['auth.js'];
