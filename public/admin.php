@@ -3,25 +3,8 @@
  * Standalone Admin User Management Page for Ptolemy
  */
 
-require_once __DIR__ . '/../config/db_connect.php';
-initSecureSession();
-
-// 1. Authentication Check
-if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php');
-    exit;
-}
-
-$db = getDBConnection();
-$stmt = $db->prepare("SELECT id, name, email, is_admin FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$adminUser = $stmt->fetch();
-
-// 2. Administrator Access Guard
-if (!$adminUser || empty($adminUser['is_admin'])) {
-    header('Location: dashboard.php');
-    exit;
-}
+require_once __DIR__ . '/includes/auth_guard.php';
+$adminUser = requireAdmin();
 
 $pageTitle = "User Management | Ptolemy Admin";
 $pageDescription = "Administrator panel for managing user accounts and audit service accounts.";

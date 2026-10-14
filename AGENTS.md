@@ -5,7 +5,7 @@
 - **Web Document Root:** `public/`
 - **Sitemap Locations:**
   - Standard Public: `https://ptolemy.andrewwestley.co.uk/sitemap.xml`
-  - Audit (Protected App Routes): `https://ptolemy.andrewwestley.co.uk/sitemap.xml?include_auth=1`
+  - Audit (Protected App Routes, All Journeys & Templates): `https://ptolemy.andrewwestley.co.uk/audit-sitemap.xml` (or `/sitemap.xml?include_auth=1`)
 - **Deployment Mechanism:** Deployments are handled via GitHub Actions to a Plesk VPS. Never execute local deployment commands.
 
 ## Asset Minification & Pipeline

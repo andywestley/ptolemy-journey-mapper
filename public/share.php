@@ -5,40 +5,20 @@
  * Distinct URL: /share/{id}/ or /share/{id}/visual/ or /share/{id}/table/
  */
 
-require_once __DIR__ . '/../config/db_connect.php';
+require_once __DIR__ . '/../models/Journey.php';
 initSecureSession();
 
 $journeyId = trim($_GET['id'] ?? '');
 $initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'visual';
 
-$db = getDBConnection();
-$journey = null;
+$journey = !empty($journeyId) ? Journey::findById($journeyId) : null;
+$sessionUserId = $_SESSION['user_id'] ?? null;
 $isAllowed = false;
+$isEditorOrOwner = false;
 
-if (!empty($journeyId)) {
-    $stmt = $db->prepare("SELECT * FROM journeys WHERE id = ?");
-    $stmt->execute([$journeyId]);
-    $journey = $stmt->fetch();
-
-    if ($journey && ($journey['journey_status'] ?? '') !== 'trash') {
-        if (!empty($journey['is_public'])) {
-            $isAllowed = true;
-        }
-        $isEditorOrOwner = false;
-        if (!empty($_SESSION['user_id'])) {
-            if ($journey['owner_id'] === $_SESSION['user_id']) {
-                $isAllowed = true;
-                $isEditorOrOwner = true;
-            } else {
-                $cStmt = $db->prepare("SELECT 1 FROM journey_collaborators WHERE journey_id = ? AND user_id = ?");
-                $cStmt->execute([$journeyId, $_SESSION['user_id']]);
-                if ($cStmt->fetch()) {
-                    $isAllowed = true;
-                    $isEditorOrOwner = true;
-                }
-            }
-        }
-    }
+if ($journey && ($journey['journey_status'] ?? '') !== 'trash') {
+    $isAllowed = Journey::hasAccess($journey, $sessionUserId, false);
+    $isEditorOrOwner = Journey::hasAccess($journey, $sessionUserId, true);
 }
 
 // Parse OJF

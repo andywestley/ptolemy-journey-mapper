@@ -11,7 +11,8 @@ AddType application/json .ojf
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Sitemap rule
+    # Dynamic Sitemap rules (public and authorized audit)
+    RewriteRule ^audit-sitemap\.xml$ sitemap.php?include_auth=1 [L,QSA]
     RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
 
     # Clean App Routes

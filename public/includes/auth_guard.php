@@ -2,19 +2,19 @@
 /**
  * Shared Authentication Guard for Ptolemy
  */
-require_once __DIR__ . '/../../config/db_connect.php';
+require_once __DIR__ . '/../../models/User.php';
 initSecureSession();
 
-function requireAuth() {
+/**
+ * Require valid authenticated session.
+ */
+function requireAuth(): array {
     if (empty($_SESSION['user_id'])) {
         header('Location: /');
         exit;
     }
 
-    $db = getDBConnection();
-    $stmt = $db->prepare("SELECT id, name, username, email, is_admin, is_service_account FROM users WHERE id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
+    $user = User::findById($_SESSION['user_id']);
 
     if (!$user) {
         // Stale session
@@ -34,4 +34,16 @@ function requireAuth() {
         'is_admin' => (bool)$user['is_admin'],
         'is_service_account' => (bool)$user['is_service_account']
     ];
+}
+
+/**
+ * Require administrator session.
+ */
+function requireAdmin(): array {
+    $user = requireAuth();
+    if (empty($user['is_admin'])) {
+        header('Location: /dashboard/');
+        exit;
+    }
+    return $user;
 }

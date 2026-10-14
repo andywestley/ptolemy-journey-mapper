@@ -15,38 +15,24 @@ if (empty($journeyId)) {
     exit;
 }
 
-$db = getDBConnection();
-$stmt = $db->prepare("SELECT * FROM journeys WHERE id = ?");
-$stmt->execute([$journeyId]);
-$journeyRecord = $stmt->fetch();
+require_once __DIR__ . '/../models/Journey.php';
 
-if (!$journeyRecord || $journeyRecord['journey_status'] === 'trash') {
+$journeyRecord = Journey::findById($journeyId);
+if (!$journeyRecord || ($journeyRecord['journey_status'] ?? '') === 'trash') {
     header('Location: /dashboard/');
     exit;
 }
 
-// Verify write/read access for user
+// Verify write access for user (owner or collaborator)
+if (!Journey::hasAccess($journeyRecord, $currentUser['id'], true)) {
+    header('Location: /dashboard/');
+    exit;
+}
+
 $isOwner = ((string)$journeyRecord['owner_id'] === (string)$currentUser['id']);
-$stmtCollab = $db->prepare("SELECT 1 FROM journey_collaborators WHERE journey_id = ? AND user_id = ?");
-$stmtCollab->execute([$journeyId, $currentUser['id']]);
-$isCollaborator = (bool)$stmtCollab->fetch();
-
-if (!$isOwner && !$isCollaborator) {
-    header('Location: /dashboard/');
-    exit;
-}
-
+$isCollaborator = !$isOwner;
 $isPublic = !empty($journeyRecord['is_public']);
-
-// Fetch collaborators for share modal
-$stmtCollabs = $db->prepare("
-    SELECT u.id, u.name, u.email, u.avatar 
-    FROM users u
-    INNER JOIN journey_collaborators jc ON u.id = jc.user_id
-    WHERE jc.journey_id = ?
-");
-$stmtCollabs->execute([$journeyId]);
-$collaborators = $stmtCollabs->fetchAll();
+$collaborators = Journey::getCollaborators($journeyId);
 
 $initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'table';
 

@@ -1,38 +1,28 @@
 <?php
 /**
- * Dynamic Sitemap Generator for Ptolemy
- *
- * Generates an XML sitemap complying with the sitemaps.org standard.
- *
- * By default, only public indexable pages are included to preserve SEO integrity.
- * If ?include_auth=1 (or --include-auth via CLI) is provided, authenticated app
- * pages (such as /dashboard.php) are included for site-audit tools.
+ * Dynamic Sitemap Controller for Ptolemy
  *
  * Web Usage:
  *   GET /sitemap.xml                     (Standard public sitemap)
- *   GET /sitemap.xml?include_auth=1      (Audit sitemap with protected routes)
- *   GET /sitemap.php?include_auth=1      (Direct PHP endpoint)
+ *   GET /audit-sitemap.xml               (Rewritten to authorized audit sitemap)
+ *   GET /sitemap.xml?include_auth=1      (Direct authorized audit sitemap)
  *
  * CLI Usage:
  *   php public/sitemap.php
  *   php public/sitemap.php --include-auth
- *   php public/sitemap.php --save
- *   php public/sitemap.php --include-auth --dest=audit-sitemap.xml --save
  */
+
+require_once __DIR__ . '/../models/SitemapGenerator.php';
 
 $isCli = (php_sapi_name() === 'cli');
 
-// Determine base URL
 if ($isCli) {
     $baseUrl = 'https://ptolemy.andrewwestley.co.uk';
     $includeAuth = in_array('--include-auth', $argv, true);
-    $destFileName = 'sitemap.xml';
 
     foreach ($argv as $arg) {
         if (str_starts_with($arg, '--base-url=')) {
             $baseUrl = rtrim(substr($arg, 11), '/');
-        } elseif (str_starts_with($arg, '--dest=')) {
-            $destFileName = basename(substr($arg, 7));
         }
     }
 } else {
@@ -46,129 +36,9 @@ if ($isCli) {
     $baseUrl = $protocol . $host;
 
     $includeAuth = (isset($_GET['include_auth']) && ($_GET['include_auth'] === '1' || strtolower($_GET['include_auth']) === 'true'));
-    $destFileName = isset($_GET['dest']) ? basename($_GET['dest']) : 'sitemap.xml';
 }
 
-require_once __DIR__ . '/../config/db_connect.php';
-
-// Public crawlable pages
-$pages = [
-    [
-        'path' => '/',
-        'file' => __DIR__ . '/index.php',
-        'changefreq' => 'weekly',
-        'priority' => '1.0'
-    ],
-    [
-        'path' => '/about/',
-        'file' => __DIR__ . '/about.php',
-        'changefreq' => 'monthly',
-        'priority' => '0.8'
-    ]
-];
-
-// Dynamically include publicly shared journey maps
-try {
-    $db = getDBConnection(false);
-    if ($db) {
-        $stmt = $db->query("SELECT id, updated_at, created_at FROM journeys WHERE (is_public = 1 OR is_public = '1') AND (journey_status IS NULL OR journey_status != 'trash') ORDER BY updated_at DESC");
-        $publicJourneys = $stmt->fetchAll();
-        foreach ($publicJourneys as $pj) {
-            if (empty($pj['id'])) {
-                continue;
-            }
-            $dateSource = !empty($pj['updated_at']) ? $pj['updated_at'] : ($pj['created_at'] ?? null);
-            $timestamp = !empty($dateSource) ? strtotime($dateSource) : false;
-            $lastmod = ($timestamp !== false && $timestamp > 0) ? date('Y-m-d', $timestamp) : date('Y-m-d');
-            $pages[] = [
-                'path' => '/share/' . rawurlencode($pj['id']) . '/',
-                'lastmod' => $lastmod,
-                'changefreq' => 'weekly',
-                'priority' => '0.8'
-            ];
-        }
-    }
-} catch (Exception $e) {
-    error_log("Sitemap public journeys query error: " . $e->getMessage());
-}
-
-// Include authenticated app routes if requested for audit tools
-if ($includeAuth) {
-    $pages[] = [
-        'path' => '/dashboard/',
-        'file' => __DIR__ . '/dashboard.php',
-        'changefreq' => 'weekly',
-        'priority' => '0.9'
-    ];
-    $pages[] = [
-        'path' => '/templates/',
-        'file' => __DIR__ . '/templates.php',
-        'changefreq' => 'monthly',
-        'priority' => '0.7'
-    ];
-    $pages[] = [
-        'path' => '/invites/',
-        'file' => __DIR__ . '/invites.php',
-        'changefreq' => 'monthly',
-        'priority' => '0.6'
-    ];
-}
-
-// Build XML structure
-$xml = new DOMDocument('1.0', 'UTF-8');
-$xml->formatOutput = true;
-
-$urlset = $xml->createElement('urlset');
-$urlset->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-
-foreach ($pages as $page) {
-    $urlElement = $xml->createElement('url');
-
-    // Location
-    $loc = $baseUrl . $page['path'];
-    $urlElement->appendChild($xml->createElement('loc', htmlspecialchars($loc, ENT_XML1, 'UTF-8')));
-
-    // Last modified
-    if (isset($page['lastmod'])) {
-        $lastmodDate = $page['lastmod'];
-    } elseif (isset($page['file']) && file_exists($page['file'])) {
-        $lastmodDate = date('Y-m-d', filemtime($page['file']));
-    } else {
-        $lastmodDate = date('Y-m-d');
-    }
-    $urlElement->appendChild($xml->createElement('lastmod', $lastmodDate));
-
-    // Change frequency
-    $urlElement->appendChild($xml->createElement('changefreq', $page['changefreq']));
-
-    // Priority
-    $urlElement->appendChild($xml->createElement('priority', $page['priority']));
-
-    $urlset->appendChild($urlElement);
-}
-
-$xml->appendChild($urlset);
-$xmlOutput = $xml->saveXML();
-
-// Check if static save is requested
-$saveToFile = false;
-if ($isCli && in_array('--save', $argv, true)) {
-    $saveToFile = true;
-} elseif (!$isCli && isset($_GET['save']) && $_GET['save'] === '1') {
-    $saveToFile = true;
-}
-
-if ($saveToFile) {
-    $dest = __DIR__ . '/' . $destFileName;
-    file_put_contents($dest, $xmlOutput);
-    if ($isCli) {
-        echo "Successfully generated and saved sitemap to: {$dest}\n";
-        exit(0);
-    }
-} elseif (!$isCli && !$includeAuth && is_writable(__DIR__)) {
-    // Keep the static public/sitemap.xml fallback in sync with live DB records
-    @file_put_contents(__DIR__ . '/sitemap.xml', $xmlOutput);
-}
+$xmlOutput = SitemapGenerator::generate($baseUrl, $includeAuth);
 
 if ($isCli) {
     echo $xmlOutput;
