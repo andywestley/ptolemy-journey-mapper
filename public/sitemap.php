@@ -71,11 +71,15 @@ $pages = [
 try {
     $db = getDBConnection(false);
     if ($db) {
-        $stmt = $db->query("SELECT id, updated_at, created_at FROM journeys WHERE is_public = 1 AND journey_status != 'trash' ORDER BY updated_at DESC");
+        $stmt = $db->query("SELECT id, updated_at, created_at FROM journeys WHERE (is_public = 1 OR is_public = '1') AND (journey_status IS NULL OR journey_status != 'trash') ORDER BY updated_at DESC");
         $publicJourneys = $stmt->fetchAll();
         foreach ($publicJourneys as $pj) {
+            if (empty($pj['id'])) {
+                continue;
+            }
             $dateSource = !empty($pj['updated_at']) ? $pj['updated_at'] : ($pj['created_at'] ?? null);
-            $lastmod = !empty($dateSource) ? date('Y-m-d', strtotime($dateSource)) : date('Y-m-d');
+            $timestamp = !empty($dateSource) ? strtotime($dateSource) : false;
+            $lastmod = ($timestamp !== false && $timestamp > 0) ? date('Y-m-d', $timestamp) : date('Y-m-d');
             $pages[] = [
                 'path' => '/share/' . rawurlencode($pj['id']) . '/',
                 'lastmod' => $lastmod,
@@ -161,6 +165,9 @@ if ($saveToFile) {
         echo "Successfully generated and saved sitemap to: {$dest}\n";
         exit(0);
     }
+} elseif (!$isCli && !$includeAuth && is_writable(__DIR__)) {
+    // Keep the static public/sitemap.xml fallback in sync with live DB records
+    @file_put_contents(__DIR__ . '/sitemap.xml', $xmlOutput);
 }
 
 if ($isCli) {
