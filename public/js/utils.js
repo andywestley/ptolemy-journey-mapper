@@ -160,16 +160,31 @@ function switchEditorMode(mode) {
 }
 
 /**
+ * Safe UUID Generator with fallback for non-secure contexts or older browsers
+ */
+function generateUUID() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+window.generateUUID = generateUUID;
+
+/**
  * Clean ID collisions
  */
 function sanitizeOJFIds(ojf) {
-    if (!ojf.nodes) return;
+    if (!ojf || !ojf.nodes) return;
     const usedIds = new Set();
     let collisionDetected = false;
 
     ojf.nodes = ojf.nodes.map(node => {
         if (!node.id || usedIds.has(node.id)) {
-            node.id = 'n-' + crypto.randomUUID();
+            node.id = 'n-' + generateUUID();
             collisionDetected = true;
         }
         usedIds.add(node.id);
@@ -178,6 +193,9 @@ function sanitizeOJFIds(ojf) {
 
     if (collisionDetected) {
         console.warn('OJF ID collisions detected and resolved.');
-        triggerAutoSave(); // Save the fixed IDs back to server
+        if (typeof triggerAutoSave === 'function') {
+            triggerAutoSave(); // Save the fixed IDs back to server
+        }
     }
 }
+window.sanitizeOJFIds = sanitizeOJFIds;

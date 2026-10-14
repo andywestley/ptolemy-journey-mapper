@@ -395,3 +395,63 @@ function toggleLoading(show) {
     const loading = document.getElementById('loading');
     if (loading) loading.style.display = show ? 'flex' : 'none';
 }
+
+async function importJourney(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (!data.stages || !data.swimlanes) {
+                throw new Error("Invalid OJF format: missing stages or swimlanes.");
+            }
+
+            toggleLoading(true);
+
+            const usedIds = new Set();
+            if (data.nodes) {
+                data.nodes = data.nodes.map(node => {
+                    if (!node.id || usedIds.has(node.id)) {
+                        const uid = (typeof generateUUID === 'function') ? generateUUID() : Math.random().toString(36).substring(2, 15);
+                        node.id = 'n-' + uid;
+                    }
+                    usedIds.add(node.id);
+                    return node;
+                });
+            }
+            const response = await fetch('/api/journeys.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: data.title || "Imported Journey",
+                    description: data.description || "Imported via .ojf file",
+                    journey_status: 'active',
+                    ojf_data: data
+                })
+            });
+            if (!response.ok) throw new Error('Failed to import journey');
+            await response.json();
+
+            input.value = ''; // Reset input
+            loadJourneys();
+            alert('Journey imported successfully!');
+        } catch (err) {
+            console.error('Import error:', err);
+            alert('Failed to import: ' + err.message);
+
+            // GTM Import Error
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'app_error',
+                error_context: 'import_ojf',
+                error_message: err.message
+            });
+        } finally {
+            toggleLoading(false);
+        }
+    };
+    reader.readAsText(file);
+}
+window.importJourney = importJourney;

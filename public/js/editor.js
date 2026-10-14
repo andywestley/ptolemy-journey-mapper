@@ -390,8 +390,9 @@ function saveNode() {
         }
     } else {
         // Create new
+        const newNodeId = (typeof generateUUID === 'function') ? generateUUID() : ((typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15));
         const newNode = {
-            id: 'n-' + crypto.randomUUID(),
+            id: 'n-' + newNodeId,
             stageId,
             swimlaneId,
             title,
@@ -1055,7 +1056,8 @@ async function importJourney(input) {
             if (data.nodes) {
                 data.nodes = data.nodes.map(node => {
                     if (!node.id || usedIds.has(node.id)) {
-                        node.id = 'n-' + crypto.randomUUID();
+                        const uid = (typeof generateUUID === 'function') ? generateUUID() : ((typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15));
+                        node.id = 'n-' + uid;
                     }
                     usedIds.add(node.id);
                     return node;
@@ -1117,7 +1119,8 @@ async function importTemplate(url) {
         if (data.nodes) {
             data.nodes = data.nodes.map(node => {
                 if (!node.id || usedIds.has(node.id)) {
-                    node.id = 'n-' + crypto.randomUUID();
+                    const uid = (typeof generateUUID === 'function') ? generateUUID() : ((typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15));
+                    node.id = 'n-' + uid;
                 }
                 usedIds.add(node.id);
                 return node;
@@ -1160,6 +1163,8 @@ async function importTemplate(url) {
         toggleLoading(false);
     }
 }
+window.importTemplate = importTemplate;
+window.importJourney = importJourney;
 
 // Standalone Editor Initialization
 document.addEventListener('DOMContentLoaded', async () => {
