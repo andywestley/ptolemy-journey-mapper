@@ -4,6 +4,7 @@
 
 let autoSaveTimer = null;
 let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+window.activeEditorMode = activeEditorMode;
 
 function toggleLoading(show) {
     const loading = document.getElementById('loading');

@@ -4,7 +4,8 @@
 
 let currentJourney = window.currentJourney || null;
 let originalOJF = window.originalOJF || {};
-let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+window.activeEditorMode = activeEditorMode;
 let blueprintMode = false;
 
 // Auto-save logic definition

@@ -2,7 +2,8 @@
  * Public Journey Map Viewer Controller (Read-Only)
  */
 
-let activeEditorMode = 'visual';
+activeEditorMode = 'visual';
+window.activeEditorMode = activeEditorMode;
 let blueprintMode = false;
 
 document.addEventListener('DOMContentLoaded', () => {
