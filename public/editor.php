@@ -245,7 +245,7 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Sub-View: Visual Map -->
-    <div id="visual-map-view" class="visual-map-wrapper" style="display: none;">
+    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" style="display: none;">
         <div class="d-flex justify-content-end mb-2 gap-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode" onchange="toggleBlueprintMode()">

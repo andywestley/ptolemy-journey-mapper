@@ -78,7 +78,7 @@ include __DIR__ . '/includes/header.php';
 
     <div class="bg-light p-4 rounded-3 border mb-5 shadow-sm">
         <h4 class="mb-3 h6 text-uppercase fw-bold text-muted">A look inside an .ojf file</h4>
-        <pre class="mb-0" style="font-size: 0.9rem;"><code>{
+        <pre class="mb-0" tabindex="0" role="region" aria-label="OpenJourney Format JSON preview" style="font-size: 0.9rem; overflow: auto; max-height: 250px;"><code>{
   "metadata": {
     "title": "A Day in the Life",
     "version": "1.0"

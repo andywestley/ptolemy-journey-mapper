@@ -37,7 +37,7 @@ include __DIR__ . '/includes/navbar.php';
 
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <div class="table-responsive" tabindex="0" role="region" aria-label="Beta Invites Table">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

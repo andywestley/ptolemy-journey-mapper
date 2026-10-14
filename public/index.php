@@ -267,8 +267,8 @@ include __DIR__ . '/includes/header.php';
         <p class="text-muted mb-3">
             Ptolemy uses the open, human-readable <code>.ojf</code> JSON format to store and share customer journeys without proprietary lock-in.
         </p>
-        <div class="text-start p-3 rounded-3 mb-4 shadow-sm" style="background-color: #1e293b; color: #e2e8f0; font-size: 0.85rem; overflow-x: auto; max-height: 200px;">
-            <pre class="mb-0"><code>{
+        <div class="text-start p-3 rounded-3 mb-4 shadow-sm" style="background-color: #1e293b; color: #e2e8f0; font-size: 0.85rem;">
+            <pre class="mb-0 text-light" tabindex="0" role="region" aria-label="OpenJourney Format JSON preview" style="overflow: auto; max-height: 200px; color: inherit;"><code>{
   "metadata": {
     "title": "Example Journey",
     "version": "1.0"

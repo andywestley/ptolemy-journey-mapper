@@ -166,7 +166,7 @@ include __DIR__ . '/includes/header.php';
     <input type="hidden" id="editor-pov" value="<?php echo htmlspecialchars($ojfData['pointOfView'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
     <!-- Sub-View: Visual Map -->
-    <div id="visual-map-view" class="visual-map-wrapper">
+    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map">
         <div class="d-flex justify-content-end mb-2 gap-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode" onchange="toggleBlueprintMode()">
@@ -186,7 +186,7 @@ include __DIR__ . '/includes/header.php';
     <div id="table-editor-view" class="table-editor-container" style="display: none;">
         <div class="card p-4 border-0 shadow-sm rounded-4 mb-4">
             <h5 class="fw-bold mb-3"><i class="bi bi-table me-2"></i>Journey Steps</h5>
-            <div class="table-responsive">
+            <div class="table-responsive" tabindex="0" role="region" aria-label="Journey Steps Table">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>

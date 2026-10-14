@@ -182,7 +182,7 @@ include __DIR__ . '/includes/header.php';
 
     <!-- Users Table Card -->
     <div class="stat-card p-0 overflow-hidden shadow-sm">
-        <div class="table-responsive">
+        <div class="table-responsive" tabindex="0" role="region" aria-label="User Accounts Table">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>

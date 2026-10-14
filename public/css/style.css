@@ -180,3 +180,17 @@ code {
     background-color: var(--accent-color);
     color: #ffffff;
 }
+
+/* Accessible Keyboard Focus for Scrollable Regions */
+pre[tabindex="0"],
+.visual-map-wrapper[tabindex="0"],
+.table-responsive[tabindex="0"] {
+    outline: none;
+}
+
+pre[tabindex="0"]:focus-visible,
+.visual-map-wrapper[tabindex="0"]:focus-visible,
+.table-responsive[tabindex="0"]:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
