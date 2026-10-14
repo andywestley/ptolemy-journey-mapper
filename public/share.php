@@ -23,14 +23,18 @@ if (!empty($journeyId)) {
     if ($journey && ($journey['journey_status'] ?? '') !== 'trash') {
         if (!empty($journey['is_public'])) {
             $isAllowed = true;
-        } elseif (!empty($_SESSION['user_id'])) {
+        }
+        $isEditorOrOwner = false;
+        if (!empty($_SESSION['user_id'])) {
             if ($journey['owner_id'] === $_SESSION['user_id']) {
                 $isAllowed = true;
+                $isEditorOrOwner = true;
             } else {
                 $cStmt = $db->prepare("SELECT 1 FROM journey_collaborators WHERE journey_id = ? AND user_id = ?");
                 $cStmt->execute([$journeyId, $_SESSION['user_id']]);
                 if ($cStmt->fetch()) {
                     $isAllowed = true;
+                    $isEditorOrOwner = true;
                 }
             }
         }
@@ -116,17 +120,23 @@ include __DIR__ . '/includes/header.php';
                     <i class="bi bi-download me-1"></i> Export
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</a></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</button></li>
                 </ul>
             </div>
 
-            <a href="/" class="btn btn-primary btn-sm ms-2 d-none d-md-inline-block">
+            <?php if (!empty($isEditorOrOwner)): ?>
+            <a href="/journey/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" class="btn btn-primary btn-sm ms-2">
+                <i class="bi bi-pencil-square me-1"></i> Edit Journey
+            </a>
+            <?php else: ?>
+            <a href="/dashboard/" class="btn btn-primary btn-sm ms-2 d-none d-md-inline-block">
                 Open in Ptolemy <i class="bi bi-arrow-right ms-1"></i>
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

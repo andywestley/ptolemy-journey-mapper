@@ -123,10 +123,10 @@ async function loadJourneys(type = null) {
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                                <li><a class="dropdown-item py-2" href="#" onclick="event.preventDefault(); promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2"></i> Move to Folder</a></li>
+                                <li><button type="button" class="dropdown-item py-2" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2"></i> Move to Folder</button></li>
                                 ${j.is_public ? `<li><a class="dropdown-item py-2" href="/share/${escapeHtml(j.id)}/" target="_blank"><i class="bi bi-globe me-2 text-primary"></i> View Public Link</a></li>` : ''}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item py-2 text-danger" href="#" onclick="event.preventDefault(); moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2"></i> Move to Trash</a></li>
+                                <li><button type="button" class="dropdown-item py-2 text-danger" onclick="moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2"></i> Move to Trash</button></li>
                             </ul>
                         </div>
                     `;

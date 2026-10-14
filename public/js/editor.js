@@ -497,34 +497,83 @@ async function saveJourney() {
 }
 
 /**
- * Collaboration Actions
+/**
+ * Sharing & Privacy State Management
  */
+function updatePrivacyUI() {
+    if (!currentJourney) return;
+    const isPublic = !!currentJourney.is_public;
+
+    // Header badge button in editor
+    const badge = document.getElementById('journey-privacy-badge');
+    if (badge) {
+        if (isPublic) {
+            badge.className = 'btn btn-sm btn-outline-success rounded-pill px-3 py-1 d-flex align-items-center gap-1';
+            badge.innerHTML = '<i class="bi bi-globe"></i> <span>Public</span>';
+            badge.title = 'Anyone with the link can view. Click to change sharing settings.';
+        } else {
+            badge.className = 'btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 d-flex align-items-center gap-1';
+            badge.innerHTML = '<i class="bi bi-lock"></i> <span>Private</span>';
+            badge.title = 'Only you and collaborators can view. Click to change sharing settings.';
+        }
+    }
+
+    // Modal status badge
+    const modalBadge = document.getElementById('share-modal-status-badge');
+    if (modalBadge) {
+        if (isPublic) {
+            modalBadge.className = 'badge bg-success-subtle text-success border border-success-subtle px-2 py-1';
+            modalBadge.innerHTML = '<i class="bi bi-globe me-1"></i> Public';
+        } else {
+            modalBadge.className = 'badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1';
+            modalBadge.innerHTML = '<i class="bi bi-lock me-1"></i> Private';
+        }
+    }
+
+    // Modal description text
+    const modalDesc = document.getElementById('share-modal-status-desc');
+    if (modalDesc) {
+        if (isPublic) {
+            modalDesc.innerHTML = 'This journey map is <strong>Public</strong>. Anyone with the share link can view it without logging in.';
+        } else {
+            modalDesc.innerHTML = 'This journey map is <strong>Private</strong>. Only you and added collaborators can view or edit.';
+        }
+    }
+
+    // Modal public toggle
+    const publicToggle = document.getElementById('public-share-toggle');
+    if (publicToggle) {
+        publicToggle.checked = isPublic;
+    }
+
+    // Modal public link container
+    const publicContainer = document.getElementById('public-link-container');
+    if (publicContainer) {
+        publicContainer.style.display = isPublic ? 'block' : 'none';
+    }
+}
+
 function openShareModal() {
     if (!currentJourney) return;
     renderCollaborators();
+    updatePrivacyUI();
 
-    const publicToggle = document.getElementById('public-share-toggle');
-    const publicContainer = document.getElementById('public-link-container');
     const publicUrlInput = document.getElementById('public-share-url');
     const publicPreview = document.getElementById('public-share-preview');
-
     const shareUrl = `${window.location.origin}/share/${currentJourney.id}/`;
 
-    if (publicToggle) {
-        publicToggle.checked = !!currentJourney.is_public;
-    }
     if (publicUrlInput) {
         publicUrlInput.value = shareUrl;
     }
     if (publicPreview) {
-        publicPreview.href = `/share/${currentJourney.id}/`;
-    }
-    if (publicContainer) {
-        publicContainer.style.display = currentJourney.is_public ? 'block' : 'none';
+        publicPreview.href = shareUrl;
     }
 
-    const modal = new bootstrap.Modal(document.getElementById('shareModal'));
-    modal.show();
+    const modalEl = document.getElementById('shareModal');
+    if (modalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
 }
 
 async function togglePublicShare(isPublic) {
@@ -539,11 +588,9 @@ async function togglePublicShare(isPublic) {
         if (!response.ok) throw new Error('Failed to update public sharing setting');
         const record = await response.json();
         currentJourney = record;
+        window.currentJourney = record;
 
-        const publicContainer = document.getElementById('public-link-container');
-        if (publicContainer) {
-            publicContainer.style.display = isPublic ? 'block' : 'none';
-        }
+        updatePrivacyUI();
     } catch (err) {
         console.error('Toggle public share error:', err);
         alert('Failed to update share setting: ' + err.message);
@@ -1209,6 +1256,7 @@ async function loadEditorJourney(id, initialMode = 'table') {
         const modeRadio = document.getElementById(`mode-${initialMode}`);
         if (modeRadio) modeRadio.checked = true;
         switchEditorMode(initialMode);
+        updatePrivacyUI();
 
         if (typeof loadComments === 'function') {
             loadComments();

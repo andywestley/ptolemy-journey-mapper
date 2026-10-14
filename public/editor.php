@@ -36,6 +36,18 @@ if (!$isOwner && !$isCollaborator) {
     exit;
 }
 
+$isPublic = !empty($journeyRecord['is_public']);
+
+// Fetch collaborators for share modal
+$stmtCollabs = $db->prepare("
+    SELECT u.id, u.name, u.email, u.avatar 
+    FROM users u
+    INNER JOIN journey_collaborators jc ON u.id = jc.user_id
+    WHERE jc.journey_id = ?
+");
+$stmtCollabs->execute([$journeyId]);
+$collaborators = $stmtCollabs->fetchAll();
+
 $initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'table';
 
 $pageTitle = htmlspecialchars($journeyRecord['title'] ?? 'Journey', ENT_QUOTES, 'UTF-8') . " | Editor";
@@ -138,7 +150,18 @@ include __DIR__ . '/includes/navbar.php';
         </div>
 
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-accent px-4" onclick="saveJourney()">
+            <!-- Sharing & Privacy Status Badge -->
+            <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-flex align-items-center gap-1" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
+                <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?>"></i>
+                <span><?php echo $isPublic ? 'Public' : 'Private'; ?></span>
+            </button>
+
+            <!-- Prominent Share Button -->
+            <button class="btn btn-outline-primary px-3" type="button" onclick="openShareModal()">
+                <i class="bi bi-share me-1"></i> Share
+            </button>
+
+            <button class="btn btn-accent px-4" type="button" onclick="saveJourney()">
                 <i class="bi bi-cloud-upload me-2"></i>Save Changes
             </button>
             <div class="dropdown">
@@ -146,15 +169,15 @@ include __DIR__ . '/includes/navbar.php';
                     <i class="bi bi-three-dots-vertical me-1"></i> Actions
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item py-2" href="#" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</a></li>
-                    <li id="menu-item-feedback" style="display: none;"><a class="dropdown-item py-2" href="#" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></a></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
+                    <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</a></li>
-                    <li><a class="dropdown-item py-2" href="#" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</a></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
+                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</button></li>
                 </ul>
             </div>
         </div>
@@ -263,26 +286,37 @@ include __DIR__ . '/includes/navbar.php';
             </div>
             <div class="modal-body">
                 <!-- Public Link Section -->
-                <div class="card mb-4 border-0 bg-light p-3 rounded-3">
+                <div class="card mb-4 border p-3 rounded-3 shadow-xs" id="share-modal-public-card">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
-                            <span class="fw-bold d-block"><i class="bi bi-globe me-1 text-primary"></i> Public Link Sharing</span>
-                            <small class="text-muted">Anyone with this link can view this journey map without logging in.</small>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="fw-bold"><i class="bi bi-globe me-1 text-primary"></i> Public Link Sharing</span>
+                                <span id="share-modal-status-badge" class="badge <?php echo $isPublic ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-secondary-subtle text-secondary border border-secondary-subtle'; ?> px-2 py-1">
+                                    <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?> me-1"></i><?php echo $isPublic ? 'Public' : 'Private'; ?>
+                                </span>
+                            </div>
+                            <small class="text-muted d-block" id="share-modal-status-desc">
+                                <?php echo $isPublic 
+                                    ? 'This journey map is <strong>Public</strong>. Anyone with the link can view it without logging in.' 
+                                    : 'This journey map is <strong>Private</strong>. Only you and added collaborators can view or edit.'; ?>
+                            </small>
                         </div>
-                        <div class="form-check form-switch fs-5 mb-0">
-                            <input class="form-check-input" type="checkbox" id="public-share-toggle" onchange="togglePublicShare(this.checked)">
+                        <div class="form-check form-switch fs-4 mb-0 ms-3">
+                            <input class="form-check-input cursor-pointer" type="checkbox" id="public-share-toggle" role="switch" <?php echo $isPublic ? 'checked' : ''; ?> onchange="togglePublicShare(this.checked)">
                         </div>
                     </div>
-                    <div id="public-link-container" style="display: none;" class="mt-2">
+                    <div id="public-link-container" style="display: <?php echo $isPublic ? 'block' : 'none'; ?>;" class="mt-3 pt-3 border-top">
+                        <label class="form-label small fw-semibold text-muted mb-1">Public Share Link</label>
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control font-monospace" id="public-share-url" readonly>
+                            <input type="text" class="form-control font-monospace" id="public-share-url" readonly onclick="this.select()">
                             <button class="btn btn-primary" type="button" id="copy-share-btn" onclick="copyPublicShareUrl(this)">
                                 <i class="bi bi-clipboard me-1"></i> Copy Link
                             </button>
-                            <a href="#" id="public-share-preview" target="_blank" class="btn btn-outline-secondary" title="Open Public View">
+                            <a href="/share/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" id="public-share-preview" target="_blank" class="btn btn-outline-secondary" title="Open Public View in New Tab">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </a>
                         </div>
+                        <small class="text-success d-block mt-2"><i class="bi bi-check-circle me-1"></i> Link sharing active &mdash; viewers have read-only access to this map.</small>
                     </div>
                 </div>
 
@@ -537,7 +571,11 @@ $ojfData = is_string($journeyRecord['ojf_data']) ? json_decode($journeyRecord['o
         'owner' => (string)$journeyRecord['owner_id'],
         'folder' => $journeyRecord['folder'],
         'journey_status' => $journeyRecord['journey_status'],
-        'is_public' => (bool)$journeyRecord['is_public'],
+        'is_public' => $isPublic,
+        'collaborators' => array_map('strval', array_column($collaborators, 'id')),
+        'expand' => [
+            'collaborators' => $collaborators
+        ],
         'ojf_data' => $ojfData
     ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
     window.originalOJF = window.currentJourney.ojf_data || {};
