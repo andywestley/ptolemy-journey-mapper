@@ -164,6 +164,98 @@ include __DIR__ . '/includes/navbar.php';
             </div>
         </div>
     </div>
+
+    <!-- UK Public Services & Everyday Journeys Section -->
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="h4 fw-bold mb-1">
+                <i class="bi bi-geo-alt-fill text-danger me-2"></i>UK Public Services & Life Events
+            </h2>
+            <p class="text-muted small mb-0">Iconic British citizen and consumer journeys designed with realistic UK touchpoints (NHS, DVLA, HMRC, Rail, Property).</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- NHS GP & Pharmacy First -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold">NHS GP & Pharmacy First</h5>
+                        <span class="badge bg-primary text-white">NHS</span>
+                    </div>
+                    <p class="card-text text-muted small mb-4 flex-grow-1">The 8am GP phone queue, online eConsult triage via NHS App, and instant prescription dispensing under the community Pharmacy First scheme.</p>
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/nhs-gp-appointment.ojf')">
+                        <i class="bi bi-plus-circle me-1"></i> Use Template
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UK First-Time Home Buyer -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold">First-Time Home Buyer (UK)</h5>
+                        <span class="badge bg-success text-white">Property</span>
+                    </div>
+                    <p class="card-text text-muted small mb-4 flex-grow-1">From Lifetime ISA (LISA) deposit and Mortgage in Principle (AIP) to survey damp findings, the dread of gazumping, and legal exchange & completion.</p>
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-first-time-buyer.ojf')">
+                        <i class="bi bi-plus-circle me-1"></i> Use Template
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DVLA Driving Licence Renewal -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold">DVLA Licence Renewal</h5>
+                        <span class="badge bg-dark text-white">GOV.UK</span>
+                    </div>
+                    <p class="card-text text-muted small mb-4 flex-grow-1">Receiving the green D798 postal reminder from Swansea, renewing online on GOV.UK, cross-checking HM Passport photo, and Royal Mail delivery.</p>
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/dvla-driving-licence-renewal.ojf')">
+                        <i class="bi bi-plus-circle me-1"></i> Use Template
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UK Commuter Train & Delay Repay -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold">Train Commute & Delay Repay</h5>
+                        <span class="badge bg-warning text-dark">Transport</span>
+                    </div>
+                    <p class="card-text text-muted small mb-4 flex-grow-1">A morning commute disrupted by a Network Rail signalling failure, resulting in missed meetings and a 50% Delay Repay refund directly to Monzo.</p>
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-train-delay-repay.ojf')">
+                        <i class="bi bi-plus-circle me-1"></i> Use Template
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- HMRC Self Assessment Tax Return -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold">HMRC Self Assessment Return</h5>
+                        <span class="badge bg-info text-dark">HMRC</span>
+                    </div>
+                    <p class="card-text text-muted small mb-4 flex-grow-1">Sole trader tax filing before the 31st January midnight deadline, Government Gateway 2FA login, allowable expenses, and Payment on Account.</p>
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/hmrc-self-assessment.ojf')">
+                        <i class="bi bi-plus-circle me-1"></i> Use Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php

@@ -1,0 +1,223 @@
+{
+  "version": "1.0",
+  "persona": "Liam & Sophie (First-Time Buyers, Bristol)",
+  "pointOfView": "Navigating the opaque UK home buying system with a Lifetime ISA (LISA), mortgage application, conveyancing solicitors, and the dread of gazumping",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Mortgage in Principle (AIP)"
+    },
+    {
+      "id": "s2",
+      "name": "2. Viewings & Offer Accepted"
+    },
+    {
+      "id": "s3",
+      "name": "3. Conveyancing & Surveys"
+    },
+    {
+      "id": "s4",
+      "name": "4. Exchange & Completion"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Buyer Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "Legal & Lender Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Emotional Curve"
+    },
+    {
+      "id": "sl4",
+      "name": "UK Property Pitfalls"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Check Lifetime ISA (LISA)",
+      "description": "Confirm government 25% bonus has landed across two Moneybox Lifetime ISAs, providing £32,000 combined deposit.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "optimistic",
+      "purpose": "action",
+      "icon": "piggy-bank",
+      "iconColor": "#10b981",
+      "tags": ["LISA", "Deposit"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "Mortgage Broker (AIP)",
+      "description": "Fee-free whole-of-market broker secures an Agreement in Principle (AIP) for a 90% LTV 5-year fixed mortgage.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "confident",
+      "purpose": "milestone",
+      "icon": "shield-check",
+      "iconColor": "#3b82f6",
+      "tags": ["Mortgage", "Broker"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Rightmove & Zoopla Alerts",
+      "description": "Set up instant alerts; view 7 terraced properties in Southville and Bedminster within 2 weeks.",
+      "severity": "medium",
+      "score": 1,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "icon": "search",
+      "iconColor": "#6366f1",
+      "tags": ["Rightmove", "Viewing"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl4",
+      "title": "Best & Final Offers Drama",
+      "description": "Estate agent calls for 'sealed bids' by 5pm Friday due to competitive multi-buyer interest.",
+      "severity": "high",
+      "score": -3,
+      "sentiment": "anxious",
+      "purpose": "pain-point",
+      "icon": "graph-down-arrow",
+      "iconColor": "#f59e0b",
+      "tags": ["BiddingWar", "EstateAgent"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Offer Accepted (SSTC)",
+      "description": "Offer of £285,000 accepted! Property marked 'Sold STC' on Rightmove. Memo of Sale issued.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "icon": "stars",
+      "iconColor": "#10b981",
+      "tags": ["SSTC", "Offer"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Instructing Conveyancer",
+      "description": "Appoint solicitor; complete arduous source-of-funds checks and Anti-Money Laundering (AML) selfie scans.",
+      "severity": "medium",
+      "score": 0,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "icon": "file-earmark-person",
+      "iconColor": "#64748b",
+      "tags": ["Conveyancing", "AML"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n7",
+      "stageId": "s3",
+      "swimlaneId": "sl4",
+      "title": "RICS Level 2 Survey Findings",
+      "description": "Homebuyer survey highlights damp in the rear chimney breast and aging consumer unit, recommending £6,000 repairs.",
+      "severity": "high",
+      "score": -4,
+      "sentiment": "anxious",
+      "purpose": "bottleneck",
+      "icon": "exclamation-triangle",
+      "iconColor": "#ef4444",
+      "tags": ["RICS", "Survey"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n8",
+      "stageId": "s3",
+      "swimlaneId": "sl4",
+      "title": "The Gazumping Dread",
+      "description": "Weeks pass with slow council local authority searches. Liam worries another buyer will gazump them before contracts are binding.",
+      "severity": "high",
+      "score": -4,
+      "sentiment": "nervous",
+      "purpose": "pain-point",
+      "icon": "clock-history",
+      "iconColor": "#ef4444",
+      "tags": ["EnglandSystem", "Gazumping"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n9",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Renegotiate Price Reduction",
+      "description": "Sellers agree to £3,000 price adjustment to cover damp remedial treatment; revised mortgage deed drawn up.",
+      "severity": "medium",
+      "score": 2,
+      "sentiment": "relieved",
+      "purpose": "milestone",
+      "icon": "check2-circle",
+      "iconColor": "#10b981",
+      "tags": ["Negotiation"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Exchange of Contracts",
+      "description": "Solicitors exchange contracts at 11:45am. 10% deposit transferred. Deal is finally legally binding under English law!",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "euphoric",
+      "purpose": "milestone",
+      "icon": "pen",
+      "iconColor": "#6366f1",
+      "tags": ["Exchange", "LegallyBinding"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n11",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Stamp Duty (SDLT) Relief",
+      "description": "Conveyancer confirms £0 Stamp Duty owed thanks to First-Time Buyers' Relief on sub-£425k purchases.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "delighted",
+      "purpose": "touchpoint",
+      "icon": "receipt",
+      "iconColor": "#10b981",
+      "tags": ["HMRC", "SDLT"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n12",
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Completion & Key Handover",
+      "description": "Lender funds transfer at 1pm Friday. Liam & Sophie collect physical keys from the local estate agent and step inside their home.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "ecstatic",
+      "purpose": "gain",
+      "icon": "key",
+      "iconColor": "#f59e0b",
+      "tags": ["Completion", "Keys", "Success"],
+      "isMomentOfTruth": true
+    }
+  ]
+}

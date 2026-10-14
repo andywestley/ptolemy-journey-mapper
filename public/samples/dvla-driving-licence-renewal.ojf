@@ -1,0 +1,193 @@
+{
+  "version": "1.0",
+  "persona": "Priya (45, Commuter in Manchester)",
+  "pointOfView": "Renewing her 10-year photocard driving licence via GOV.UK after receiving the D798 green reminder letter in the post from DVLA Swansea",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. D798 Postal Reminder"
+    },
+    {
+      "id": "s2",
+      "name": "2. GOV.UK Service"
+    },
+    {
+      "id": "s3",
+      "name": "3. Identity Verification"
+    },
+    {
+      "id": "s4",
+      "name": "4. Royal Mail Delivery"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Applicant Steps"
+    },
+    {
+      "id": "sl2",
+      "name": "DVLA & GOV.UK Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "User Sentiment"
+    },
+    {
+      "id": "sl4",
+      "name": "Friction & Edge Cases"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Receives D798 Green Notice",
+      "description": "Green renewal reminder letter arrives from DVLA Swansea warning that photocard expires in 6 weeks (Section 4b on licence).",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "mildly-annoyed",
+      "purpose": "touchpoint",
+      "icon": "envelope-paper",
+      "iconColor": "#64748b",
+      "tags": ["Post", "DVLA", "Swansea"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl4",
+      "title": "Photobooth Apprehension",
+      "description": "Priya dreads hunting down a supermarket photobooth or visiting the Post Office for a £21.50 assisted application.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "anxious",
+      "purpose": "pain-point",
+      "icon": "camera",
+      "iconColor": "#f59e0b",
+      "tags": ["Photo", "Friction"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Navigates to GOV.UK",
+      "description": "Types 'renew driving licence' into search bar; carefully avoids copycat scam sites charging £50 admin fees.",
+      "severity": "high",
+      "score": 0,
+      "sentiment": "cautious",
+      "purpose": "action",
+      "icon": "shield-check",
+      "iconColor": "#3b82f6",
+      "tags": ["GOV.UK", "Security"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Start Now on GOV.UK",
+      "description": "Lands on official GOV.UK service page. Confirms fee is £14 online vs £17 by post.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "satisfied",
+      "purpose": "touchpoint",
+      "icon": "box-arrow-in-right",
+      "iconColor": "#10b981",
+      "tags": ["GOV.UK", "Pricing"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Enters National Insurance Number",
+      "description": "Inputs Driving Licence Number, National Insurance Number, and past 3 years UK addresses.",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "icon": "input-cursor-text",
+      "iconColor": "#6366f1",
+      "tags": ["Form", "Identity"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "HM Passport Office Photo Match",
+      "description": "Selects 'Use my UK Passport photo and signature'. Inputs valid British passport number; system queries HMPO API.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "icon": "person-bounding-box",
+      "iconColor": "#10b981",
+      "tags": ["HMPO", "Integration", "Magic"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n7",
+      "stageId": "s3",
+      "swimlaneId": "sl3",
+      "title": "Photo Successfully Matched",
+      "description": "Preview screen renders her existing passport digital photo and signature seamlessly without needing a photobooth trip.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "relieved",
+      "purpose": "gain",
+      "icon": "check-circle",
+      "iconColor": "#10b981",
+      "tags": ["DigitalService"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n8",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Apple Pay / Card Payment (£14)",
+      "description": "Pays £14.00 fee securely via GOV.UK Pay; receives immediate email confirmation with DVLA application tracking reference.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "confident",
+      "purpose": "touchpoint",
+      "icon": "credit-card",
+      "iconColor": "#3b82f6",
+      "tags": ["GOV.UK Pay"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n9",
+      "stageId": "s4",
+      "swimlaneId": "sl4",
+      "title": "Old Photocard Return Requirement",
+      "description": "DVLA requires old photocard to be cut into two and posted back to DVLA Swansea (SA99 1ZW).",
+      "severity": "medium",
+      "score": 1,
+      "sentiment": "mildly-annoyed",
+      "purpose": "pain-point",
+      "icon": "scissors",
+      "iconColor": "#f59e0b",
+      "tags": ["PostalReturn", "Friction"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Royal Mail Letterbox Delivery",
+      "description": "Brand new photocard licence arrives by standard 2nd Class post just 4 days later with updated 10-year validity.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "icon": "mailbox",
+      "iconColor": "#10b981",
+      "tags": ["Delivery", "RoyalMail", "Success"],
+      "isMomentOfTruth": true
+    }
+  ]
+}

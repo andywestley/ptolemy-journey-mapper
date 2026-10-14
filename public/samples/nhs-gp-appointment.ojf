@@ -1,0 +1,223 @@
+{
+  "version": "1.0",
+  "persona": "David (38, Working Parent in Leeds)",
+  "pointOfView": "Waking up with acute ear pain and attempting to secure NHS treatment without taking an entire unpaid day off work",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Symptom Onset & 8am Rush"
+    },
+    {
+      "id": "s2",
+      "name": "2. NHS App & eConsult"
+    },
+    {
+      "id": "s3",
+      "name": "3. Pharmacy First Triage"
+    },
+    {
+      "id": "s4",
+      "name": "4. EPS & Prescription"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Patient Actions"
+    },
+    {
+      "id": "sl2",
+      "name": "NHS Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Emotional State"
+    },
+    {
+      "id": "sl4",
+      "name": "Friction & Pain Points"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Wakes with Severe Earache",
+      "description": "David wakes up at 6:30am with severe throbbing ear pain and reduced hearing.",
+      "severity": "medium",
+      "score": -3,
+      "sentiment": "anxious",
+      "purpose": "touchpoint",
+      "icon": "exclamation-diamond",
+      "iconColor": "#ef4444",
+      "tags": ["Health", "Symptom"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "8:00 AM Phone Queue",
+      "description": "Calls local GP surgery precisely at 08:00. Call connects to queue position 34 after 12 redials.",
+      "severity": "high",
+      "score": -4,
+      "sentiment": "frustrated",
+      "purpose": "pain-point",
+      "icon": "telephone-outbound",
+      "iconColor": "#f59e0b",
+      "tags": ["GP", "Telephony"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n3",
+      "stageId": "s1",
+      "swimlaneId": "sl4",
+      "title": "The 8am Appointment Lottery",
+      "description": "Automated voice message warns: 'All routine appointments for today have been allocated'. Offered option to use NHS App or call NHS 111.",
+      "severity": "high",
+      "score": -5,
+      "sentiment": "angry",
+      "purpose": "bottleneck",
+      "icon": "clock-history",
+      "iconColor": "#ef4444",
+      "tags": ["Capacity", "Access"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Opens NHS App",
+      "description": "Logs in via biometric FaceID on NHS App and accesses GP surgery's online consultation form (Patchs/eConsult).",
+      "severity": "low",
+      "score": 1,
+      "sentiment": "relieved",
+      "purpose": "action",
+      "icon": "phone",
+      "iconColor": "#3b82f6",
+      "tags": ["Digital", "NHS App"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Symptom Questionnaire",
+      "description": "Completes 8-step clinical triage questionnaire detailing onset duration, fever check, and pain scale.",
+      "severity": "medium",
+      "score": 2,
+      "sentiment": "neutral",
+      "purpose": "touchpoint",
+      "icon": "clipboard2-pulse",
+      "iconColor": "#6366f1",
+      "tags": ["Form", "Triage"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s2",
+      "swimlaneId": "sl3",
+      "title": "Waiting for Response SMS",
+      "description": "Uncertain whether query will be addressed today or within 48 hours; checks phone repeatedly during work meeting.",
+      "severity": "medium",
+      "score": -1,
+      "sentiment": "anxious",
+      "purpose": "observation",
+      "icon": "hourglass-split",
+      "iconColor": "#f59e0b",
+      "tags": ["Uncertainty"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n7",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Pharmacy First SMS Referral",
+      "description": "At 10:15am, surgery texts David: referred to Boots Pharmacy under NHS Pharmacy First scheme for Otitis Media evaluation.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "positive",
+      "purpose": "milestone",
+      "icon": "chat-left-dots",
+      "iconColor": "#10b981",
+      "tags": ["PharmacyFirst", "SMS"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n8",
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Walks to High Street Chemist",
+      "description": "Attends the nominated community pharmacy during lunchtime; requests consultation room examination.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "hopeful",
+      "purpose": "action",
+      "icon": "geo-alt",
+      "iconColor": "#3b82f6",
+      "tags": ["HighStreet", "InPerson"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n9",
+      "stageId": "s3",
+      "swimlaneId": "sl2",
+      "title": "Otoscope Examination",
+      "description": "Pharmacist inspects ear canal with otoscope in private room, confirms bacterial ear infection.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "relieved",
+      "purpose": "touchpoint",
+      "icon": "heart-pulse",
+      "iconColor": "#10b981",
+      "tags": ["Clinical", "Examination"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Electronic Prescription (EPS)",
+      "description": "Pharmacist dispenses antibiotic ear drops immediately under NHS protocol without needing GP sign-off.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "delighted",
+      "purpose": "milestone",
+      "icon": "capsule",
+      "iconColor": "#10b981",
+      "tags": ["EPS", "Medication"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n11",
+      "stageId": "s4",
+      "swimlaneId": "sl4",
+      "title": "Prescription Charge Calculation",
+      "description": "David pays standard £9.90 NHS England prescription fee (wishing England had free prescriptions like Scotland and Wales).",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "neutral",
+      "purpose": "touchpoint",
+      "icon": "cash-coin",
+      "iconColor": "#64748b",
+      "tags": ["Cost", "PrescriptionCharge"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n12",
+      "stageId": "s4",
+      "swimlaneId": "sl3",
+      "title": "Fast Relief & Back to Work",
+      "description": "David administers first dose by 11:30am. Total journey time 3.5 hours compared to an entire day lost.",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "satisfied",
+      "purpose": "gain",
+      "icon": "emoji-smile",
+      "iconColor": "#10b981",
+      "tags": ["Outcome", "Success"],
+      "isMomentOfTruth": false
+    }
+  ]
+}

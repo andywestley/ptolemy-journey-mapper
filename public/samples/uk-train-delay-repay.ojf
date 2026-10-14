@@ -1,0 +1,193 @@
+{
+  "version": "1.0",
+  "persona": "Mark (34, Daily Commuter, Basingstoke to London Waterloo)",
+  "pointOfView": "Experiencing a 50-minute signalling delay during the morning peak and submitting a Delay Repay 15 compensation claim",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Station Departure"
+    },
+    {
+      "id": "s2",
+      "name": "2. Signal Failure & Halt"
+    },
+    {
+      "id": "s3",
+      "name": "3. Delayed Arrival"
+    },
+    {
+      "id": "s4",
+      "name": "4. Delay Repay Refund"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Passenger Experience"
+    },
+    {
+      "id": "sl2",
+      "name": "Rail System & Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Sentiment Curve"
+    },
+    {
+      "id": "sl4",
+      "name": "Operational Friction"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "Contactless Barcode Tap",
+      "description": "Mark taps through ticket barriers using his digital Season Ticket on his iPhone wallet at 07:18am.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "icon": "qr-code-scan",
+      "iconColor": "#3b82f6",
+      "tags": ["Ticket", "Barcode"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl2",
+      "title": "On-Time Boarding",
+      "description": "07:22 London Waterloo express arrives on Platform 2 on schedule; Mark secures a seat with laptop table.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "content",
+      "purpose": "milestone",
+      "icon": "train-front",
+      "iconColor": "#10b981",
+      "tags": ["NationalRail", "Departure"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl4",
+      "title": "Emergency Brakes near Woking",
+      "description": "Train grinds to an abrupt halt outside Woking. Overhead air conditioning cuts out.",
+      "severity": "high",
+      "score": -3,
+      "sentiment": "anxious",
+      "purpose": "pain-point",
+      "icon": "exclamation-triangle-fill",
+      "iconColor": "#ef4444",
+      "tags": ["Delay", "Infrastructure"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Automated Tannoy Silence",
+      "description": "15 minutes elapse with no driver announcement. Mark opens Realtime Trains and National Rail Enquiries app for live signalling feeds.",
+      "severity": "high",
+      "score": -4,
+      "sentiment": "frustrated",
+      "purpose": "bottleneck",
+      "icon": "megaphone-fill",
+      "iconColor": "#f59e0b",
+      "tags": ["Communication", "NationalRail"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "Driver Update: Major Points Failure",
+      "description": "Driver announces: 'Network Rail signalling failure at Surbiton. Lines blocked. Stand by for speed restriction crawl.'",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "resigned",
+      "purpose": "touchpoint",
+      "icon": "info-circle",
+      "iconColor": "#64748b",
+      "tags": ["NetworkRail", "Incident"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Misses 9am Client Presentation",
+      "description": "Mark is forced to join critical client budget review from his phone via Microsoft Teams over spotty 4G train Wi-Fi.",
+      "severity": "high",
+      "score": -5,
+      "sentiment": "stressed",
+      "purpose": "pain-point",
+      "icon": "camera-video-off",
+      "iconColor": "#ef4444",
+      "tags": ["Work", "Impact"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n7",
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Arrives at Waterloo +48 Mins Late",
+      "description": "Train finally pulls into London Waterloo at 08:58am instead of 08:10am. Delay recorded as 48 minutes.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "annoyed",
+      "purpose": "touchpoint",
+      "icon": "clock-history",
+      "iconColor": "#f59e0b",
+      "tags": ["Waterloo", "DelayRepay30"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n8",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Delay Repay Tier Calculation",
+      "description": "30-59 minute delay tier grants 50% compensation of a single journey ticket value (£18.60 refund due).",
+      "severity": "low",
+      "score": 2,
+      "sentiment": "hopeful",
+      "purpose": "observation",
+      "icon": "calculator",
+      "iconColor": "#3b82f6",
+      "tags": ["DelayRepay", "Compensation"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n9",
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Submits Claim on Train App",
+      "description": "Selects journey from ticket history; auto-populates schedule, train ID, and photo of paper ticket receipt.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "satisfied",
+      "purpose": "action",
+      "icon": "send-check",
+      "iconColor": "#6366f1",
+      "tags": ["App", "Claim"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "BACS Bank Transfer Approved",
+      "description": "Claim auto-validated against Network Rail Darwin tracking data within 48 hours; £18.60 refunded directly to Monzo bank account.",
+      "severity": "low",
+      "score": 4,
+      "sentiment": "appeased",
+      "purpose": "gain",
+      "icon": "bank",
+      "iconColor": "#10b981",
+      "tags": ["BACS", "Monzo", "Refund"],
+      "isMomentOfTruth": true
+    }
+  ]
+}

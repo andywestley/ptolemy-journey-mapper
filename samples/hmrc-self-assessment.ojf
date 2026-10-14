@@ -1,0 +1,193 @@
+{
+  "version": "1.0",
+  "persona": "Emma (31, Freelance UI Designer, Edinburgh)",
+  "pointOfView": "Filing her annual sole trader UK Self Assessment tax return on GOV.UK before the 31st January midnight deadline and understanding Payment on Account",
+  "stages": [
+    {
+      "id": "s1",
+      "name": "1. Year-End Bookkeeping"
+    },
+    {
+      "id": "s2",
+      "name": "2. Government Gateway Login"
+    },
+    {
+      "id": "s3",
+      "name": "3. Income & Allowable Expenses"
+    },
+    {
+      "id": "s4",
+      "name": "4. Tax Bill & Payment on Account"
+    }
+  ],
+  "swimlanes": [
+    {
+      "id": "sl1",
+      "name": "Taxpayer Steps"
+    },
+    {
+      "id": "sl2",
+      "name": "HMRC Digital Touchpoints"
+    },
+    {
+      "id": "sl3",
+      "name": "Emotional State"
+    },
+    {
+      "id": "sl4",
+      "name": "Tax Complexity & Shocks"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "stageId": "s1",
+      "swimlaneId": "sl1",
+      "title": "January Receipt Scramble",
+      "description": "On 22nd January, Emma downloads bank CSVs, FreeAgent accounting reports, and reconciles design software subscriptions.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "overwhelmed",
+      "purpose": "action",
+      "icon": "folder2-open",
+      "iconColor": "#f59e0b",
+      "tags": ["Bookkeeping", "Invoices"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n2",
+      "stageId": "s1",
+      "swimlaneId": "sl4",
+      "title": "Missing Client Invoices",
+      "description": "Two clients have not provided remittance slips; Emma spends an evening tracking down transaction dates.",
+      "severity": "medium",
+      "score": -3,
+      "sentiment": "frustrated",
+      "purpose": "pain-point",
+      "icon": "file-earmark-x",
+      "iconColor": "#ef4444",
+      "tags": ["Reconciliation"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n3",
+      "stageId": "s2",
+      "swimlaneId": "sl1",
+      "title": "Two-Factor Auth Gateway",
+      "description": "Finds her 12-digit Government Gateway User ID, 10-digit UTR (Unique Taxpayer Reference), and completes SMS 2FA code.",
+      "severity": "low",
+      "score": 1,
+      "sentiment": "neutral",
+      "purpose": "action",
+      "icon": "shield-lock",
+      "iconColor": "#3b82f6",
+      "tags": ["GovGateway", "UTR", "2FA"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n4",
+      "stageId": "s2",
+      "swimlaneId": "sl2",
+      "title": "HMRC Tailor Your Return",
+      "description": "Answers 14 tailoring questions on GOV.UK: self-employment, interest, dividends, Student Loans Plan 2.",
+      "severity": "medium",
+      "score": 2,
+      "sentiment": "cautious",
+      "purpose": "touchpoint",
+      "icon": "ui-checks",
+      "iconColor": "#6366f1",
+      "tags": ["TailorReturn", "HMRC"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n5",
+      "stageId": "s3",
+      "swimlaneId": "sl1",
+      "title": "Declare Turnover (£44,500)",
+      "description": "Enters gross turnover from client projects; calculates simplified flat-rate home office expense (£312/year).",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "focused",
+      "purpose": "action",
+      "icon": "cash-stack",
+      "iconColor": "#10b981",
+      "tags": ["Turnover", "Expenses"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n6",
+      "stageId": "s3",
+      "swimlaneId": "sl4",
+      "title": "Student Loan Plan 2 Threshold",
+      "description": "HMRC form prompts for Plan 2 deductions (9% over £27,295), adding unexpected repayments to the calculation.",
+      "severity": "medium",
+      "score": -2,
+      "sentiment": "annoyed",
+      "purpose": "pain-point",
+      "icon": "mortarboard",
+      "iconColor": "#f59e0b",
+      "tags": ["StudentLoan", "Plan2"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n7",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "View Tax Calculation",
+      "description": "Click 'View Your Calculation'. System breaks down Class 4 National Insurance, Income Tax, and Student Loan.",
+      "severity": "high",
+      "score": 0,
+      "sentiment": "anxious",
+      "purpose": "milestone",
+      "icon": "calculator-fill",
+      "iconColor": "#3b82f6",
+      "tags": ["Calculation", "HMRC"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n8",
+      "stageId": "s4",
+      "swimlaneId": "sl4",
+      "title": "The Payment on Account Shock",
+      "description": "Because tax bill exceeds £1,000, HMRC adds 50% advance payment for next year, instantly increasing due amount by 50%!",
+      "severity": "high",
+      "score": -5,
+      "sentiment": "shocked",
+      "purpose": "bottleneck",
+      "icon": "lightning-charge-fill",
+      "iconColor": "#ef4444",
+      "tags": ["PaymentOnAccount", "Shock"],
+      "isMomentOfTruth": true
+    },
+    {
+      "id": "n9",
+      "stageId": "s4",
+      "swimlaneId": "sl1",
+      "title": "Instant Bank Pay Approval",
+      "description": "Emma pays via 'Approve a payment through your online bank' (Open Banking QR code) directly to HMRC Shipley account.",
+      "severity": "low",
+      "score": 3,
+      "sentiment": "relieved",
+      "purpose": "action",
+      "icon": "credit-card-2-front",
+      "iconColor": "#10b981",
+      "tags": ["OpenBanking", "Payment"],
+      "isMomentOfTruth": false
+    },
+    {
+      "id": "n10",
+      "stageId": "s4",
+      "swimlaneId": "sl2",
+      "title": "Submission Receipt & Peace of Mind",
+      "description": "HMRC displays green checkmark: 'Your return has been received'. IR Mark stamped. Done for another 12 months!",
+      "severity": "low",
+      "score": 5,
+      "sentiment": "euphoric",
+      "purpose": "gain",
+      "icon": "check2-all",
+      "iconColor": "#10b981",
+      "tags": ["Submission", "IRMark", "Success"],
+      "isMomentOfTruth": true
+    }
+  ]
+}
