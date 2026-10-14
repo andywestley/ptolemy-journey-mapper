@@ -5,6 +5,7 @@
 
 // Load the environment credentials config
 require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/logger.php';
 
 /**
  * Returns a PDO connection instance
@@ -25,7 +26,11 @@ function getDBConnection($exitOnError = true) {
             );
             ensureSchemaUpToDate($pdo);
         } catch (PDOException $e) {
-            error_log("Database connection failed: " . $e->getMessage());
+            if (function_exists('app_log')) {
+                app_log('CRITICAL', "Database connection failed: " . $e->getMessage());
+            } else {
+                error_log("Database connection failed: " . $e->getMessage());
+            }
             if ($exitOnError) {
                 http_response_code(500);
                 echo json_encode(["error" => "Database connection error."]);
@@ -76,8 +81,27 @@ function ensureSchemaUpToDate($pdo) {
         if (empty($cols)) {
             $pdo->exec("ALTER TABLE journeys ADD COLUMN is_public TINYINT(1) DEFAULT 0 AFTER journey_status");
         }
+
+        // 6. Auto-seed journeys if table is completely empty
+        $count = (int)$pdo->query("SELECT COUNT(*) FROM journeys")->fetchColumn();
+        if ($count === 0) {
+            $seedScript = dirname(__DIR__) . '/scripts/seed_pocketbase_data.php';
+            if (file_exists($seedScript)) {
+                require_once $seedScript;
+                if (function_exists('seedPocketBaseData')) {
+                    $results = seedPocketBaseData($pdo);
+                    if (function_exists('app_log')) {
+                        app_log('INFO', 'Database auto-seeded successfully with original PocketBase data', $results);
+                    }
+                }
+            }
+        }
     } catch (Exception $e) {
-        error_log("Schema auto-update notice: " . $e->getMessage());
+        if (function_exists('app_log')) {
+            app_log('WARNING', "Schema auto-update notice: " . $e->getMessage());
+        } else {
+            error_log("Schema auto-update notice: " . $e->getMessage());
+        }
     }
 }
 

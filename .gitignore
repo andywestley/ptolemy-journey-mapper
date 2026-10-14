@@ -11,4 +11,9 @@ research/*.pdf
 
 # Node dependencies
 node_modules/
-npm-debug.log*
+npm-debug.log*
+
+# Logs
+logs/*.log
+logs/*.bak
+!logs/.gitkeep

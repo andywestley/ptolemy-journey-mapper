@@ -43,6 +43,11 @@ $activeNav = $activeNav ?? 'dashboard';
                         <i class="bi bi-shield-lock me-1"></i>Admin
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 text-secondary" href="/api/diagnostics.php">
+                        <i class="bi bi-activity me-1"></i>Diagnostics
+                    </a>
+                </li>
                 <?php endif; ?>
             </ul>
 

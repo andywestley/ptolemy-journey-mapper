@@ -111,9 +111,8 @@ if ($method === 'GET') {
         $stmt = $db->prepare("
             SELECT j.* 
             FROM journeys j
-            LEFT JOIN journey_collaborators jc ON j.id = jc.journey_id
-            WHERE j.owner_id = ? OR jc.user_id = ?
-            GROUP BY j.id
+            WHERE j.owner_id = ? 
+               OR j.id IN (SELECT journey_id FROM journey_collaborators WHERE user_id = ?)
             ORDER BY j.created_at DESC
         ");
         $stmt->execute([$currentUserId, $currentUserId]);

@@ -124,6 +124,9 @@ include __DIR__ . '/includes/header.php';
         </a>
 
         <div class="ms-auto d-flex align-items-center">
+            <a href="/api/diagnostics.php" class="btn btn-outline-info btn-sm me-2">
+                <i class="bi bi-activity me-1"></i>Diagnostics & Logs
+            </a>
             <a href="/dashboard/" class="btn btn-outline-secondary btn-sm me-3">
                 <i class="bi bi-arrow-left me-1"></i>Back to App
             </a>
