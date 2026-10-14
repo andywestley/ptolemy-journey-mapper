@@ -125,7 +125,7 @@ include __DIR__ . '/includes/header.php';
 
     <footer id="colophon-ptolemy" class="text-muted" style="font-size: 0.9rem;">
         <p class="mb-0">
-            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" class="text-decoration-none" style="color: var(--accent-color);">Claudius Ptolemy</a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
+            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" class="text-decoration-underline" style="color: var(--accent-color);">Claudius Ptolemy</a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
         </p>
     </footer>
 </main>
