@@ -7,7 +7,8 @@ include __DIR__ . '/includes/header.php';
 <style>
     :root {
         --primary-bg: #f8f9fa;
-        --accent-color: #6366f1;
+        --accent-color: #4f46e5;
+        --accent-color-hover: #4338ca;
         --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
 
@@ -52,19 +53,20 @@ include __DIR__ . '/includes/header.php';
     }
 
     .nav-pills .nav-link {
-        color: #6c757d;
+        color: #475569;
         border-radius: 0.5rem;
         font-weight: 500;
     }
 
     .nav-pills .nav-link.active {
         background-color: var(--accent-color);
-        color: white;
+        color: #ffffff;
     }
 
     .btn-primary {
         background-color: var(--accent-color);
         border-color: var(--accent-color);
+        color: #ffffff;
         padding: 0.75rem;
         font-weight: 600;
         border-radius: 0.5rem;
@@ -73,9 +75,10 @@ include __DIR__ . '/includes/header.php';
     }
 
     .btn-primary:hover {
-        background-color: #4f46e5;
-        border-color: #4f46e5;
+        background-color: var(--accent-color-hover);
+        border-color: var(--accent-color-hover);
         transform: translateY(-1px);
+        color: #ffffff;
     }
 
     .form-control {
@@ -174,7 +177,7 @@ include __DIR__ . '/includes/header.php';
     <div class="auth-card">
         <div class="auth-header">
             <h1 id="app-title">Ptolemy</h1>
-            <p class="mb-0 opacity-75">the OpenJourney editor</p>
+            <p class="mb-0 text-white" style="font-weight: 500;">the OpenJourney editor</p>
         </div>
 
         <div class="auth-body">

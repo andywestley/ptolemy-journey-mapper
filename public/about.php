@@ -7,7 +7,7 @@ include __DIR__ . '/includes/header.php';
 <style>
     :root {
         --primary-bg: #f8f9fa;
-        --accent-color: #6366f1;
+        --accent-color: #4f46e5;
     }
 
     body {

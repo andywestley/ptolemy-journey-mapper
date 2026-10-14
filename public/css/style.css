@@ -1,7 +1,8 @@
 /* Global variables and design tokens */
 :root {
     --primary-bg: #f8f9fa;
-    --accent-color: #6366f1;
+    --accent-color: #4f46e5;
+    --accent-color-hover: #4338ca;
     --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --navbar-height: 70px;
 }
@@ -13,11 +14,21 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* WCAG 2 AA Accessible Text & Utility Overrides */
+.text-muted {
+    color: #525866 !important;
+}
+
+code {
+    color: #9d174d;
+    font-weight: 500;
+}
+
 /* Common Components */
 .btn-primary, .btn-accent {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
-    color: white;
+    color: #ffffff;
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     border-radius: 0.5rem;
@@ -25,10 +36,22 @@ body {
 }
 
 .btn-primary:hover, .btn-accent:hover {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
+    background-color: var(--accent-color-hover);
+    border-color: var(--accent-color-hover);
     transform: translateY(-1px);
-    color: white;
+    color: #ffffff;
+}
+
+.btn-outline-secondary {
+    color: #475569;
+    border-color: #64748b;
+    font-weight: 500;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
+    color: #ffffff;
 }
 
 .loading-overlay {
@@ -82,14 +105,14 @@ body {
 }
 
 .nav-pills .nav-link {
-    color: #6c757d;
+    color: #475569;
     border-radius: 0.5rem;
     font-weight: 500;
 }
 
 .nav-pills .nav-link.active {
     background-color: var(--accent-color);
-    color: white;
+    color: #ffffff;
 }
 
 /* Dashboard Styles */
@@ -134,4 +157,26 @@ body {
     background-color: #334155;
     border-color: #475569;
     color: white;
+}
+[data-bs-theme="dark"] code {
+    color: #f472b6;
+}
+[data-bs-theme="dark"] .text-muted {
+    color: #94a3b8 !important;
+}
+[data-bs-theme="dark"] .btn-outline-secondary {
+    color: #cbd5e1;
+    border-color: #94a3b8;
+}
+[data-bs-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #cbd5e1;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+[data-bs-theme="dark"] .nav-pills .nav-link {
+    color: #cbd5e1;
+}
+[data-bs-theme="dark"] .nav-pills .nav-link.active {
+    background-color: var(--accent-color);
+    color: #ffffff;
 }
