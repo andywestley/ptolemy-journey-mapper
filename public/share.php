@@ -188,7 +188,7 @@ include __DIR__ . '/includes/header.php';
     <!-- Sub-View: Table View -->
     <div id="table-editor-view" class="table-editor-container" style="display: none;">
         <div class="card p-4 border-0 shadow-sm rounded-4 mb-4">
-            <h5 class="fw-bold mb-3"><i class="bi bi-table me-2"></i>Journey Steps</h5>
+            <h2 class="h5 fw-bold mb-3"><i class="bi bi-table me-2" aria-hidden="true"></i>Journey Steps</h2>
             <div class="table-responsive" tabindex="0" role="region" aria-label="Journey Steps Table">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
@@ -209,15 +209,15 @@ include __DIR__ . '/includes/header.php';
 </main>
 
 <!-- Read-Only Node Inspection Modal -->
-<div class="modal fade" id="publicNodeModal" tabindex="-1">
+<div class="modal fade" id="publicNodeModal" tabindex="-1" aria-labelledby="inspect-title" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header">
                 <div>
                     <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill mb-1" id="inspect-stage-swimlane">Stage &bull; Swimlane</span>
-                    <h5 class="modal-title fw-bold" id="inspect-title">Step Title</h5>
+                    <h2 class="modal-title h5 fw-bold" id="inspect-title">Step Title</h2>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p id="inspect-description" class="lead fs-6 text-muted mb-4"></p>
@@ -247,22 +247,22 @@ include __DIR__ . '/includes/header.php';
 
                 <!-- Service Blueprint Section -->
                 <div id="inspect-blueprint-container" class="border-top pt-3 d-none">
-                    <h6 class="fw-bold mb-3 text-primary"><i class="bi bi-diagram-3 me-1"></i> Service Blueprint Context</h6>
+                    <h3 class="h6 fw-bold mb-3 text-primary"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> Service Blueprint Context</h3>
                     <div class="row g-3">
                         <div class="col-md-6" id="inspect-onstage-group">
-                            <h6 class="small text-muted text-uppercase fw-bold">Onstage Actions</h6>
+                            <h4 class="small text-muted text-uppercase fw-bold">Onstage Actions</h4>
                             <ul class="list-group list-group-flush small" id="inspect-onstage-list"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-backstage-group">
-                            <h6 class="small text-muted text-uppercase fw-bold">Backstage Actions</h6>
+                            <h4 class="small text-muted text-uppercase fw-bold">Backstage Actions</h4>
                             <ul class="list-group list-group-flush small" id="inspect-backstage-list"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-support-group">
-                            <h6 class="small text-muted text-uppercase fw-bold">Support Systems</h6>
+                            <h4 class="small text-muted text-uppercase fw-bold">Support Systems</h4>
                             <ul class="list-group list-group-flush small" id="inspect-support-list"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-evidence-group">
-                            <h6 class="small text-muted text-uppercase fw-bold">Physical Evidence</h6>
+                            <h4 class="small text-muted text-uppercase fw-bold">Physical Evidence</h4>
                             <ul class="list-group list-group-flush small" id="inspect-evidence-list"></ul>
                         </div>
                     </div>

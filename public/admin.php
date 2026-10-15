@@ -212,7 +212,7 @@ include __DIR__ . '/includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold">Create New Account</h5>
+                <h2 class="modal-title h5 fw-bold">Create New Account</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="create-user-form" onsubmit="handleCreateUser(event)">
@@ -293,7 +293,7 @@ include __DIR__ . '/includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold">Edit Account</h5>
+                <h2 class="modal-title h5 fw-bold">Edit Account</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="edit-user-form" onsubmit="handleEditUser(event)">
@@ -335,7 +335,7 @@ include __DIR__ . '/includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold">Reset Password</h5>
+                <h2 class="modal-title h5 fw-bold">Reset Password</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="reset-password-form" onsubmit="handleResetPassword(event)">
@@ -372,7 +372,7 @@ include __DIR__ . '/includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="credentials-modal-title">Account Credentials</h5>
+                <h2 class="modal-title h5 fw-bold" id="credentials-modal-title">Account Credentials</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">

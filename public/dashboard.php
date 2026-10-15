@@ -37,7 +37,7 @@ include __DIR__ . '/includes/navbar.php';
             <!-- Sidebar for Folders -->
             <aside class="col-md-3 col-lg-2 mb-4 mb-md-0" aria-label="Folders">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-bold mb-0 text-muted text-uppercase small">Folders</h6>
+                    <span class="fw-bold mb-0 text-muted text-uppercase small">Folders</span>
                 </div>
                 <div class="list-group list-group-flush mb-4 folder-group shadow-sm rounded-3 overflow-hidden bg-white" id="folder-list">
                     <button class="list-group-item list-group-item-action border-0 p-2 <?php echo ($currentFolder === 'inbox' || empty($currentFolder)) ? 'active' : ''; ?>" data-folder="inbox" onclick="filterByFolder('inbox')">
@@ -88,7 +88,7 @@ include __DIR__ . '/includes/navbar.php';
 
                 <div id="empty-state" class="empty-state" style="display: none;">
                     <i class="bi bi-folder2-open display-1 mb-3 text-muted"></i>
-                    <h3>No journeys found</h3>
+                    <h2 class="h4">No journeys found</h2>
                     <p class="text-muted">Create your first user journey map or import an existing .ojf file.</p>
                 </div>
             </section>

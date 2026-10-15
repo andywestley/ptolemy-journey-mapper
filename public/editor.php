@@ -176,7 +176,7 @@ include __DIR__ . '/includes/navbar.php';
         <div class="mb-5">
             <div class="d-flex justify-content-between align-items-baseline mb-3">
                 <div>
-                    <h4 class="mb-0">Stages (Columns)</h4>
+                    <h2 class="h4 mb-0">Stages (Columns)</h2>
                     <p class="text-muted small mb-0">Define the chronological steps. Examples: <em>Awareness, Discovery, Evaluation, Purchase, Retention.</em></p>
                 </div>
                 <button class="btn btn-sm btn-outline-primary" onclick="addStage()">
@@ -201,7 +201,7 @@ include __DIR__ . '/includes/navbar.php';
         <div>
             <div class="d-flex justify-content-between align-items-baseline mb-3">
                 <div>
-                    <h4 class="mb-0">Swimlanes (Rows)</h4>
+                    <h2 class="h4 mb-0">Swimlanes (Rows)</h2>
                     <p class="text-muted small mb-0">Define the layers of data. Examples: <em>User Actions, Pain Points, Emotional State, Tools.</em></p>
                 </div>
                 <button class="btn btn-sm btn-outline-primary" onclick="addSwimlane()">
@@ -224,7 +224,7 @@ include __DIR__ . '/includes/navbar.php';
 
         <div class="mt-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Nodes (Journey Steps)</h4>
+                <h2 class="h4 mb-0">Nodes (Journey Steps)</h2>
                 <button class="btn btn-sm btn-outline-primary" onclick="openNodeModal()">
                     <i class="bi bi-plus"></i> Add Node
                 </button>
@@ -269,7 +269,7 @@ include __DIR__ . '/includes/navbar.php';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="shareModalLabel"><i class="bi bi-share me-2"></i>Share Journey</h5>
+                <h2 class="modal-title h5 fw-bold" id="shareModalLabel"><i class="bi bi-share me-2" aria-hidden="true"></i>Share Journey</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -311,14 +311,14 @@ include __DIR__ . '/includes/navbar.php';
 
                 <!-- Collaborators Section -->
                 <div class="mb-3">
-                    <h6 class="fw-bold">Collaborators (Edit Access)</h6>
+                    <h3 class="h6 fw-bold">Collaborators (Edit Access)</h3>
                     <label for="share-email" class="form-label small text-muted">Add team members via email address</label>
                     <div class="input-group">
                         <input type="email" class="form-control" id="share-email" placeholder="collaborator@example.com" autocomplete="email">
                         <button class="btn btn-primary" onclick="addCollaborator()">Add</button>
                     </div>
                 </div>
-                <h6 class="small text-muted text-uppercase fw-bold mb-2">Current Collaborators</h6>
+                <h4 class="small text-muted text-uppercase fw-bold mb-2">Current Collaborators</h4>
                 <ul class="list-group list-group-flush border rounded" id="collaborators-list"></ul>
             </div>
         </div>
@@ -330,7 +330,7 @@ include __DIR__ . '/includes/navbar.php';
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="nodeModalLabel">Edit Node</h5>
+                <h2 class="modal-title h5 fw-bold" id="nodeModalLabel">Edit Node</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
@@ -449,7 +449,7 @@ include __DIR__ . '/includes/navbar.php';
                         <!-- Onstage Actions -->
                         <div class="blueprint-section mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="fw-bold mb-0 text-primary small text-uppercase">Onstage (Visible) Actions</h6>
+                                <h3 class="fw-bold mb-0 text-primary small text-uppercase">Onstage (Visible) Actions</h3>
                                 <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('onstage')">
                                     <i class="bi bi-plus-circle me-1"></i>Add
                                 </button>
@@ -460,7 +460,7 @@ include __DIR__ . '/includes/navbar.php';
                         <!-- Backstage Actions -->
                         <div class="blueprint-section mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="fw-bold mb-0 text-primary small text-uppercase">Backstage (Invisible) Actions</h6>
+                                <h3 class="fw-bold mb-0 text-primary small text-uppercase">Backstage (Invisible) Actions</h3>
                                 <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('backstage')">
                                     <i class="bi bi-plus-circle me-1"></i>Add
                                 </button>
@@ -471,7 +471,7 @@ include __DIR__ . '/includes/navbar.php';
                         <!-- Support Processes -->
                         <div class="blueprint-section mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="fw-bold mb-0 text-primary small text-uppercase">Support Processes & Systems</h6>
+                                <h3 class="fw-bold mb-0 text-primary small text-uppercase">Support Processes & Systems</h3>
                                 <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('support')">
                                     <i class="bi bi-plus-circle me-1"></i>Add
                                 </button>
@@ -482,7 +482,7 @@ include __DIR__ . '/includes/navbar.php';
                         <!-- Physical Evidence -->
                         <div class="blueprint-section">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="fw-bold mb-0 text-primary small text-uppercase">Physical Evidence</h6>
+                                <h3 class="fw-bold mb-0 text-primary small text-uppercase">Physical Evidence</h3>
                                 <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="addBlueprintItem('evidence')">
                                     <i class="bi bi-plus-circle me-1"></i>Add
                                 </button>
@@ -506,7 +506,7 @@ include __DIR__ . '/includes/navbar.php';
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title" id="commentModalTitle">Add Feedback</h6>
+                <h2 class="modal-title h6" id="commentModalTitle">Add Feedback</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -526,7 +526,7 @@ include __DIR__ . '/includes/navbar.php';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Discussion</h5>
+                <h2 class="modal-title h5">Discussion</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">

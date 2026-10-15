@@ -35,13 +35,18 @@ include __DIR__ . '/includes/navbar.php';
         </a>
     </div>
 
+    <div class="mb-3">
+        <h2 class="h4 fw-bold mb-1"><i class="bi bi-grid-fill text-primary me-2"></i>Core Journey Templates</h2>
+        <p class="text-muted small mb-0">Explore foundational blueprints spanning user discovery, enterprise procurement, and customer service.</p>
+    </div>
+
     <div class="row g-4">
         <!-- Tutorial -->
         <div class="col-md-4 col-sm-6">
             <div class="card h-100 border-primary bg-light shadow-sm">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold text-primary">Self-Guided Tutorial</h5>
+                        <h3 class="card-title h5 fw-bold text-primary">Self-Guided Tutorial</h3>
                         <i class="bi bi-mortarboard fs-3 text-primary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Learn how to use Ptolemy interactively by exploring a map that explains how to build a map. Highly recommended for first-time users.</p>
@@ -57,7 +62,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">B2B Software Purchase</h5>
+                        <h3 class="card-title h5 fw-bold">B2B Software Purchase</h3>
                         <i class="bi bi-buildings fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A complex enterprise procurement journey involving multiple stakeholders, security reviews, and vendor touchpoints.</p>
@@ -73,7 +78,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">E-commerce Return</h5>
+                        <h3 class="card-title h5 fw-bold">E-commerce Return</h3>
                         <i class="bi bi-box-seam fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A negative friction flow demonstrating how an unhappy path (returning a broken item) is tracked with low Emotion scores and pain point tags.</p>
@@ -89,7 +94,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">E-commerce Purchase</h5>
+                        <h3 class="card-title h5 fw-bold">E-commerce Purchase</h3>
                         <i class="bi bi-cart-check fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A happy-path flow for a high-end product purchase, from initial discovery to onboarding.</p>
@@ -105,7 +110,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">Customer Support</h5>
+                        <h3 class="card-title h5 fw-bold">Customer Support</h3>
                         <i class="bi bi-headset fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A service-focused journey documenting a support interaction for a technical hardware issue.</p>
@@ -121,7 +126,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">Event Booking</h5>
+                        <h3 class="card-title h5 fw-bold">Event Booking</h3>
                         <i class="bi bi-calendar-event fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Tracking travel logistics and registration for an international conference.</p>
@@ -137,7 +142,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 border-info bg-light shadow-sm">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold text-info">Hotel Check-in Blueprint</h5>
+                        <h3 class="card-title h5 fw-bold text-info">Hotel Check-in Blueprint</h3>
                         <i class="bi bi-diagram-3 fs-3 text-info"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A multi-layered service blueprint demonstrating Frontstage/Backstage actions and Physical Evidence for a luxury hotel arrival.</p>
@@ -153,7 +158,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 border-success bg-light shadow-sm">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold text-success">Clinic Visit Blueprint</h5>
+                        <h3 class="card-title h5 fw-bold text-success">Clinic Visit Blueprint</h3>
                         <i class="bi bi-hospital fs-3 text-success"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A healthcare service blueprint focusing on clinical triage, backstage record management, and EMR support systems.</p>
@@ -181,7 +186,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">NHS GP & Pharmacy First</h5>
+                        <h3 class="card-title h5 fw-bold">NHS GP & Pharmacy First</h3>
                         <span class="badge bg-primary text-white">NHS</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">The 8am GP phone queue, online eConsult triage via NHS App, and instant prescription dispensing under the community Pharmacy First scheme.</p>
@@ -197,7 +202,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">First-Time Home Buyer (UK)</h5>
+                        <h3 class="card-title h5 fw-bold">First-Time Home Buyer (UK)</h3>
                         <span class="badge bg-success text-white">Property</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">From Lifetime ISA (LISA) deposit and Mortgage in Principle (AIP) to survey damp findings, the dread of gazumping, and legal exchange & completion.</p>
@@ -213,7 +218,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">DVLA Licence Renewal</h5>
+                        <h3 class="card-title h5 fw-bold">DVLA Licence Renewal</h3>
                         <span class="badge bg-dark text-white">GOV.UK</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Receiving the green D798 postal reminder from Swansea, renewing online on GOV.UK, cross-checking HM Passport photo, and Royal Mail delivery.</p>
@@ -229,7 +234,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">Train Commute & Delay Repay</h5>
+                        <h3 class="card-title h5 fw-bold">Train Commute & Delay Repay</h3>
                         <span class="badge bg-warning text-dark">Transport</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A morning commute disrupted by a Network Rail signalling failure, resulting in missed meetings and a 50% Delay Repay refund directly to Monzo.</p>
@@ -245,7 +250,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold">HMRC Self Assessment Return</h5>
+                        <h3 class="card-title h5 fw-bold">HMRC Self Assessment Return</h3>
                         <span class="badge bg-info text-dark">HMRC</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Sole trader tax filing before the 31st January midnight deadline, Government Gateway 2FA login, allowable expenses, and Payment on Account.</p>

@@ -91,7 +91,7 @@ async function loadJourneys(type = null) {
                 empty.innerHTML = `
                     <div class="text-center py-5">
                         <i class="bi bi-folder2-open display-1 text-light mb-3"></i>
-                        <h4>No journeys found</h4>
+                        <h2 class="h4">No journeys found</h2>
                         <p class="text-muted">Try changing your filters or create a new journey map.</p>
                     </div>
                 `;
