@@ -123,7 +123,9 @@ include __DIR__ . '/includes/header.php';
 
 <main id="main-content" class="content-section">
     <div class="mb-5">
-        <a href="/" class="text-decoration-none fw-semibold">&larr; Back to the App</a>
+        <a href="/" class="btn btn-outline-secondary btn-sm fw-semibold">
+            <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Back to the App
+        </a>
     </div>
 
     <h2 class="mb-4">Why I Built This</h2>
@@ -186,11 +188,11 @@ include __DIR__ . '/includes/header.php';
 
     <footer id="colophon-ptolemy" class="text-muted mt-5 pt-3 border-top" style="font-size: 0.9rem;">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-            <div class="d-flex gap-3 small">
-                <a href="/" class="text-decoration-none">Ptolemy App</a>
-                <a href="/templates/" class="text-decoration-none">Templates</a>
-                <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none" title="Opens in a new tab">GitHub Repo <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
-                <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+            <div class="d-flex flex-wrap gap-3 small">
+                <a href="/" class="text-decoration-none py-1 px-1">Ptolemy App</a>
+                <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
+                <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub Repo <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+                <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
             </div>
             <span class="small text-muted">&copy; <?php echo date('Y'); ?> Ptolemy</span>
         </div>
