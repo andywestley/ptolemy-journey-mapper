@@ -84,6 +84,8 @@ body {
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
+    scroll-padding-left: 215px; /* Clear sticky swimlane header */
+    scroll-padding-top: 80px;   /* Clear sticky stage header */
 }
 
 .journey-grid {
@@ -276,6 +278,8 @@ body {
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    scroll-margin-left: 215px;
+    scroll-margin-top: 80px;
 }
 
 .node-card:hover {

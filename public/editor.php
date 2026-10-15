@@ -126,12 +126,13 @@ include __DIR__ . '/includes/navbar.php';
                 </div>
 
                 <!-- Toggle Switch -->
-                <div class="btn-group btn-group-sm mt-2" role="group">
-                    <input type="radio" class="btn-check" name="editor-mode" id="mode-table" <?php echo $initialMode === 'table' ? 'checked' : ''; ?> onclick="switchEditorMode('table')">
-                    <label class="btn btn-outline-primary" for="mode-table"><i class="bi bi-table me-1"></i>Table Editor</label>
-
-                    <input type="radio" class="btn-check" name="editor-mode" id="mode-visual" <?php echo $initialMode === 'visual' ? 'checked' : ''; ?> onclick="switchEditorMode('visual')">
-                    <label class="btn btn-outline-primary" for="mode-visual"><i class="bi bi-diagram-3 me-1"></i>Visual Map</label>
+                <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Journey editor mode">
+                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
+                        <i class="bi bi-table me-1"></i>Table Editor
+                    </button>
+                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'visual' ? 'active' : ''; ?>" id="mode-visual" aria-pressed="<?php echo $initialMode === 'visual' ? 'true' : 'false'; ?>" onclick="switchEditorMode('visual')">
+                        <i class="bi bi-diagram-3 me-1"></i>Visual Map
+                    </button>
                 </div>
             </div>
         </div>

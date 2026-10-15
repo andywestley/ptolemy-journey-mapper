@@ -995,7 +995,6 @@ async function exportToPNG() {
 
     const wasTable = (activeEditorMode === 'table');
     if (wasTable) {
-        document.getElementById('mode-visual').checked = true;
         switchEditorMode('visual');
         await new Promise(r => setTimeout(r, 150)); // Wait for render
     }
@@ -1025,7 +1024,6 @@ async function exportToPNG() {
         alert('Failed to export PNG.');
     } finally {
         if (wasTable) {
-            document.getElementById('mode-table').checked = true;
             switchEditorMode('table');
         }
         toggleLoading(false);
@@ -1042,7 +1040,6 @@ async function exportToPDF() {
 
     const wasTable = (activeEditorMode === 'table');
     if (wasTable) {
-        document.getElementById('mode-visual').checked = true;
         switchEditorMode('visual');
         await new Promise(r => setTimeout(r, 150)); // Wait for render
     }
@@ -1078,7 +1075,6 @@ async function exportToPDF() {
     } finally {
         pins.forEach(p => p.style.display = 'flex');
         if (wasTable) {
-            document.getElementById('mode-table').checked = true;
             switchEditorMode('table');
         }
         toggleLoading(false);

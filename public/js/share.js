@@ -9,8 +9,9 @@ let blueprintMode = false;
 document.addEventListener('DOMContentLoaded', () => {
     if (!window.currentJourney || !window.originalOJF) return;
 
-    // Check initial mode from URL or radio button
-    const isTable = document.getElementById('mode-table')?.checked;
+    // Check initial mode from button or radio selection
+    const tableEl = document.getElementById('mode-table');
+    const isTable = tableEl ? (tableEl.classList.contains('active') || !!tableEl.checked) : false;
     activeEditorMode = isTable ? 'table' : 'visual';
 
     if (activeEditorMode === 'visual') {
@@ -198,7 +199,6 @@ function exportToMarkdown() {
 async function exportToPNG() {
     const wasTable = activeEditorMode === 'table';
     if (wasTable) {
-        document.getElementById('mode-visual').checked = true;
         switchEditorMode('visual');
         await new Promise(r => setTimeout(r, 150));
     }
@@ -217,7 +217,6 @@ async function exportToPNG() {
             alert('Failed to export PNG.');
         } finally {
             if (wasTable) {
-                document.getElementById('mode-table').checked = true;
                 switchEditorMode('table');
             }
             toggleLoading(false);
@@ -228,7 +227,6 @@ async function exportToPNG() {
 async function exportToPDF() {
     const wasTable = activeEditorMode === 'table';
     if (wasTable) {
-        document.getElementById('mode-visual').checked = true;
         switchEditorMode('visual');
         await new Promise(r => setTimeout(r, 150));
     }
@@ -252,7 +250,6 @@ async function exportToPDF() {
         alert('Failed to export PDF.');
     } finally {
         if (wasTable) {
-            document.getElementById('mode-table').checked = true;
             switchEditorMode('table');
         }
         toggleLoading(false);

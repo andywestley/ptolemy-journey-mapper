@@ -129,6 +129,22 @@ function switchEditorMode(mode) {
     const visualView = document.getElementById('visual-map-view');
     const feedbackMenuItem = document.getElementById('menu-item-feedback');
 
+    // Update active states on mode toggles (supporting both buttons and radio inputs)
+    const visualBtn = document.getElementById('mode-visual');
+    const tableBtn = document.getElementById('mode-table');
+    if (visualBtn && tableBtn) {
+        const isVisual = mode === 'visual';
+        if (visualBtn.tagName === 'BUTTON') {
+            visualBtn.classList.toggle('active', isVisual);
+            visualBtn.setAttribute('aria-pressed', isVisual ? 'true' : 'false');
+            tableBtn.classList.toggle('active', !isVisual);
+            tableBtn.setAttribute('aria-pressed', !isVisual ? 'true' : 'false');
+        } else if ('checked' in visualBtn) {
+            visualBtn.checked = isVisual;
+            tableBtn.checked = !isVisual;
+        }
+    }
+
     if (mode === 'table') {
         if (tableView) tableView.style.display = 'block';
         if (visualView) visualView.style.display = 'none';

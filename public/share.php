@@ -49,6 +49,8 @@ include __DIR__ . '/includes/header.php';
     }
     .node-card {
         cursor: pointer;
+        scroll-margin-left: 215px;
+        scroll-margin-top: 80px;
     }
 </style>
 
@@ -86,12 +88,13 @@ include __DIR__ . '/includes/header.php';
 
         <div class="d-flex align-items-center gap-2 ms-auto">
             <!-- Mode Toggle Switch -->
-            <div class="btn-group btn-group-sm" role="group">
-                <input type="radio" class="btn-check" name="public-mode" id="mode-visual" <?php echo $initialMode === 'visual' ? 'checked' : ''; ?> onclick="switchEditorMode('visual')">
-                <label class="btn btn-outline-primary" for="mode-visual"><i class="bi bi-diagram-3 me-1"></i>Visual</label>
-
-                <input type="radio" class="btn-check" name="public-mode" id="mode-table" <?php echo $initialMode === 'table' ? 'checked' : ''; ?> onclick="switchEditorMode('table')">
-                <label class="btn btn-outline-primary" for="mode-table"><i class="bi bi-table me-1"></i>Table</label>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Journey view mode">
+                <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'visual' ? 'active' : ''; ?>" id="mode-visual" aria-pressed="<?php echo $initialMode === 'visual' ? 'true' : 'false'; ?>" onclick="switchEditorMode('visual')">
+                    <i class="bi bi-diagram-3 me-1"></i>Visual
+                </button>
+                <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
+                    <i class="bi bi-table me-1"></i>Table
+                </button>
             </div>
 
             <!-- Export Dropdown -->
