@@ -172,8 +172,15 @@ include __DIR__ . '/includes/header.php';
         color: #422006;
     }
 
+    @media (min-width: 992px) {
+        .hobby-note {
+            transform: translateY(2rem) rotate(-3deg);
+            margin-bottom: 1.5rem;
+        }
+    }
+
     [data-bs-theme="dark"] .hobby-note {
-        background-color: #ca8a04;
+        background-color: #854d0e;
         color: #fefce8;
     }
 
@@ -191,7 +198,7 @@ include __DIR__ . '/includes/header.php';
 </style>
 
 <main id="main-content" class="w-100 d-flex flex-column align-items-center justify-content-center">
-    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center gap-5 w-100" style="max-width: 900px;">
+    <div class="d-flex flex-column flex-lg-row align-items-center align-items-lg-end justify-content-center gap-5 w-100" style="max-width: 900px;">
         <div class="auth-card">
             <header class="auth-header">
                 <h1 id="app-title">Ptolemy</h1>
