@@ -115,12 +115,15 @@ include __DIR__ . '/includes/public_navbar.php';
                 </ul>
             </div>
 
+            <a href="/about/" class="btn btn-outline-secondary btn-sm ms-2" rel="help" title="About Ptolemy and Help">
+                <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
+            </a>
             <?php if (!empty($isEditorOrOwner)): ?>
-            <a href="/journey/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" class="btn btn-primary btn-sm ms-2">
+            <a href="/journey/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" class="btn btn-primary btn-sm ms-1">
                 <i class="bi bi-pencil-square me-1"></i> Edit Journey
             </a>
             <?php else: ?>
-            <a href="/dashboard/" class="btn btn-primary btn-sm ms-2 d-none d-md-inline-block">
+            <a href="/dashboard/" class="btn btn-primary btn-sm ms-1 d-none d-md-inline-block">
                 Open in Ptolemy <i class="bi bi-arrow-right ms-1"></i>
             </a>
             <?php endif; ?>

@@ -326,10 +326,10 @@ include __DIR__ . '/includes/public_navbar.php';
 <footer class="w-100 py-4 mt-auto border-top text-muted small bg-white">
     <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3" style="max-width: 1000px;">
         <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-3">
-            <a href="/about/" class="text-decoration-none py-1 px-1">About</a>
+            <a href="/about/" class="text-decoration-none py-1 px-1" rel="help">Help &amp; Guides</a>
             <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="text-decoration-none py-1 px-1" title="Get human support or report an issue on GitHub">Help &amp; Support <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
             <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
-            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
         </nav>
         <span>&copy; <?= date('Y') ?> Ptolemy</span>
     </div>

@@ -178,7 +178,7 @@ include __DIR__ . '/includes/public_navbar.php';
                 <a href="/" class="text-decoration-none py-1 px-1">Ptolemy App</a>
                 <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
                 <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub Repo <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
-                <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+                <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="text-decoration-none py-1 px-1" title="Get human support or report an issue on GitHub">Help &amp; Support <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
             </nav>
             <span class="small text-muted">&copy; <?php echo date('Y'); ?> Ptolemy</span>
         </div>

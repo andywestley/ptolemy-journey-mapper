@@ -49,6 +49,18 @@ $activeNav = $activeNav ?? 'dashboard';
                     </a>
                 </li>
                 <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link px-3 text-secondary <?php echo $activeNav === 'help' ? 'active fw-semibold text-primary' : ''; ?>" href="/about/" rel="help" title="Help documentation, guides, and OpenJourney format">
+                        <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 text-secondary" href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" title="Get human support or report an issue on GitHub">
+                        <i class="bi bi-life-preserver me-1" aria-hidden="true"></i>Support
+                        <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
+                        <span class="visually-hidden">(opens in a new tab)</span>
+                    </a>
+                </li>
             </ul>
 
             <div class="d-flex align-items-center gap-3">

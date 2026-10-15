@@ -108,6 +108,14 @@ include __DIR__ . '/includes/header.php';
         </a>
 
         <div class="ms-auto d-flex align-items-center">
+            <a href="/about/" class="btn btn-outline-secondary btn-sm me-2" rel="help" title="About Ptolemy and Help Guides">
+                <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
+            </a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="btn btn-outline-secondary btn-sm me-2" title="Get human support or report an issue on GitHub">
+                <i class="bi bi-life-preserver me-1" aria-hidden="true"></i>Support
+                <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
+                <span class="visually-hidden">(opens in a new tab)</span>
+            </a>
             <a href="/api/diagnostics.php" class="btn btn-outline-info btn-sm me-2">
                 <i class="bi bi-activity me-1"></i>Diagnostics & Logs
             </a>

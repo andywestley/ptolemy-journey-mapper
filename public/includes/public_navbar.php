@@ -18,9 +18,14 @@ $activePublicNav = $activePublicNav ?? '';
             <?php if ($activePublicNav !== 'home'): ?>
                 <a href="/" class="btn btn-outline-primary btn-sm fw-semibold">Sign In</a>
             <?php endif; ?>
-            <?php if ($activePublicNav !== 'about'): ?>
-                <a href="/about/" class="btn btn-outline-secondary btn-sm fw-semibold">About</a>
-            <?php endif; ?>
+            <a href="/about/" class="btn btn-outline-secondary btn-sm fw-semibold <?php echo $activePublicNav === 'about' ? 'active' : ''; ?>" rel="help" title="About Ptolemy, guides, and help">
+                <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
+            </a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="btn btn-outline-secondary btn-sm fw-semibold" title="Get human support or report an issue on GitHub">
+                <i class="bi bi-life-preserver me-1" aria-hidden="true"></i>Support
+                <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
+                <span class="visually-hidden">(opens in a new tab)</span>
+            </a>
             <a href="/templates/" class="btn btn-outline-secondary btn-sm fw-semibold">Templates</a>
             <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm fw-semibold" title="Opens repository in a new tab">
                 <i class="bi bi-github me-1" aria-hidden="true"></i>GitHub
