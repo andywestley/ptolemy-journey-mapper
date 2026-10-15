@@ -342,3 +342,13 @@ section#stcm-form .stcm-toggle .stcm-toggle-on,
     cursor: default !important;
     pointer-events: none !important;
 }
+
+/* Ensure demoted Silktide Consent Manager h2 retains visual heading appearance */
+#stcm-modal header h2,
+#stcm-modal h2,
+#stcm-banner h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}

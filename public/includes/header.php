@@ -23,6 +23,50 @@
     })(window,document,'script','dataLayer','GTM-TNL8J42G');</script>
     <!-- End Google Tag Manager -->
 
+    <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2 to maintain single primary h1 per page -->
+    <script>
+    (function() {
+        function demoteStcmHeadings(root) {
+            var target = root || document;
+            if (!target.querySelectorAll) return;
+            var h1s = target.querySelectorAll('#stcm-modal h1, #stcm-banner h1, .stcm-modal h1, .stcm-banner h1');
+            h1s.forEach(function(h1) {
+                var h2 = document.createElement('h2');
+                for (var i = 0; i < h1.attributes.length; i++) {
+                    h2.setAttribute(h1.attributes[i].name, h1.attributes[i].value);
+                }
+                h2.innerHTML = h1.innerHTML;
+                if (h1.parentNode) {
+                    h1.parentNode.replaceChild(h2, h1);
+                }
+            });
+        }
+
+        if (typeof MutationObserver !== 'undefined') {
+            var observer = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    var added = mutations[i].addedNodes;
+                    for (var j = 0; j < added.length; j++) {
+                        var node = added[j];
+                        if (node.nodeType === 1) {
+                            if (node.id === 'stcm-modal' || node.id === 'stcm-banner' || (node.querySelector && node.querySelector('#stcm-modal, #stcm-banner, .stcm-modal, .stcm-banner'))) {
+                                demoteStcmHeadings(node);
+                            }
+                        }
+                    }
+                }
+            });
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { demoteStcmHeadings(); });
+        } else {
+            demoteStcmHeadings();
+        }
+    })();
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/">
