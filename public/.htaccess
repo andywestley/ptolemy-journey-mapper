@@ -16,6 +16,10 @@ AddType application/json .ojf
     RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
 
     # Clean App Routes
+    RewriteRule ^login/?$ index.php?tab=login [L,QSA]
+    RewriteRule ^signin/?$ index.php?tab=login [L,QSA]
+    RewriteRule ^register/?$ index.php?tab=register [L,QSA]
+    RewriteRule ^signup/?$ index.php?tab=register [L,QSA]
     RewriteRule ^about/?$ about.php [L,QSA]
     RewriteRule ^admin/?$ admin.php [L,QSA]
     RewriteRule ^templates/?$ templates.php [L,QSA]

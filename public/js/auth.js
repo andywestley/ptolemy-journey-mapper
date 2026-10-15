@@ -2,14 +2,29 @@
  * Clean Vanilla PHP Auth Library for Ptolemy
  */
 
+function isAuthPage() {
+    const p = window.location.pathname;
+    return p === '/' || p === '' || p.endsWith('/index.php') ||
+           p === '/login' || p === '/login/' ||
+           p === '/signin' || p === '/signin/' ||
+           p === '/register' || p === '/register/' ||
+           p === '/signup' || p === '/signup/';
+}
+
 // Global User State
 if (!window.currentUser) {
-    const cachedUser = localStorage.getItem('ptolemy_user');
-    if (cachedUser) {
-        try {
-            window.currentUser = JSON.parse(cachedUser);
-        } catch (e) {
-            localStorage.removeItem('ptolemy_user');
+    if (isAuthPage()) {
+        // If we are on an auth/login page and PHP did not inject currentUser,
+        // any cached user in localStorage is stale. Clear it to avoid redirect loops.
+        localStorage.removeItem('ptolemy_user');
+    } else {
+        const cachedUser = localStorage.getItem('ptolemy_user');
+        if (cachedUser) {
+            try {
+                window.currentUser = JSON.parse(cachedUser);
+            } catch (e) {
+                localStorage.removeItem('ptolemy_user');
+            }
         }
     }
 } else {
@@ -99,18 +114,15 @@ async function logout() {
  * Auth Guard
  */
 function checkAuth() {
-    const isIndex = window.location.pathname === '/' || window.location.pathname.endsWith('/index.php') || window.location.pathname === '';
-    if (!window.currentUser && !isIndex) {
-        window.location.href = '/';
-    } else if (window.currentUser && isIndex) {
-        window.location.href = '/dashboard/';
+    if (!window.currentUser && !isAuthPage()) {
+        window.location.href = '/login';
     }
 }
 
 // Session validation and form listeners
 document.addEventListener('DOMContentLoaded', () => {
     initPasswordToggles();
-    const isIndex = window.location.pathname === '/' || window.location.pathname.endsWith('/index.php') || window.location.pathname === '';
+    const isIndex = isAuthPage();
 
     // Validate session with backend
     if (window.currentUser) {

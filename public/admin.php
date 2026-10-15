@@ -5,6 +5,7 @@
 
 require_once __DIR__ . '/includes/auth_guard.php';
 $adminUser = requireAdmin();
+$currentUser = $adminUser;
 
 $pageTitle = "User Management | Ptolemy Admin";
 $pageDescription = "Administrator panel for managing user accounts and audit service accounts.";
@@ -166,7 +167,7 @@ include __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-5">
                 <div class="input-group">
                     <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" id="user-search" class="form-control border-start-0" placeholder="Search by name, email, or username...">
+                    <input type="text" id="user-search" name="search" class="form-control border-start-0" placeholder="Search by name, email, or username...">
                 </div>
             </div>
             <div class="col-md-6 col-lg-7">
@@ -239,21 +240,21 @@ include __DIR__ . '/includes/header.php';
 
                     <div class="mb-3">
                         <label for="create-name" class="form-label">Display Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="create-name" required placeholder="e.g. Jane Doe" autocomplete="name">
+                        <input type="text" class="form-control" id="create-name" name="name" required placeholder="e.g. Jane Doe" autocomplete="name">
                     </div>
 
                     <div class="mb-3" id="create-username-group" style="display: none;">
                         <label for="create-username" class="form-label">Username Identifier <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-at"></i></span>
-                            <input type="text" class="form-control" id="create-username" placeholder="e.g. site-audit" autocomplete="username">
+                            <input type="text" class="form-control" id="create-username" name="username" placeholder="e.g. site-audit" autocomplete="username">
                         </div>
                         <div class="form-text">Your audit software will log in using this username.</div>
                     </div>
 
                     <div class="mb-3" id="create-email-group">
                         <label for="create-email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="create-email" placeholder="name@example.com" autocomplete="email">
+                        <input type="email" class="form-control" id="create-email" name="email" placeholder="name@example.com" autocomplete="email">
                     </div>
 
                     <div class="mb-3">
@@ -264,7 +265,7 @@ include __DIR__ . '/includes/header.php';
                             </button>
                         </div>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="create-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                            <input type="password" class="form-control" id="create-password" name="password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
                             <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="create-password">
                                 <i class="bi bi-eye"></i>
                             </button>
@@ -272,7 +273,7 @@ include __DIR__ . '/includes/header.php';
                     </div>
 
                     <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" id="create-is-admin">
+                        <input class="form-check-input" type="checkbox" id="create-is-admin" name="is_admin">
                         <label class="form-check-label" for="create-is-admin">
                             Grant Administrator Privileges
                         </label>
@@ -296,25 +297,25 @@ include __DIR__ . '/includes/header.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="edit-user-form" onsubmit="handleEditUser(event)">
-                <input type="hidden" id="edit-id">
+                <input type="hidden" id="edit-id" name="id">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="edit-name" class="form-label">Display Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="edit-name" required autocomplete="name">
+                        <input type="text" class="form-control" id="edit-name" name="name" required autocomplete="name">
                     </div>
 
                     <div class="mb-3">
                         <label for="edit-username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="edit-username" placeholder="Optional for humans, required for service accounts" autocomplete="username">
+                        <input type="text" class="form-control" id="edit-username" name="username" placeholder="Optional for humans, required for service accounts" autocomplete="username">
                     </div>
 
                     <div class="mb-3">
                         <label for="edit-email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="edit-email" placeholder="Optional for service accounts" autocomplete="email">
+                        <input type="email" class="form-control" id="edit-email" name="email" placeholder="Optional for service accounts" autocomplete="email">
                     </div>
 
                     <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" id="edit-is-admin">
+                        <input class="form-check-input" type="checkbox" id="edit-is-admin" name="is_admin">
                         <label class="form-check-label" for="edit-is-admin">
                             Administrator Privileges
                         </label>
@@ -338,7 +339,7 @@ include __DIR__ . '/includes/header.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="reset-password-form" onsubmit="handleResetPassword(event)">
-                <input type="hidden" id="reset-id">
+                <input type="hidden" id="reset-id" name="id">
                 <div class="modal-body">
                     <p class="text-muted">Setting a new password for <strong id="reset-user-name">User</strong>.</p>
                     
@@ -350,7 +351,7 @@ include __DIR__ . '/includes/header.php';
                             </button>
                         </div>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="reset-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                            <input type="password" class="form-control" id="reset-password" name="password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
                             <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reset-password">
                                 <i class="bi bi-eye"></i>
                             </button>
@@ -386,7 +387,7 @@ include __DIR__ . '/includes/header.php';
                 <div class="mb-3">
                     <label class="form-label small text-muted text-uppercase fw-bold">Login Identifier</label>
                     <div class="input-group">
-                        <input type="text" class="form-control font-monospace" id="cred-identifier" readonly>
+                        <input type="text" class="form-control font-monospace" id="cred-identifier" name="identifier" readonly>
                         <button class="btn btn-outline-secondary" type="button" onclick="copyCredField('cred-identifier', this)" title="Copy Identifier">
                             <i class="bi bi-clipboard"></i>
                         </button>
@@ -397,7 +398,7 @@ include __DIR__ . '/includes/header.php';
                 <div class="mb-3">
                     <label class="form-label small text-muted text-uppercase fw-bold">Password</label>
                     <div class="input-group">
-                        <input type="text" class="form-control font-monospace" id="cred-password" readonly>
+                        <input type="text" class="form-control font-monospace" id="cred-password" name="password" readonly>
                         <button class="btn btn-outline-secondary" type="button" onclick="copyCredField('cred-password', this)" title="Copy Password">
                             <i class="bi bi-clipboard"></i>
                         </button>

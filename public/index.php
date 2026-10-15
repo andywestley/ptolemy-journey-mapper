@@ -1,5 +1,22 @@
 <?php
-$pageTitle = "Login | Ptolemy - the OpenJourney editor";
+require_once __DIR__ . '/includes/auth_guard.php';
+initSecureSession();
+
+// If already authenticated via valid server session, redirect to dashboard or intended URL
+if (!empty($_SESSION['user_id'])) {
+    $redirect = $_GET['redirect'] ?? '/dashboard/';
+    // Prevent open redirect vulnerabilities: must start with / and not //
+    if (!str_starts_with($redirect, '/') || str_starts_with($redirect, '//')) {
+        $redirect = '/dashboard/';
+    }
+    header("Location: " . $redirect);
+    exit;
+}
+
+$initialTab = ($_GET['tab'] ?? '') === 'register' ? 'register' : 'login';
+$serverError = !empty($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8') : '';
+
+$pageTitle = ($initialTab === 'register') ? "Register | Ptolemy - the OpenJourney editor" : "Login | Ptolemy - the OpenJourney editor";
 $pageDescription = "Login or register to access the Ptolemy Editor.";
 include __DIR__ . '/includes/header.php';
 ?>
@@ -185,25 +202,25 @@ include __DIR__ . '/includes/header.php';
                 <!-- Tabs -->
                 <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane" type="button" role="tab">Login</button>
+                        <button class="nav-link <?= ($initialTab === 'login') ? 'active' : '' ?>" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane" type="button" role="tab">Login</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane" type="button" role="tab">Register</button>
+                        <button class="nav-link <?= ($initialTab === 'register') ? 'active' : '' ?>" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane" type="button" role="tab">Register</button>
                     </li>
                 </ul>
 
                 <div class="tab-content">
                     <!-- Login Pane -->
-                    <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
-                        <form id="login-form">
+                    <div class="tab-pane fade <?= ($initialTab === 'login') ? 'show active' : '' ?>" id="login-pane" role="tabpanel">
+                        <form id="login-form" action="/api/auth.php?action=login" method="POST">
                             <div class="mb-3">
                                 <label for="login-email" class="form-label">Email or Username</label>
-                                <input type="text" class="form-control" id="login-email" required placeholder="name@example.com or username" autocomplete="username">
+                                <input type="text" class="form-control" id="login-email" name="identifier" required placeholder="name@example.com or username" autocomplete="username">
                             </div>
                             <div class="mb-3">
                                 <label for="login-password" class="form-label">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+                                    <input type="password" class="form-control" id="login-password" name="password" required placeholder="••••••••" autocomplete="current-password">
                                     <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="login-password">
                                         <i class="bi bi-eye"></i>
                                     </button>
@@ -217,20 +234,20 @@ include __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- Registration Pane -->
-                    <div class="tab-pane fade" id="register-pane" role="tabpanel">
-                        <form id="register-form">
+                    <div class="tab-pane fade <?= ($initialTab === 'register') ? 'show active' : '' ?>" id="register-pane" role="tabpanel">
+                        <form id="register-form" action="/api/auth.php?action=register" method="POST">
                             <div class="mb-3">
                                 <label for="reg-name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="reg-name" required placeholder="Alex Smith" autocomplete="name">
+                                <input type="text" class="form-control" id="reg-name" name="name" required placeholder="Alex Smith" autocomplete="name">
                             </div>
                             <div class="mb-3">
                                 <label for="reg-email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="reg-email" required placeholder="name@example.com" autocomplete="email">
+                                <input type="email" class="form-control" id="reg-email" name="email" required placeholder="name@example.com" autocomplete="email">
                             </div>
                             <div class="mb-3">
                                 <label for="reg-password" class="form-label">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="reg-password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
+                                    <input type="password" class="form-control" id="reg-password" name="password" required minlength="8" placeholder="Minimum 8 characters" autocomplete="new-password">
                                     <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reg-password">
                                         <i class="bi bi-eye"></i>
                                     </button>
@@ -239,7 +256,7 @@ include __DIR__ . '/includes/header.php';
                             <div class="mb-3">
                                 <label for="reg-password-confirm" class="form-label">Confirm Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="reg-password-confirm" required placeholder="••••••••" autocomplete="new-password">
+                                    <input type="password" class="form-control" id="reg-password-confirm" name="password_confirm" required placeholder="••••••••" autocomplete="new-password">
                                     <button class="btn btn-outline-secondary toggle-password-btn" type="button" aria-label="Show password" data-target="reg-password-confirm">
                                         <i class="bi bi-eye"></i>
                                     </button>
@@ -247,7 +264,7 @@ include __DIR__ . '/includes/header.php';
                             </div>
                             <div class="mb-3">
                                 <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
-                                <input type="text" class="form-control" id="reg-invite" required placeholder="Paste your invite code here">
+                                <input type="text" class="form-control" id="reg-invite" name="invite" required placeholder="Paste your invite code here">
                                 <div class="form-text">
                                     Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank">request an invite code via GitHub issues</a> to join the beta.
                                 </div>
@@ -261,8 +278,8 @@ include __DIR__ . '/includes/header.php';
                 </div>
 
                 <!-- Error Feedback -->
-                <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span id="error-message"></span>
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert" style="<?= !empty($serverError) ? 'display: block;' : 'display: none;' ?>">
+                    <span id="error-message"><?= $serverError ?></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>

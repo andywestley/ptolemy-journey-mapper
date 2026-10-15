@@ -4,20 +4,34 @@ require_once __DIR__ . '/../../config/db_connect.php';
 // Configure session options for security
 initSecureSession();
 
-header('Content-Type: application/json');
-
 $action = $_GET['action'] ?? '';
 $db = getDBConnection();
 
-$input = json_decode(file_get_contents('php://input'), true) ?? [];
+$rawInput = file_get_contents('php://input');
+$input = json_decode($rawInput, true) ?? [];
+if (empty($input) && !empty($_POST)) {
+    $input = $_POST;
+}
+
+$isJsonRequest = (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)
+    || (!empty($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false)
+    || (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+
+if ($isJsonRequest) {
+    header('Content-Type: application/json');
+}
 
 if ($action === 'login') {
     $identifier = trim($input['identifier'] ?? $input['username'] ?? $input['email'] ?? '');
     $password = $input['password'] ?? '';
 
     if (empty($identifier) || empty($password)) {
-        http_response_code(400);
-        echo json_encode(["error" => "Email/Username and password are required."]);
+        if ($isJsonRequest) {
+            http_response_code(400);
+            echo json_encode(["error" => "Email/Username and password are required."]);
+        } else {
+            header("Location: /?error=" . urlencode("Email/Username and password are required."));
+        }
         exit;
     }
 
@@ -42,18 +56,26 @@ if ($action === 'login') {
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['is_admin'] = (int)($user['is_admin'] ?? 0);
 
-        echo json_encode([
-            "id" => $user['id'],
-            "email" => $user['email'],
-            "username" => $user['username'] ?? null,
-            "name" => $user['name'],
-            "avatar" => $user['avatar'],
-            "is_admin" => (bool)($user['is_admin'] ?? 0),
-            "is_service_account" => (bool)($user['is_service_account'] ?? 0)
-        ]);
+        if ($isJsonRequest) {
+            echo json_encode([
+                "id" => $user['id'],
+                "email" => $user['email'],
+                "username" => $user['username'] ?? null,
+                "name" => $user['name'],
+                "avatar" => $user['avatar'],
+                "is_admin" => (bool)($user['is_admin'] ?? 0),
+                "is_service_account" => (bool)($user['is_service_account'] ?? 0)
+            ]);
+        } else {
+            header("Location: /dashboard/");
+        }
     } else {
-        http_response_code(401);
-        echo json_encode(["error" => "Invalid email/username or password."]);
+        if ($isJsonRequest) {
+            http_response_code(401);
+            echo json_encode(["error" => "Invalid email/username or password."]);
+        } else {
+            header("Location: /?error=" . urlencode("Invalid email/username or password."));
+        }
     }
     exit;
 }
@@ -61,34 +83,36 @@ if ($action === 'login') {
 if ($action === 'register') {
     $email = trim($input['email'] ?? '');
     $password = $input['password'] ?? '';
-    $passwordConfirm = $input['passwordConfirm'] ?? '';
+    $passwordConfirm = $input['passwordConfirm'] ?? $input['password_confirm'] ?? '';
     $name = trim($input['name'] ?? 'User');
-    $inviteToken = trim($input['inviteToken'] ?? '');
+    $inviteToken = trim($input['inviteToken'] ?? $input['invite'] ?? '');
+
+    $respondRegisterError = function($message, $code = 400) use ($isJsonRequest) {
+        if ($isJsonRequest) {
+            http_response_code($code);
+            echo json_encode(["error" => $message]);
+        } else {
+            header("Location: /?tab=register&error=" . urlencode($message));
+        }
+        exit;
+    };
 
     if (empty($email) || empty($password) || empty($passwordConfirm)) {
-        http_response_code(400);
-        echo json_encode(["error" => "Email, password and confirmation are required."]);
-        exit;
+        $respondRegisterError("Email, password and confirmation are required.");
     }
 
     if ($password !== $passwordConfirm) {
-        http_response_code(400);
-        echo json_encode(["error" => "Passwords do not match."]);
-        exit;
+        $respondRegisterError("Passwords do not match.");
     }
 
     if (strlen($password) < 8) {
-        http_response_code(400);
-        echo json_encode(["error" => "Password must be at least 8 characters long."]);
-        exit;
+        $respondRegisterError("Password must be at least 8 characters long.");
     }
 
     // Check if invite tokens are required
     // (Ptolemy needs invites to prevent public abuse)
     if (empty($inviteToken)) {
-        http_response_code(400);
-        echo json_encode(["error" => "Invite code is required for registration."]);
-        exit;
+        $respondRegisterError("Invite code is required for registration.");
     }
 
     // Verify invite token
@@ -97,18 +121,14 @@ if ($action === 'register') {
     $invite = $stmt->fetch();
 
     if (!$invite) {
-        http_response_code(400);
-        echo json_encode(["error" => "Invalid or already used invite code."]);
-        exit;
+        $respondRegisterError("Invalid or already used invite code.");
     }
 
     // Check if email already exists
     $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
-        http_response_code(400);
-        echo json_encode(["error" => "Email already registered."]);
-        exit;
+        $respondRegisterError("Email already registered.");
     }
 
     // Create user
@@ -134,16 +154,19 @@ if ($action === 'register') {
         $_SESSION['user_email'] = $email;
         $_SESSION['user_name'] = $name;
 
-        echo json_encode([
-            "id" => $userId,
-            "email" => $email,
-            "name" => $name
-        ]);
+        if ($isJsonRequest) {
+            echo json_encode([
+                "id" => $userId,
+                "email" => $email,
+                "name" => $name
+            ]);
+        } else {
+            header("Location: /dashboard/");
+        }
     } catch (Exception $e) {
         $db->rollBack();
         error_log("Failed to register user: " . $e->getMessage());
-        http_response_code(500);
-        echo json_encode(["error" => "Failed to register user. Please try again."]);
+        $respondRegisterError("Failed to register user. Please try again.", 500);
     }
     exit;
 }
@@ -158,7 +181,11 @@ if ($action === 'logout') {
         );
     }
     session_destroy();
-    echo json_encode(["success" => true]);
+    if ($isJsonRequest) {
+        echo json_encode(["success" => true]);
+    } else {
+        header("Location: /");
+    }
     exit;
 }
 
