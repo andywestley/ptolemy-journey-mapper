@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ptolemyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#3730a3" />
+    </linearGradient>
+    <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#ptolemyGrad)" />
+  <!-- Journey map grid line accents -->
+  <line x1="80" y1="170" x2="432" y2="170" stroke="#ffffff" stroke-opacity="0.15" stroke-width="4" stroke-dasharray="8 8" />
+  <line x1="80" y1="340" x2="432" y2="340" stroke="#ffffff" stroke-opacity="0.15" stroke-width="4" stroke-dasharray="8 8" />
+  <!-- Smooth Journey Flow Curve -->
+  <path d="M 120 340 C 190 340, 180 170, 260 170 C 340 170, 330 260, 400 260" 
+        fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" filter="url(#nodeGlow)" />
+  <!-- Node 1: Discovery (Cyan) -->
+  <circle cx="120" cy="340" r="34" fill="#38bdf8" stroke="#ffffff" stroke-width="12" filter="url(#nodeGlow)" />
+  <!-- Node 2: Peak / Moment of Truth (Gold) -->
+  <circle cx="260" cy="170" r="38" fill="#f59e0b" stroke="#ffffff" stroke-width="12" filter="url(#nodeGlow)" />
+  <circle cx="260" cy="170" r="14" fill="#ffffff" />
+  <!-- Node 3: Goal Achieved (Emerald) -->
+  <circle cx="400" cy="260" r="34" fill="#10b981" stroke="#ffffff" stroke-width="12" filter="url(#nodeGlow)" />
+</svg>

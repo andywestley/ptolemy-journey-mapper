@@ -25,12 +25,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-
     <base href="/">
 
-    <title><?php echo isset($pageTitle) ? $pageTitle . " | Ptolemy" : "Ptolemy - the OpenJourney editor"; ?></title>
-    <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : "Ptolemy - collaborative open journey mapping tool"; ?>">
+<?php include __DIR__ . '/metadata.php'; ?>
 
 <?php if (!empty($currentUser)): ?>
     <script>
