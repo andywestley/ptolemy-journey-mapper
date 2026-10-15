@@ -54,7 +54,7 @@ include __DIR__ . '/includes/navbar.php';
             <section class="col-md-9 col-lg-10" aria-labelledby="journeys-heading">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                     <div class="d-flex align-items-center flex-wrap gap-2">
-                        <h2 id="journeys-heading" class="fw-bold mb-0 me-3">Journeys</h2>
+                        <h1 id="journeys-heading" class="h2 fw-bold mb-0 me-3">Journeys</h1>
                         <ul class="nav nav-pills" id="journey-tabs">
                             <li class="nav-item">
                                 <button class="nav-link <?php echo $currentTab === 'my' ? 'active' : ''; ?>" onclick="loadJourneys('my')">My Journeys</button>

@@ -63,7 +63,7 @@ include __DIR__ . '/includes/header.php';
         <div class="mb-3">
             <i class="bi bi-shield-lock text-muted" style="font-size: 3.5rem;"></i>
         </div>
-        <h3 class="fw-bold mb-2">This Journey is Private</h3>
+        <h1 class="h3 fw-bold mb-2">This Journey is Private</h1>
         <p class="text-muted small mb-4">
             The owner of this journey map has not enabled public link sharing, or the link has expired.
         </p>

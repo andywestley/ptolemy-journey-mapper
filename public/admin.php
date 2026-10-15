@@ -129,7 +129,7 @@ include __DIR__ . '/includes/header.php';
     <!-- Header Section -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
-            <h2 class="fw-bold mb-1">User & Access Management</h2>
+            <h1 class="h2 fw-bold mb-1">User & Access Management</h1>
             <p class="text-muted mb-0">Manage human users, assign administrator privileges, and create automated service accounts for audit tools.</p>
         </div>
         <div>

@@ -102,7 +102,8 @@ include __DIR__ . '/includes/navbar.php';
                 <i class="bi bi-arrow-left fs-3"></i>
             </a>
             <div>
-                <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 mb-2" style="max-width: 500px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>">
+                <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>
+                <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 mb-2" style="max-width: 500px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
 
                 <div class="metadata-bar">
                     <div class="metadata-item">
