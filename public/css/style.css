@@ -19,6 +19,19 @@ body {
     color: #525866 !important;
 }
 
+.text-primary {
+    color: #4338ca !important;
+}
+
+a:not(.btn):not(.nav-link):not(.dropdown-item) {
+    color: #4338ca;
+}
+
+a:not(.btn):not(.nav-link):not(.dropdown-item):hover,
+a:not(.btn):not(.nav-link):not(.dropdown-item):focus {
+    color: #312e81;
+}
+
 code {
     color: #9d174d;
     font-weight: 500;
@@ -163,6 +176,16 @@ code {
 }
 [data-bs-theme="dark"] .text-muted {
     color: #94a3b8 !important;
+}
+[data-bs-theme="dark"] .text-primary {
+    color: #818cf8 !important;
+}
+[data-bs-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item) {
+    color: #818cf8;
+}
+[data-bs-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item):hover,
+[data-bs-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item):focus {
+    color: #a5b4fc;
 }
 [data-bs-theme="dark"] .btn-outline-secondary {
     color: #cbd5e1;

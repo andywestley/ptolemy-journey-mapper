@@ -24,6 +24,19 @@ include __DIR__ . '/includes/header.php';
         text-align: center;
     }
 
+    .hero .btn-light {
+        color: #4338ca !important;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .hero .btn-light:hover,
+    .hero .btn-light:focus {
+        color: #312e81 !important;
+        background-color: #f1f5f9;
+        border-color: #f1f5f9;
+    }
+
     [data-bs-theme="dark"] body {
         background-color: #0f172a;
         color: #f8fafc;
@@ -31,6 +44,19 @@ include __DIR__ . '/includes/header.php';
 
     [data-bs-theme="dark"] .hero {
         background-color: #1e293b;
+    }
+
+    [data-bs-theme="dark"] .hero .btn-light {
+        background-color: #334155;
+        border-color: #475569;
+        color: #f8fafc !important;
+    }
+
+    [data-bs-theme="dark"] .hero .btn-light:hover,
+    [data-bs-theme="dark"] .hero .btn-light:focus {
+        background-color: #475569;
+        border-color: #64748b;
+        color: #ffffff !important;
     }
 
     [data-bs-theme="dark"] .content-section .bg-light {
@@ -48,19 +74,37 @@ include __DIR__ . '/includes/header.php';
         max-width: 800px;
         margin: 0 auto;
     }
+
+    .content-section a {
+        color: #4338ca;
+    }
+
+    .content-section a:hover,
+    .content-section a:focus {
+        color: #312e81;
+    }
+
+    [data-bs-theme="dark"] .content-section a {
+        color: #818cf8;
+    }
+
+    [data-bs-theme="dark"] .content-section a:hover,
+    [data-bs-theme="dark"] .content-section a:focus {
+        color: #a5b4fc;
+    }
 </style>
 
 <header class="hero">
     <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
     <p class="lead mb-4">A simple, open-source editor for human-centered journey mapping.</p>
-    <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" class="btn btn-light btn-lg shadow-sm fw-semibold text-primary">
+    <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" class="btn btn-light btn-lg shadow-sm fw-semibold">
         Visit the Repository
     </a>
 </header>
 
 <main id="main-content" class="content-section">
     <div class="mb-5">
-        <a href="index.php" class="text-decoration-none fw-semibold" style="color: var(--accent-color);">&larr; Back to the App</a>
+        <a href="index.php" class="text-decoration-none fw-semibold">&larr; Back to the App</a>
     </div>
 
     <h2 class="mb-4">Why I Built This</h2>
@@ -125,7 +169,7 @@ include __DIR__ . '/includes/header.php';
 
     <footer id="colophon-ptolemy" class="text-muted" style="font-size: 0.9rem;">
         <p class="mb-0">
-            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" class="text-decoration-underline" style="color: var(--accent-color);">Claudius Ptolemy</a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
+            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" class="text-decoration-underline">Claudius Ptolemy</a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
         </p>
     </footer>
 </main>
