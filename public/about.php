@@ -94,6 +94,25 @@ include __DIR__ . '/includes/header.php';
     }
 </style>
 
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" aria-label="Public Navigation">
+    <div class="container" style="max-width: 900px;">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <i class="bi bi-map-fill text-primary me-2 fs-5"></i>
+            <span class="fw-bold">Ptolemy</span>
+            <small class="text-muted fw-normal ms-2 d-none d-sm-inline" style="font-size: 0.8rem;">the OpenJourney editor</small>
+        </a>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+            <a href="/" class="btn btn-outline-primary btn-sm">Sign In</a>
+            <a href="/templates/" class="btn btn-outline-secondary btn-sm">Templates</a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm" title="Opens repository in a new tab">
+                <i class="bi bi-github me-1" aria-hidden="true"></i>GitHub
+                <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
+                <span class="visually-hidden">(opens in a new tab)</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
 <header class="hero">
     <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
     <p class="lead mb-4">A simple, open-source editor for human-centered journey mapping.</p>
@@ -104,7 +123,7 @@ include __DIR__ . '/includes/header.php';
 
 <main id="main-content" class="content-section">
     <div class="mb-5">
-        <a href="index.php" class="text-decoration-none fw-semibold">&larr; Back to the App</a>
+        <a href="/" class="text-decoration-none fw-semibold">&larr; Back to the App</a>
     </div>
 
     <h2 class="mb-4">Why I Built This</h2>
@@ -122,7 +141,7 @@ include __DIR__ . '/includes/header.php';
 
     <div class="bg-light p-4 rounded-3 border mb-5 shadow-sm">
         <h4 class="mb-3 h6 text-uppercase fw-bold text-muted">A look inside an .ojf file</h4>
-        <pre class="mb-0" tabindex="0" role="region" aria-label="OpenJourney Format JSON preview" style="font-size: 0.9rem; overflow: auto; max-height: 250px;"><code>{
+        <pre class="mb-0" style="font-size: 0.9rem;"><code>{
   "metadata": {
     "title": "A Day in the Life",
     "version": "1.0"
@@ -165,9 +184,16 @@ include __DIR__ . '/includes/header.php';
         Feel free to contribute code or report issues on GitHub. Let's make journey mapping better for everyone.
     </p>
 
-    <hr class="mb-4" style="opacity: 0.15;">
-
-    <footer id="colophon-ptolemy" class="text-muted" style="font-size: 0.9rem;">
+    <footer id="colophon-ptolemy" class="text-muted mt-5 pt-3 border-top" style="font-size: 0.9rem;">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div class="d-flex gap-3 small">
+                <a href="/" class="text-decoration-none">Ptolemy App</a>
+                <a href="/templates/" class="text-decoration-none">Templates</a>
+                <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none" title="Opens in a new tab">GitHub Repo <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+                <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+            </div>
+            <span class="small text-muted">&copy; <?php echo date('Y'); ?> Ptolemy</span>
+        </div>
         <p class="mb-0">
             <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" rel="noopener noreferrer" class="text-decoration-underline" title="Opens in a new tab">Claudius Ptolemy <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
         </p>

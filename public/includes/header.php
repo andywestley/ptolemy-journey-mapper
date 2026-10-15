@@ -74,3 +74,7 @@ if (!function_exists('loadCssAsset')) {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TNL8J42G"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Skip Link for Accessibility -->
+    <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#main-content" style="z-index: 9999;">Skip to main content</a>
+
