@@ -94,24 +94,10 @@ include __DIR__ . '/includes/header.php';
     }
 </style>
 
-<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" aria-label="Public Navigation">
-    <div class="container" style="max-width: 900px;">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <i class="bi bi-map-fill text-primary me-2 fs-5"></i>
-            <span class="fw-bold">Ptolemy</span>
-            <small class="text-muted fw-normal ms-2 d-none d-sm-inline" style="font-size: 0.8rem;">the OpenJourney editor</small>
-        </a>
-        <div class="d-flex align-items-center gap-2 ms-auto">
-            <a href="/" class="btn btn-outline-primary btn-sm">Sign In</a>
-            <a href="/templates/" class="btn btn-outline-secondary btn-sm">Templates</a>
-            <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm" title="Opens repository in a new tab">
-                <i class="bi bi-github me-1" aria-hidden="true"></i>GitHub
-                <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
-                <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
-        </div>
-    </div>
-</nav>
+<?php
+$activePublicNav = 'about';
+include __DIR__ . '/includes/public_navbar.php';
+?>
 
 <header class="hero">
     <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
@@ -188,12 +174,12 @@ include __DIR__ . '/includes/header.php';
 
     <footer id="colophon-ptolemy" class="text-muted mt-5 pt-3 border-top" style="font-size: 0.9rem;">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-            <div class="d-flex flex-wrap gap-3 small">
+            <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-3 small">
                 <a href="/" class="text-decoration-none py-1 px-1">Ptolemy App</a>
                 <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
                 <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub Repo <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
                 <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
-            </div>
+            </nav>
             <span class="small text-muted">&copy; <?php echo date('Y'); ?> Ptolemy</span>
         </div>
         <p class="mb-0">

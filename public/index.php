@@ -34,10 +34,8 @@ include __DIR__ . '/includes/header.php';
         background-color: var(--primary-bg);
         min-height: 100vh;
         display: flex;
-        align-items: center;
-        justify-content: center;
         flex-direction: column;
-        padding: 2rem;
+        padding: 0;
         margin: 0;
     }
 
@@ -197,7 +195,12 @@ include __DIR__ . '/includes/header.php';
     }
 </style>
 
-<main id="main-content" class="w-100 d-flex flex-column align-items-center justify-content-center">
+<?php
+$activePublicNav = 'home';
+include __DIR__ . '/includes/public_navbar.php';
+?>
+
+<main id="main-content" class="w-100 flex-grow-1 d-flex flex-column align-items-center justify-content-center p-4">
     <div class="d-flex flex-column flex-lg-row align-items-center align-items-lg-end justify-content-center gap-5 w-100" style="max-width: 900px;">
         <div class="auth-card">
             <header class="auth-header">
@@ -319,6 +322,18 @@ include __DIR__ . '/includes/header.php';
         <a href="/about/" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 0.5rem; font-weight: 500;">Learn about our Open Standard</a>
     </section>
 </main>
+
+<footer class="w-100 py-4 mt-auto border-top text-muted small bg-white">
+    <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3" style="max-width: 1000px;">
+        <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-3">
+            <a href="/about/" class="text-decoration-none py-1 px-1">About</a>
+            <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">Beta Issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+        </nav>
+        <span>&copy; <?= date('Y') ?> Ptolemy</span>
+    </div>
+</footer>
 
 <?php
 $extraJs = ['auth.js'];

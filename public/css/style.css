@@ -352,3 +352,15 @@ section#stcm-form .stcm-toggle .stcm-toggle-on,
     line-height: 1.3;
     margin: 0;
 }
+
+/* Dark mode support for shared navbar and footer */
+[data-bs-theme="dark"] .navbar.bg-white,
+[data-bs-theme="dark"] footer.bg-white {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+[data-bs-theme="dark"] .navbar.bg-white .navbar-brand {
+    color: #f8fafc !important;
+}
+

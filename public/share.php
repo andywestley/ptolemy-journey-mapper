@@ -60,6 +60,10 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <?php if (!$isAllowed): ?>
+<?php
+$activePublicNav = '';
+include __DIR__ . '/includes/public_navbar.php';
+?>
 <main id="main-content" class="container py-5 text-center" style="max-width: 550px; margin-top: 60px;">
     <div class="card p-5 border-0 shadow-sm rounded-4">
         <div class="mb-3">
