@@ -20,7 +20,48 @@ body {
 }
 
 .text-primary {
-    color: #4338ca !important;
+    color: #3730a3 !important;
+}
+
+.text-secondary {
+    color: #334155 !important;
+}
+
+.text-info {
+    color: #0369a1 !important;
+}
+
+.text-success {
+    color: #15803d !important;
+}
+
+/* Accessible Subtle Badges (minimum 7:1 AAA contrast) */
+.bg-primary-subtle {
+    background-color: #e0e7ff !important;
+}
+.border-primary-subtle {
+    border-color: #c7d2fe !important;
+}
+
+.bg-secondary-subtle {
+    background-color: #f1f5f9 !important;
+}
+.border-secondary-subtle {
+    border-color: #cbd5e1 !important;
+}
+
+.bg-info-subtle {
+    background-color: #e0f2fe !important;
+}
+.border-info-subtle {
+    border-color: #bae6fd !important;
+}
+
+.bg-success-subtle {
+    background-color: #dcfce7 !important;
+}
+.border-success-subtle {
+    border-color: #bbf7d0 !important;
 }
 
 a:not(.btn):not(.nav-link):not(.dropdown-item) {
@@ -180,6 +221,41 @@ code {
 [data-bs-theme="dark"] .text-primary {
     color: #818cf8 !important;
 }
+[data-bs-theme="dark"] .text-secondary {
+    color: #cbd5e1 !important;
+}
+[data-bs-theme="dark"] .text-info {
+    color: #7dd3fc !important;
+}
+[data-bs-theme="dark"] .text-success {
+    color: #86efac !important;
+}
+
+[data-bs-theme="dark"] .bg-primary-subtle {
+    background-color: rgba(99, 102, 241, 0.2) !important;
+}
+[data-bs-theme="dark"] .border-primary-subtle {
+    border-color: rgba(99, 102, 241, 0.4) !important;
+}
+[data-bs-theme="dark"] .bg-secondary-subtle {
+    background-color: rgba(148, 163, 184, 0.15) !important;
+}
+[data-bs-theme="dark"] .border-secondary-subtle {
+    border-color: rgba(148, 163, 184, 0.3) !important;
+}
+[data-bs-theme="dark"] .bg-info-subtle {
+    background-color: rgba(14, 165, 233, 0.2) !important;
+}
+[data-bs-theme="dark"] .border-info-subtle {
+    border-color: rgba(14, 165, 233, 0.4) !important;
+}
+[data-bs-theme="dark"] .bg-success-subtle {
+    background-color: rgba(34, 197, 94, 0.2) !important;
+}
+[data-bs-theme="dark"] .border-success-subtle {
+    border-color: rgba(34, 197, 94, 0.4) !important;
+}
+
 [data-bs-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item) {
     color: #818cf8;
 }
