@@ -273,7 +273,7 @@ include __DIR__ . '/includes/header.php';
                                 <label for="reg-invite" class="form-label">Invite Code (Required for Beta)</label>
                                 <input type="text" class="form-control" id="reg-invite" name="invite" required placeholder="Paste your invite code here">
                                 <div class="form-text">
-                                    Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank">request an invite code via GitHub issues</a> to join the beta.
+                                    Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">request an invite code via GitHub issues <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a> to join the beta.
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary" id="register-btn">

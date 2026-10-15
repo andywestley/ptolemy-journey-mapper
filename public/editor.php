@@ -300,8 +300,9 @@ include __DIR__ . '/includes/navbar.php';
                             <button class="btn btn-primary" type="button" id="copy-share-btn" onclick="copyPublicShareUrl(this)">
                                 <i class="bi bi-clipboard me-1"></i> Copy Link
                             </button>
-                            <a href="/share/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" id="public-share-preview" target="_blank" class="btn btn-outline-secondary" title="Open Public View in New Tab">
-                                <i class="bi bi-box-arrow-up-right"></i>
+                            <a href="/share/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" id="public-share-preview" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary" title="Open Public View in New Tab">
+                                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                <span class="visually-hidden">Open Public View in New Tab</span>
                             </a>
                         </div>
                         <small class="text-success d-block mt-2"><i class="bi bi-check-circle me-1"></i> Link sharing active &mdash; viewers have read-only access to this map.</small>

@@ -97,8 +97,8 @@ include __DIR__ . '/includes/header.php';
 <header class="hero">
     <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
     <p class="lead mb-4">A simple, open-source editor for human-centered journey mapping.</p>
-    <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" class="btn btn-light btn-lg shadow-sm fw-semibold">
-        Visit the Repository
+    <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-light btn-lg shadow-sm fw-semibold" title="Opens repository in a new tab">
+        Visit the Repository <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.85rem;"></i><span class="visually-hidden">(opens in a new tab)</span>
     </a>
 </header>
 
@@ -159,7 +159,7 @@ include __DIR__ . '/includes/header.php';
         Ptolemy is currently in <strong>public beta</strong>. Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for a new feature, find a bug, or just want to chat about the future of open journey standards, I'd love to hear from you.
     </p>
     <p class="mb-4">
-        <strong>Need an invite code?</strong> We are managing scale by issuing manual invite codes during the beta period. Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank">open a GitHub Issue</a> to request yours!
+        <strong>Need an invite code?</strong> We are managing scale by issuing manual invite codes during the beta period. Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">open a GitHub Issue <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a> to request yours!
     </p>
     <p class="mb-5">
         Feel free to contribute code or report issues on GitHub. Let's make journey mapping better for everyone.
@@ -169,7 +169,7 @@ include __DIR__ . '/includes/header.php';
 
     <footer id="colophon-ptolemy" class="text-muted" style="font-size: 0.9rem;">
         <p class="mb-0">
-            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" class="text-decoration-underline">Claudius Ptolemy</a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
+            <strong>Why the name?</strong> We named this after <a href="https://en.wikipedia.org/wiki/Ptolemy" target="_blank" rel="noopener noreferrer" class="text-decoration-underline" title="Opens in a new tab">Claudius Ptolemy <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>, who used grids to turn the messy, unknown world into maps that people could actually use. This tool is a small attempt to do the same for the complex landscape of human experiences.
         </p>
     </footer>
 </main>

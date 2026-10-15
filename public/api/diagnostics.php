@@ -157,7 +157,7 @@ if ($format === 'json') {
             <div class="d-flex gap-2">
                 <a href="/dashboard/" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
                 <a href="/admin/" class="btn btn-outline-info btn-sm"><i class="bi bi-shield-lock me-1"></i>Admin</a>
-                <a href="?format=json" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="bi bi-braces me-1"></i>Raw JSON</a>
+                <a href="?format=json" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener noreferrer" title="Opens raw JSON in a new tab"><i class="bi bi-braces me-1" aria-hidden="true"></i>Raw JSON <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
             </div>
         </div>
 
