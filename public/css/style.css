@@ -331,3 +331,14 @@ pre[tabindex="0"]:focus-visible,
     background-color: #334155;
     color: #f8fafc;
 }
+
+/* Fix Silktide Consent Manager (STCM) false affordance on decorative toggle labels */
+section#stcm-form .stcm-toggle .stcm-toggle-off,
+section#stcm-form .stcm-toggle .stcm-toggle-on,
+.stcm-consent-row .stcm-toggle span.stcm-toggle-off,
+.stcm-consent-row .stcm-toggle span.stcm-toggle-on,
+.stcm-toggle-off,
+.stcm-toggle-on {
+    cursor: default !important;
+    pointer-events: none !important;
+}
