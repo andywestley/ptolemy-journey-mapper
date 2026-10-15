@@ -221,11 +221,11 @@ include __DIR__ . '/includes/header.php';
                         <form id="register-form">
                             <div class="mb-3">
                                 <label for="reg-name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="reg-name" required placeholder="Alex Smith">
+                                <input type="text" class="form-control" id="reg-name" required placeholder="Alex Smith" autocomplete="name">
                             </div>
                             <div class="mb-3">
                                 <label for="reg-email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="reg-email" required placeholder="name@example.com">
+                                <input type="email" class="form-control" id="reg-email" required placeholder="name@example.com" autocomplete="email">
                             </div>
                             <div class="mb-3">
                                 <label for="reg-password" class="form-label">Password</label>

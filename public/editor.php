@@ -311,7 +311,7 @@ include __DIR__ . '/includes/navbar.php';
                     <h6 class="fw-bold">Collaborators (Edit Access)</h6>
                     <label for="share-email" class="form-label small text-muted">Add team members via email address</label>
                     <div class="input-group">
-                        <input type="email" class="form-control" id="share-email" placeholder="collaborator@example.com">
+                        <input type="email" class="form-control" id="share-email" placeholder="collaborator@example.com" autocomplete="email">
                         <button class="btn btn-primary" onclick="addCollaborator()">Add</button>
                     </div>
                 </div>

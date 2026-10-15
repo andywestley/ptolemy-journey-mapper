@@ -239,21 +239,21 @@ include __DIR__ . '/includes/header.php';
 
                     <div class="mb-3">
                         <label for="create-name" class="form-label">Display Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="create-name" required placeholder="e.g. Jane Doe">
+                        <input type="text" class="form-control" id="create-name" required placeholder="e.g. Jane Doe" autocomplete="name">
                     </div>
 
                     <div class="mb-3" id="create-username-group" style="display: none;">
                         <label for="create-username" class="form-label">Username Identifier <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-at"></i></span>
-                            <input type="text" class="form-control" id="create-username" placeholder="e.g. site-audit">
+                            <input type="text" class="form-control" id="create-username" placeholder="e.g. site-audit" autocomplete="username">
                         </div>
                         <div class="form-text">Your audit software will log in using this username.</div>
                     </div>
 
                     <div class="mb-3" id="create-email-group">
                         <label for="create-email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="create-email" placeholder="name@example.com">
+                        <input type="email" class="form-control" id="create-email" placeholder="name@example.com" autocomplete="email">
                     </div>
 
                     <div class="mb-3">
@@ -300,17 +300,17 @@ include __DIR__ . '/includes/header.php';
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="edit-name" class="form-label">Display Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="edit-name" required>
+                        <input type="text" class="form-control" id="edit-name" required autocomplete="name">
                     </div>
 
                     <div class="mb-3">
                         <label for="edit-username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="edit-username" placeholder="Optional for humans, required for service accounts">
+                        <input type="text" class="form-control" id="edit-username" placeholder="Optional for humans, required for service accounts" autocomplete="username">
                     </div>
 
                     <div class="mb-3">
                         <label for="edit-email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="edit-email" placeholder="Optional for service accounts">
+                        <input type="email" class="form-control" id="edit-email" placeholder="Optional for service accounts" autocomplete="email">
                     </div>
 
                     <div class="form-check mt-3">
