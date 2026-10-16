@@ -7,7 +7,7 @@
  */
 $activePublicNav = $activePublicNav ?? '';
 ?>
-<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" aria-label="Public Navigation">
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm sticky-top" aria-label="Public Navigation">
     <div class="container" style="max-width: 1000px;">
         <a class="navbar-brand d-flex align-items-center" href="/">
             <i class="bi bi-map-fill text-primary me-2 fs-5" aria-hidden="true"></i>
