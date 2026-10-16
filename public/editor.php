@@ -34,7 +34,7 @@ $isCollaborator = !$isOwner;
 $isPublic = !empty($journeyRecord['is_public']);
 $collaborators = Journey::getCollaborators($journeyId);
 
-$initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'table';
+$initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'visual';
 
 $pageTitle = htmlspecialchars($journeyRecord['title'] ?? 'Journey', ENT_QUOTES, 'UTF-8') . " | Editor";
 $pageDescription = "Interactive OpenJourney format editor";
@@ -103,55 +103,54 @@ include __DIR__ . '/includes/navbar.php';
             </a>
             <div>
                 <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>
-                <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 mb-2" style="max-width: 500px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
+                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0" style="max-width: 480px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
+                    <!-- Sharing & Privacy Status Badge -->
+                    <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
+                        <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?>"></i>
+                        <span><?php echo $isPublic ? 'Public' : 'Private'; ?></span>
+                    </button>
+                </div>
 
-                <div class="metadata-bar">
-                    <div class="metadata-item">
-                        <span class="metadata-label">Persona</span>
-                        <input type="text" id="editor-persona" class="metadata-input" placeholder="e.g. Frequent Traveler">
+                <!-- Unboxed Clean Metadata Row -->
+                <div class="metadata-clean-row d-flex align-items-center flex-wrap gap-3 text-muted small mt-1 mb-2">
+                    <div class="d-flex align-items-center">
+                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Persona:</span>
+                        <input type="text" id="editor-persona" class="metadata-inline-input" placeholder="e.g. Frequent Traveler" aria-label="Persona">
                     </div>
-                    <div class="vr mx-1 text-muted opacity-25"></div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">POV</span>
-                        <input type="text" id="editor-pov" class="metadata-input" placeholder="e.g. Booking a flight">
+                    <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
+                    <div class="d-flex align-items-center">
+                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">POV:</span>
+                        <input type="text" id="editor-pov" class="metadata-inline-input" placeholder="e.g. Booking a flight" aria-label="Point of view">
                     </div>
-                    <div class="vr mx-3 text-muted opacity-25"></div>
-                    <div class="metadata-item pe-none">
-                        <span class="metadata-label">Journey Score</span>
-                        <div class="d-flex align-items-center">
-                            <span id="scorecard-value" class="fw-bold fs-5 me-2">-</span>
-                            <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
-                        </div>
+                    <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
+                    <div class="d-flex align-items-center">
+                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Score:</span>
+                        <span id="scorecard-value" class="fw-bold text-dark me-1">-</span>
+                        <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
                     </div>
                 </div>
 
-                <!-- Toggle Switch -->
-                <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Journey editor mode">
-                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
-                        <i class="bi bi-table me-1"></i>Table Editor
-                    </button>
+                <!-- Mode Toggle (Visual Map | Table Editor) -->
+                <div class="btn-group btn-group-sm mt-1" role="group" aria-label="Journey editor mode">
                     <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'visual' ? 'active' : ''; ?>" id="mode-visual" aria-pressed="<?php echo $initialMode === 'visual' ? 'true' : 'false'; ?>" onclick="switchEditorMode('visual')">
                         <i class="bi bi-diagram-3 me-1"></i>Visual Map
+                    </button>
+                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
+                        <i class="bi bi-table me-1"></i>Table Editor
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
-            <!-- Sharing & Privacy Status Badge -->
-            <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-flex align-items-center gap-1" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
-                <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?>"></i>
-                <span><?php echo $isPublic ? 'Public' : 'Private'; ?></span>
-            </button>
+        <div class="d-flex align-items-center gap-3">
+            <!-- Auto-save Sync Status Indicator -->
+            <div id="save-status" class="d-flex align-items-center text-muted small opacity-0" aria-live="polite">
+                <span class="save-indicator-dot"></span>
+                <span id="save-text">Saved</span>
+            </div>
 
-            <!-- Prominent Share Button -->
-            <button class="btn btn-outline-primary px-3" type="button" onclick="openShareModal()">
-                <i class="bi bi-share me-1"></i> Share
-            </button>
-
-            <button class="btn btn-accent px-4" type="button" onclick="saveJourney()">
-                <i class="bi bi-cloud-upload me-2"></i>Save Changes
-            </button>
+            <!-- Clean Actions Menu -->
             <div class="dropdown">
                 <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
                     <i class="bi bi-three-dots-vertical me-1"></i> Actions
@@ -172,7 +171,16 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Sub-View: Table Editor -->
-    <div id="table-editor-view" class="table-editor-container">
+    <div id="table-editor-view" class="table-editor-container" style="<?php echo $initialMode === 'visual' ? 'display: none;' : ''; ?>">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom flex-wrap gap-2">
+            <div>
+                <h2 class="h4 fw-bold mb-1"><i class="bi bi-table text-primary me-2" aria-hidden="true"></i>Table Editor</h2>
+                <p class="text-muted small mb-0">Define stages, swimlanes, and step details in structured tables.</p>
+            </div>
+            <button class="btn btn-accent px-4 py-2 fw-semibold" id="table-save-btn" type="button" onclick="saveJourney()">
+                <i class="bi bi-cloud-upload me-2" aria-hidden="true"></i>Save Changes
+            </button>
+        </div>
         <div class="mb-5">
             <div class="d-flex justify-content-between align-items-baseline mb-3">
                 <div>
@@ -247,7 +255,7 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Sub-View: Visual Map -->
-    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" style="display: none;">
+    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" style="<?php echo $initialMode === 'visual' ? 'display: block;' : 'display: none;'; ?>">
         <div class="d-flex justify-content-end mb-2 gap-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode" onchange="toggleBlueprintMode()">

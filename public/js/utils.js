@@ -3,8 +3,27 @@
  */
 
 let autoSaveTimer = null;
-let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'table';
+let activeEditorMode = (typeof INITIAL_EDITOR_MODE !== 'undefined' && INITIAL_EDITOR_MODE) ? INITIAL_EDITOR_MODE : 'visual';
 window.activeEditorMode = activeEditorMode;
+
+/**
+ * Calculates high-contrast text color (pure white or dark slate) based on background luminance
+ */
+function getContrastColor(hexColor) {
+    if (!hexColor || hexColor === '#ffffff' || hexColor === 'transparent') {
+        return '#0f172a';
+    }
+    let hex = String(hexColor).replace('#', '').trim();
+    if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+    }
+    const r = parseInt(hex.substring(0, 2), 16) || 0;
+    const g = parseInt(hex.substring(2, 4), 16) || 0;
+    const b = parseInt(hex.substring(4, 6), 16) || 0;
+    // YIQ formula
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq < 145 ? '#ffffff' : '#0f172a';
+}
 
 function toggleLoading(show) {
     const loading = document.getElementById('loading');

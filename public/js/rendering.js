@@ -12,6 +12,39 @@ function renderVisualMap() {
     const nodes = originalOJF.nodes || [];
     const isReadOnly = !!window.isReadOnly;
 
+    // Check for empty journey state on visual map
+    if (nodes.length === 0) {
+        grid.style.display = 'block';
+        grid.style.gridTemplateColumns = 'none';
+        grid.innerHTML = `
+            <div class="visual-map-empty-state text-center p-5 my-3 border rounded-4 bg-white shadow-sm" style="max-width: 600px; margin: 0 auto;">
+                <div class="mb-3">
+                    <i class="bi bi-diagram-3 text-primary" style="font-size: 3rem;" aria-hidden="true"></i>
+                </div>
+                <h3 class="h4 fw-bold mb-2 text-dark">No Journey Steps Yet</h3>
+                <p class="text-muted mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                    Your journey map doesn't have any steps yet. Get started by defining phases and adding steps in the Table Editor, or create your first step right here.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <button type="button" class="btn btn-primary px-4 py-2 fw-semibold" onclick="switchEditorMode('table')">
+                        <i class="bi bi-table me-2" aria-hidden="true"></i>Open Table Editor
+                    </button>
+                    ${!isReadOnly ? `
+                    <button type="button" class="btn btn-outline-primary px-4 py-2 fw-semibold" onclick="openNodeModal(null, (originalOJF.stages[0] || {}).id, (originalOJF.swimlanes[0] || {}).id)">
+                        <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Add First Step
+                    </button>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+        const svg = document.getElementById('emotional-curve-svg');
+        if (svg) svg.innerHTML = '';
+        updateScorecard();
+        return;
+    } else {
+        grid.style.display = 'grid';
+    }
+
     // Define grid structure
     // Column 1 is for Swimlanes (200px), others for Stages (300px), last for Add Stage (50px, if editable)
     if (isReadOnly) {
@@ -107,7 +140,7 @@ function renderVisualMap() {
 
             cellNodes.forEach(node => {
                 const card = document.createElement('div');
-                card.className = `node-card node-severity-${node.severity || 'low'}`;
+                card.className = 'node-card';
                 card.dataset.nodeId = node.id;
                 card.dataset.nodeTitle = node.title || 'Untitled Node';
                 if (node.isMomentOfTruth) card.classList.add('moment-of-truth');
@@ -130,42 +163,64 @@ function renderVisualMap() {
                     }
                 };
 
-                // Node content rendering
+                // Emotional Score pill
                 let scoreHTML = '';
-                if (node.score !== undefined && node.score !== null) {
+                if (node.score !== undefined && node.score !== null && node.score !== '') {
                     const val = Number(node.score);
                     const pillClass = val > 0 ? 'score-pill-pos' : val < 0 ? 'score-pill-neg' : 'score-pill-zero';
-                    scoreHTML = `<span class="score-pill ${pillClass}">${val > 0 ? '+' : ''}${val}</span>`;
+                    scoreHTML = `<span class="score-pill ${pillClass}" title="Score: ${val}">${val > 0 ? '+' : ''}${val}</span>`;
                 }
 
+                // Sentiment badge (prominent badge with icon and label)
                 let sentimentHTML = '';
                 if (node.sentiment) {
                     const iconName = SENTIMENT_ICONS[node.sentiment] || 'emoji-smile';
-                    sentimentHTML = `<i class="bi bi-${iconName} sentiment-icon" title="Sentiment: ${escapeHtml(node.sentiment)}"></i>`;
+                    const sLower = String(node.sentiment).toLowerCase();
+                    const isNeg = ['negative', 'angry', 'frustrated'].includes(sLower);
+                    const isAnx = ['anxious', 'confused', 'bored'].includes(sLower);
+                    const isPos = ['positive', 'delighted', 'relieved', 'satisfied'].includes(sLower);
+                    const toneClass = isNeg ? 'node-badge-neg' : isAnx ? 'node-badge-warn' : isPos ? 'node-badge-pos' : 'node-badge-neutral';
+                    sentimentHTML = `<span class="node-meta-badge ${toneClass}" title="Sentiment: ${escapeHtml(node.sentiment)}"><i class="bi bi-${iconName} me-1" aria-hidden="true"></i>${escapeHtml(node.sentiment)}</span>`;
                 }
 
+                // Purpose badge (prominent badge with icon and label)
                 let purposeHTML = '';
                 if (node.purpose) {
                     const pIconName = PURPOSE_ICONS[node.purpose] || 'tag';
-                    purposeHTML = `<i class="bi bi-${pIconName} purpose-icon" title="Purpose: ${escapeHtml(node.purpose)}"></i>`;
+                    const cleanPurpose = String(node.purpose).replace(/-/g, ' ');
+                    purposeHTML = `<span class="node-meta-badge node-badge-purpose" title="Purpose: ${escapeHtml(cleanPurpose)}"><i class="bi bi-${pIconName} me-1" aria-hidden="true"></i>${escapeHtml(cleanPurpose)}</span>`;
                 }
 
-                const themeColor = node.iconColor || '#ffffff';
-                const isLight = !themeColor || themeColor === '#ffffff' || themeColor === '#f8fafc' || themeColor === '#f1f5f9';
-                card.style.backgroundColor = themeColor;
-                if (!isLight) card.classList.add('has-custom-color');
+                // Severity badge (explicit badge so color conveys clear meaning)
+                let severityHTML = '';
+                if (node.severity === 'high') {
+                    severityHTML = `<span class="node-meta-badge node-badge-neg" title="Severity: High"><i class="bi bi-exclamation-triangle-fill me-1" aria-hidden="true"></i>High</span>`;
+                } else if (node.severity === 'medium') {
+                    severityHTML = `<span class="node-meta-badge node-badge-warn" title="Severity: Medium"><i class="bi bi-exclamation-circle-fill me-1" aria-hidden="true"></i>Medium</span>`;
+                }
+
+                // Theme color and pre-determined contrast
+                const hasCustomColor = !!(node.iconColor && node.iconColor !== '#ffffff' && node.iconColor !== 'transparent');
+                const headerBg = hasCustomColor ? node.iconColor : '#f1f5f9';
+                const headerText = hasCustomColor ? (typeof getContrastColor === 'function' ? getContrastColor(node.iconColor) : '#ffffff') : '#1e293b';
 
                 card.innerHTML = `
-                    <div class="node-card-header">
-                        <span class="node-card-title">${escapeHtml(node.title)}</span>
-                    </div>
-                    ${node.description ? `<p class="node-card-desc mb-2">${escapeHtml(node.description)}</p>` : ''}
-                    <div class="node-card-footer mt-auto pt-2 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-1">
-                            ${sentimentHTML}
-                            ${purposeHTML}
+                    <div class="node-card-header" style="background-color: ${headerBg}; color: ${headerText};">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <span class="node-card-title">${escapeHtml(node.title)}</span>
+                            ${node.isMomentOfTruth ? `<span class="badge bg-warning text-dark border-0 py-1 px-2 d-inline-flex align-items-center flex-shrink-0" style="font-size: 0.65rem;" title="Key Moment of Truth"><i class="bi bi-star-fill me-1" aria-hidden="true"></i>Moment of Truth</span>` : ''}
                         </div>
-                        ${scoreHTML}
+                    </div>
+                    <div class="node-card-body">
+                        ${node.description ? `<p class="node-card-desc mb-2">${escapeHtml(node.description)}</p>` : ''}
+                        <div class="node-card-footer mt-auto pt-2 d-flex justify-content-between align-items-center flex-wrap gap-1">
+                            <div class="d-flex align-items-center flex-wrap gap-1">
+                                ${sentimentHTML}
+                                ${purposeHTML}
+                                ${severityHTML}
+                            </div>
+                            ${scoreHTML}
+                        </div>
                     </div>
                 `;
 
