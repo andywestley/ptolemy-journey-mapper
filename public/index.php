@@ -18,182 +18,9 @@ $serverError = !empty($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUO
 
 $pageTitle = ($initialTab === 'register') ? "Register | Ptolemy - the OpenJourney editor" : "Login | Ptolemy - the OpenJourney editor";
 $pageDescription = "Login or register to access the Ptolemy Editor.";
+$extraCss = ["auth.css"];
 include __DIR__ . '/includes/header.php';
 ?>
-
-<style>
-    :root {
-        --primary-bg: #f8f9fa;
-        --accent-color: #4f46e5;
-        --accent-color-hover: #4338ca;
-        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--primary-bg);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }
-
-    .auth-card {
-        max-width: 400px;
-        width: 100%;
-        border: none;
-        border-radius: 1rem;
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        background: white;
-        transition: transform 0.2s ease;
-    }
-
-    .auth-header {
-        background: var(--accent-color);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .auth-header h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    .auth-body {
-        padding: 2rem;
-    }
-
-    .nav-pills .nav-link {
-        color: #475569;
-        border-radius: 0.5rem;
-        font-weight: 500;
-    }
-
-    .nav-pills .nav-link.active {
-        background-color: var(--accent-color);
-        color: #ffffff;
-    }
-
-    .btn-primary {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-        color: #ffffff;
-        padding: 0.75rem;
-        font-weight: 600;
-        border-radius: 0.5rem;
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--accent-color-hover);
-        border-color: var(--accent-color-hover);
-        transform: translateY(-1px);
-        color: #ffffff;
-    }
-
-    .form-control {
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border: 1px solid #dee2e6;
-    }
-
-    .form-control:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
-    }
-
-    #error-alert {
-        display: none;
-        margin-top: 1rem;
-    }
-
-    .loading-spinner {
-        display: none;
-        width: 1.5rem;
-        height: 1.5rem;
-        vertical-align: middle;
-    }
-
-    [data-bs-theme="dark"] body {
-        background-color: #0f172a;
-    }
-
-    [data-bs-theme="dark"] .auth-card {
-        background-color: #1e293b;
-        color: #f8fafc;
-    }
-
-    [data-bs-theme="dark"] .form-control {
-        background-color: #334155;
-        border-color: #475569;
-        color: white;
-    }
-
-    /* Post-it Note Styles */
-    .hobby-note {
-        background-color: #fef08a;
-        color: #422006;
-        padding: 1.25rem 1.5rem;
-        box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(200, 150, 0, 0.1);
-        transform: rotate(-3deg);
-        max-width: 320px;
-        border-bottom-right-radius: 10px 30px;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        position: relative;
-    }
-
-    .hobby-note::before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        left: 50%;
-        width: 80px;
-        height: 25px;
-        background-color: rgba(255, 255, 255, 0.4);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        transform: translateX(-50%) rotate(2deg);
-    }
-
-    .hobby-note a {
-        color: #854d0e;
-        font-weight: 600;
-        text-decoration: underline;
-    }
-
-    .hobby-note a:hover {
-        color: #422006;
-    }
-
-    @media (min-width: 992px) {
-        .hobby-note {
-            transform: translateY(2rem) rotate(-3deg);
-            margin-bottom: 1.5rem;
-        }
-    }
-
-    [data-bs-theme="dark"] .hobby-note {
-        background-color: #854d0e;
-        color: #fefce8;
-    }
-
-    [data-bs-theme="dark"] .hobby-note::before {
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    [data-bs-theme="dark"] .hobby-note a {
-        color: #fef08a;
-    }
-
-    [data-bs-theme="dark"] .hobby-note a:hover {
-        color: #fff;
-    }
-</style>
 
 <?php
 $activePublicNav = 'home';
@@ -325,11 +152,11 @@ include __DIR__ . '/includes/public_navbar.php';
 
 <footer class="w-100 py-4 mt-auto border-top text-muted small bg-white">
     <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3" style="max-width: 1000px;">
-        <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-3">
-            <a href="/about/" class="text-decoration-none py-1 px-1" rel="help">Help &amp; Guides</a>
-            <a href="/templates/" class="text-decoration-none py-1 px-1">Templates</a>
-            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="text-decoration-none py-1 px-1" title="Get human support or report an issue on GitHub">Help &amp; Support <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
-            <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-1 px-1" title="Opens in a new tab">GitHub <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+        <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-2">
+            <a href="/about/" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center" rel="help">Help &amp; Guides</a>
+            <a href="/templates/" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center">Templates</a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center" title="Get human support or report an issue on GitHub">Help &amp; Support <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
+            <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center" title="Opens in a new tab">GitHub <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
         </nav>
         <span>&copy; <?= date('Y') ?> Ptolemy</span>
     </div>
