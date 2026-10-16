@@ -138,9 +138,8 @@ include __DIR__ . '/includes/navbar.php';
                         <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
                         <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
                         <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
-                        <li><button type="button" class="dropdown-item py-2" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</button></li>
                         <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
-                        <li><button type="button" class="dropdown-item py-2" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</button></li>
+                        <li><button type="button" class="dropdown-item py-2 fw-medium" onclick="exportExecutivePDF()"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Executive Report (PDF)</button></li>
                     </ul>
                 </div>
             </div>

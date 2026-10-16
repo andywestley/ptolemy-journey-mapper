@@ -737,120 +737,370 @@ async function removeCollaborator(userId) {
 /**
  * Exporters & Importers
  */
-async function exportTextualPDF() {
-    if (!currentJourney) return;
+async function exportExecutivePDF() {
+    if (!currentJourney && !window.currentJourney) return;
+    const journey = currentJourney || window.currentJourney;
+    const ojf = originalOJF || window.originalOJF || {};
 
     // GTM Custom Export Event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
         event: 'journey_export',
-        export_format: 'textual_pdf'
+        export_format: 'executive_pdf'
     });
 
-    const title = document.getElementById('editor-title').value;
-    const persona = document.getElementById('editor-persona').value;
-    const pov = document.getElementById('editor-pov').value;
+    const title = (document.getElementById('editor-title')?.value || journey.title || 'Untitled Journey').trim();
+    const persona = (document.getElementById('editor-persona')?.value || ojf.persona || '').trim();
+    const pov = (document.getElementById('editor-pov')?.value || ojf.pointOfView || '').trim();
     const notesEl = document.getElementById('editor-notes');
-    const notes = notesEl ? notesEl.value : (currentJourney.description || currentJourney.ojf_data?.notes || '');
-    const stages = originalOJF.stages || [];
-    const swimlanes = originalOJF.swimlanes || [];
-    const nodes = originalOJF.nodes || [];
+    const notes = (notesEl ? notesEl.value : (journey.notes || journey.description || ojf.notes || '')).trim();
 
-    // Create temporary container for PDF generation
+    const stages = ojf.stages || [];
+    const swimlanes = ojf.swimlanes || [];
+    const nodes = ojf.nodes || [];
+
+    // Calculate metrics
+    const scoredNodes = nodes.filter(n => n.score !== undefined && n.score !== null && n.score !== '');
+    let overallScoreText = '-';
+    let overallSentimentText = 'Unscored';
+    let overallSentimentColor = '#64748b';
+    if (scoredNodes.length > 0) {
+        const sum = scoredNodes.reduce((acc, n) => acc + Number(n.score), 0);
+        const avg = sum / scoredNodes.length;
+        const roundedAvg = Math.round(avg * 10) / 10;
+        overallScoreText = `${roundedAvg > 0 ? '+' : ''}${roundedAvg}`;
+        if (roundedAvg >= 2) {
+            overallSentimentText = 'Positive';
+            overallSentimentColor = '#16a34a';
+        } else if (roundedAvg >= -2) {
+            overallSentimentText = 'Mixed';
+            overallSentimentColor = '#d97706';
+        } else {
+            overallSentimentText = 'High Friction';
+            overallSentimentColor = '#dc2626';
+        }
+    }
+
+    const motNodes = nodes.filter(n => n.isMomentOfTruth);
+    const highSevCount = nodes.filter(n => n.severity === 'high').length;
+    const medSevCount = nodes.filter(n => n.severity === 'medium').length;
+
+    // Build the PDF report container
     const container = document.createElement('div');
-    container.style.padding = '40px';
-    container.style.fontFamily = "'Outfit', sans-serif";
+    container.style.padding = '0';
+    container.style.margin = '0';
+    container.style.fontFamily = "'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
     container.style.color = '#1e293b';
+    container.style.background = '#ffffff';
+    container.style.lineHeight = '1.45';
 
+    const esc = (s) => (typeof escapeHtml === 'function' ? escapeHtml(s) : String(s || ''));
+
+    // PAGE 1: COVER & EXECUTIVE SUMMARY
     let html = `
-        <div style="border-bottom: 2px solid #6366f1; padding-bottom: 20px; margin-bottom: 30px;">
-            <h1 style="color: #6366f1; margin-bottom: 5px;">Journey Map Report: ${title}</h1>
-            ${persona ? `<p style="margin: 5px 0;"><strong>Persona:</strong> ${persona}</p>` : ''}
-            ${pov ? `<p style="margin: 5px 0;"><strong>Point of View:</strong> ${pov}</p>` : ''}
-            ${notes ? `<p style="margin: 5px 0; white-space: pre-wrap;"><strong>Notes:</strong> ${notes}</p>` : ''}
+        <div style="page-break-after: always; padding: 25px 25px 35px 25px; box-sizing: border-box;">
+            <!-- Top Brand Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #6366f1; padding-bottom: 12px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-weight: 800; font-size: 18px; color: #4338ca; letter-spacing: -0.02em;">PTOLEMY</span>
+                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; font-weight: 600; border-left: 1px solid #cbd5e1; padding-left: 8px;">Executive Journey Report</span>
+                </div>
+                <div style="font-size: 11px; color: #64748b;">
+                    Generated: ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </div>
+            </div>
+
+            <!-- Title & Context -->
+            <h1 style="font-size: 26px; font-weight: 800; color: #0f172a; margin: 0 0 16px 0; line-height: 1.25;">
+                ${esc(title)}
+            </h1>
+
+            <div style="margin-bottom: 22px;">
+                ${persona ? `
+                <div style="display: flex; margin-bottom: 6px; font-size: 13px;">
+                    <span style="font-weight: 700; color: #475569; width: 110px; flex-shrink: 0; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em;">Persona:</span>
+                    <span style="color: #0f172a; font-weight: 500;">${esc(persona)}</span>
+                </div>` : ''}
+                ${pov ? `
+                <div style="display: flex; margin-bottom: 6px; font-size: 13px;">
+                    <span style="font-weight: 700; color: #475569; width: 110px; flex-shrink: 0; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em;">Point of View:</span>
+                    <span style="color: #0f172a; font-weight: 500;">${esc(pov)}</span>
+                </div>` : ''}
+                ${notes ? `
+                <div style="display: flex; margin-bottom: 6px; font-size: 13px;">
+                    <span style="font-weight: 700; color: #475569; width: 110px; flex-shrink: 0; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em; padding-top: 6px;">Notes:</span>
+                    <div style="color: #334155; white-space: pre-wrap; font-size: 12.5px; line-height: 1.5; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; flex-grow: 1;">${esc(notes)}</div>
+                </div>` : ''}
+            </div>
+
+            <!-- Executive KPI Cards Grid -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;">
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; margin-bottom: 4px;">Experience Score</div>
+                    <div style="font-size: 22px; font-weight: 800; color: ${overallSentimentColor};">${esc(overallScoreText)}</div>
+                    <div style="font-size: 10px; font-weight: 600; color: ${overallSentimentColor}; text-transform: uppercase;">${esc(overallSentimentText)}</div>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; margin-bottom: 4px;">Journey Scope</div>
+                    <div style="font-size: 22px; font-weight: 800; color: #0f172a;">${stages.length}</div>
+                    <div style="font-size: 10px; color: #64748b;">Stages • ${nodes.length} Steps</div>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; margin-bottom: 4px;">Moments of Truth</div>
+                    <div style="font-size: 22px; font-weight: 800; color: #d97706;">${motNodes.length}</div>
+                    <div style="font-size: 10px; color: #64748b;">Critical Touchpoints</div>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; margin-bottom: 4px;">Friction Points</div>
+                    <div style="font-size: 22px; font-weight: 800; color: #ef4444;">${highSevCount}</div>
+                    <div style="font-size: 10px; color: #64748b;">High (${medSevCount} Medium)</div>
+                </div>
+            </div>
+
+            <!-- Stage Progression Flowbar -->
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.05em; margin-bottom: 8px;">Journey Stages Progression</div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    ${stages.map((st, idx) => `
+                        <div style="flex: 1; min-width: 85px; background: #f1f5f9; border-top: 3px solid #6366f1; border-radius: 4px; padding: 6px 8px;">
+                            <div style="font-size: 9px; font-weight: 700; color: #6366f1; text-transform: uppercase;">Stage ${idx + 1}</div>
+                            <div style="font-size: 11px; font-weight: 600; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${esc(st.name)}">${esc(st.name)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Key Moments of Truth Overview -->
+            ${motNodes.length > 0 ? `
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #d97706; letter-spacing: 0.05em; margin-bottom: 8px;">
+                    Key Moments of Truth (Critical Touchpoints)
+                </div>
+                <div style="border: 1px solid #fde68a; border-radius: 8px; overflow: hidden; background: #fffbeb;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 11.5px;">
+                        <thead>
+                            <tr style="background: #fef3c7; border-bottom: 1px solid #fde68a; text-align: left;">
+                                <th style="padding: 7px 10px; font-weight: 700; color: #92400e;">Step</th>
+                                <th style="padding: 7px 10px; font-weight: 700; color: #92400e;">Stage</th>
+                                <th style="padding: 7px 10px; font-weight: 700; color: #92400e;">Score</th>
+                                <th style="padding: 7px 10px; font-weight: 700; color: #92400e;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${motNodes.map(node => {
+                                const stName = stages.find(s => s.id === node.stageId)?.name || '-';
+                                return `
+                                    <tr style="border-bottom: 1px solid #fef3c7;">
+                                        <td style="padding: 7px 10px; font-weight: 600; color: #0f172a;">${esc(node.title)}</td>
+                                        <td style="padding: 7px 10px; color: #64748b;">${esc(stName)}</td>
+                                        <td style="padding: 7px 10px; font-weight: 700; color: ${Number(node.score) >= 0 ? '#16a34a' : '#dc2626'};">
+                                            ${node.score !== undefined && node.score !== null ? (Number(node.score) > 0 ? '+' : '') + node.score : '-'}
+                                        </td>
+                                        <td style="padding: 7px 10px; color: #475569; max-width: 260px;">${esc(node.description || '—')}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>` : ''}
+
+            <div style="font-size: 10px; color: #94a3b8; text-align: right; margin-top: 15px;">
+                Page 1 • Executive Summary
+            </div>
         </div>
     `;
 
+    // STAGE-BY-STAGE DEEP DIVE PAGES
     const getThreadHtml = (parentId) => {
         if (!window.currentComments) return '';
         const replies = window.currentComments.filter(c => c.parent === parentId);
         if (replies.length === 0) return '';
-        return `<div style="margin-left: 20px; padding-left: 10px; border-left: 2px solid #e2e8f0; margin-top: 10px;">
-            ${replies.map(r => `<div style="margin-bottom: 5px;"><strong style="font-size: 0.8rem; color: #64748b;">${r.expand?.user?.email || 'User'}:</strong> <span style="font-size: 0.85rem; color: #475569;">${r.content}</span></div>`).join('')}
-        </div>`;
+        return `
+            <div style="margin-left: 15px; padding-left: 8px; border-left: 2px solid #e2e8f0; margin-top: 6px;">
+                ${replies.map(r => `
+                    <div style="margin-bottom: 4px; font-size: 11px;">
+                        <strong style="color: #64748b;">${esc(r.expand?.user?.email || 'User')}:</strong>
+                        <span style="color: #334155;">${esc(r.content)}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
     };
 
-    stages.forEach(stage => {
+    stages.forEach((stage, stIdx) => {
+        const stageNodes = nodes.filter(n => n.stageId === stage.id);
+        const stageAvg = (() => {
+            const sc = stageNodes.filter(n => n.score !== undefined && n.score !== null && n.score !== '');
+            if (sc.length === 0) return null;
+            return Math.round((sc.reduce((a, b) => a + Number(b.score), 0) / sc.length) * 10) / 10;
+        })();
+
         html += `
-            <div style="margin-bottom: 40px; page-break-inside: avoid;">
-                <h2 style="background: #f1f5f9; padding: 10px 15px; border-radius: 8px; border-left: 5px solid #6366f1; margin-bottom: 20px;">
-                    Stage: ${stage.name}
-                </h2>
+            <div class="pdf-stage-block" style="page-break-before: always; padding: 25px 25px 35px 25px; box-sizing: border-box;">
+                <!-- Stage Header Banner -->
+                <div style="background: #f1f5f9; border-left: 6px solid #6366f1; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6366f1; letter-spacing: 0.05em;">Stage ${stIdx + 1} of ${stages.length}</div>
+                        <h2 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 2px 0 0 0;">${esc(stage.name)}</h2>
+                    </div>
+                    <div style="text-align: right;">
+                        ${stage.overrideEmotion !== undefined && stage.overrideEmotion !== null && stage.overrideEmotion !== '' ? `
+                            <span style="background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;">Emotion Override: ${Number(stage.overrideEmotion) > 0 ? '+' : ''}${stage.overrideEmotion}</span>
+                        ` : (stageAvg !== null ? `
+                            <span style="background: #ffffff; border: 1px solid #cbd5e1; color: #1e293b; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;">Stage Avg: ${stageAvg > 0 ? '+' : ''}${stageAvg}</span>
+                        ` : '')}
+                    </div>
+                </div>
         `;
 
-        swimlanes.forEach(swimlane => {
-            const cellNodes = nodes.filter(n => n.stageId === stage.id && n.swimlaneId === swimlane.id);
-            if (cellNodes.length > 0) {
-                html += `<h3 style="color: #475569; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin-top: 25px;">${swimlane.name}</h3>`;
+        if (stageNodes.length === 0) {
+            html += `
+                <div style="padding: 20px; text-align: center; color: #94a3b8; font-style: italic; background: #f8fafc; border-radius: 6px; border: 1px dashed #cbd5e1;">
+                    No touchpoints recorded in this stage.
+                </div>
+            `;
+        } else {
+            swimlanes.forEach(swimlane => {
+                const cellNodes = stageNodes.filter(n => n.swimlaneId === swimlane.id);
+                if (cellNodes.length === 0) return;
+
+                html += `
+                    <div style="margin-bottom: 18px;">
+                        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 10px;">
+                            Swimlane: ${esc(swimlane.name)}
+                        </div>
+                `;
 
                 cellNodes.forEach(node => {
-                    const displayIcon = node.icon || SENTIMENT_ICONS[node.sentiment] || PURPOSE_ICONS[node.purpose];
-                    const themeColor = node.iconColor || '#e2e8f0';
+                    const themeColor = (node.iconColor && node.iconColor !== '#ffffff' && node.iconColor !== 'transparent') ? node.iconColor : '#6366f1';
+                    const bp = node.blueprint || {};
+                    const hasBp = (bp.onstage?.length || bp.backstage?.length || bp.support?.length || bp.evidence?.length);
 
                     html += `
-                        <div style="background: white; border-radius: 8px; padding: 15px; margin: 15px 0; position: relative; border: ${node.isMomentOfTruth ? '2px solid #f59e0b' : '1px solid #e2e8f0'}; border-left: 5px solid ${node.isMomentOfTruth ? '#f59e0b' : themeColor};">
-                            ${node.isMomentOfTruth ? '<div style="position: absolute; top: -10px; right: 10px; background: #f59e0b; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">MOMENT OF TRUTH</div>' : ''}
-                            <div style="display: flex; align-items: baseline; margin-bottom: 8px;">
-                                ${displayIcon ? `<i class="bi bi-${displayIcon}" style="margin-right: 10px; font-size: 1.1rem; color: #6366f1;"></i>` : ''}
-                                <h4 style="margin: 0; font-size: 1.1rem;">${node.title}</h4>
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid ${node.isMomentOfTruth ? '#f59e0b' : themeColor}; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; page-break-inside: avoid; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+                            <!-- Top row: MOT badge, Title, Badges -->
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px;">
+                                <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                                    <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">${esc(node.title)}</h4>
+                                    ${node.isMomentOfTruth ? `
+                                        <span style="background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">
+                                            ★ Moment of Truth
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                                    ${node.score !== undefined && node.score !== null && node.score !== '' ? `
+                                        <span style="font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 12px; background: ${Number(node.score) > 0 ? '#dcfce7; color: #15803d' : Number(node.score) < 0 ? '#fee2e2; color: #b91c1c' : '#f1f5f9; color: #475569'};">
+                                            Score: ${Number(node.score) > 0 ? '+' : ''}${node.score}
+                                        </span>
+                                    ` : ''}
+                                    ${node.sentiment ? `
+                                        <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; text-transform: capitalize;">
+                                            ${esc(node.sentiment)}
+                                        </span>
+                                    ` : ''}
+                                    ${node.severity && node.severity !== 'low' ? `
+                                        <span style="font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: ${node.severity === 'high' ? '#fee2e2; color: #b91c1c' : '#fef3c7; color: #b45309'}; text-transform: uppercase;">
+                                            ${esc(node.severity)}
+                                        </span>
+                                    ` : ''}
+                                </div>
                             </div>
-                            ${node.description ? `<p style="margin: 8px 0; font-size: 0.95rem; line-height: 1.5; color: #475569;">${node.description}</p>` : ''}
-                            
-                            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; font-size: 0.85rem;">
-                                ${node.severity ? `<span><strong>Severity:</strong> ${node.severity}</span>` : ''}
-                                ${node.score ? `<span><strong>Score:</strong> ${node.score}/10</span>` : ''}
-                                ${node.sentiment ? `<span><strong>Sentiment:</strong> ${node.sentiment}</span>` : ''}
-                                ${node.purpose ? `<span><strong>Purpose:</strong> ${node.purpose}</span>` : ''}
-                            </div>
-                            ${node.tags && node.tags.length > 0 ? `<div style="margin-top: 8px; font-size: 0.8rem; color: #64748b;"><strong>Tags:</strong> ${node.tags.join(', ')}</div>` : ''}
-                            
-                            ${(() => {
-                            if (!window.currentComments) return '';
-                            const nodeComments = window.currentComments.filter(c => c.nodeId === node.id && !c.parent && !c.resolved);
-                            if (nodeComments.length === 0) return '';
-                            return `<div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
-                                    <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: #f59e0b;"><i class="bi bi-chat-text"></i> Feedback</h5>
-                                    ${nodeComments.map(c => `
-                                        <div style="margin-bottom: 10px;">
-                                            <strong style="font-size: 0.8rem; color: #64748b;">${c.expand?.user?.email || 'User'}:</strong> 
-                                            <span style="font-size: 0.85rem; color: #1e293b;">${c.content}</span>
-                                            ${getThreadHtml(c.id)}
+
+                            <!-- Full Description -->
+                            ${node.description ? `
+                                <div style="color: #334155; font-size: 13px; line-height: 1.5; margin: 8px 0;">
+                                    ${esc(node.description)}
+                                </div>
+                            ` : ''}
+
+                            <!-- Tags & Purpose -->
+                            ${(node.purpose || (node.tags && node.tags.length > 0)) ? `
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; font-size: 11px; color: #64748b;">
+                                    ${node.purpose ? `<span style="background: #e2e8f0; padding: 1px 6px; border-radius: 4px;">Purpose: ${esc(node.purpose)}</span>` : ''}
+                                    ${node.tags ? node.tags.map(t => `<span style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 1px 6px; border-radius: 4px;">#${esc(t)}</span>`).join('') : ''}
+                                </div>
+                            ` : ''}
+
+                            <!-- Service Blueprint Details (if present) -->
+                            ${hasBp ? `
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; margin-top: 10px; font-size: 12px;">
+                                    <div style="font-weight: 700; color: #475569; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; margin-bottom: 6px;">Service Blueprint Architecture</div>
+                                    ${bp.onstage && bp.onstage.length > 0 ? `
+                                        <div style="margin-bottom: 4px;">
+                                            <strong style="color: #2563eb;">Frontstage (Visible):</strong>
+                                            ${bp.onstage.map(i => `${esc(i.actor || '') ? `<strong>${esc(i.actor)}:</strong> ` : ''}${esc(i.action || '')}`).join('; ')}
                                         </div>
-                                    `).join('')}
-                                </div>`;
-                        })()}
+                                    ` : ''}
+                                    ${bp.backstage && bp.backstage.length > 0 ? `
+                                        <div style="margin-bottom: 4px;">
+                                            <strong style="color: #4b5563;">Backstage (Invisible):</strong>
+                                            ${bp.backstage.map(i => `${esc(i.actor || '') ? `<strong>${esc(i.actor)}:</strong> ` : ''}${esc(i.action || '')}`).join('; ')}
+                                        </div>
+                                    ` : ''}
+                                    ${bp.support && bp.support.length > 0 ? `
+                                        <div style="margin-bottom: 4px;">
+                                            <strong style="color: #7c3aed;">Support Systems:</strong>
+                                            ${bp.support.map(i => `${esc(i.system || '') ? `<strong>${esc(i.system)}:</strong> ` : ''}${esc(i.description || '')}`).join('; ')}
+                                        </div>
+                                    ` : ''}
+                                    ${bp.evidence && bp.evidence.length > 0 ? `
+                                        <div style="margin-bottom: 4px;">
+                                            <strong style="color: #059669;">Physical Evidence:</strong>
+                                            ${bp.evidence.map(i => `${esc(i.item || '')} ${i.type ? `<span style="color: #64748b;">(${esc(i.type)})</span>` : ''}`).join('; ')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
+
+                            <!-- Node Comments / Feedback (if present) -->
+                            ${(() => {
+                                if (!window.currentComments) return '';
+                                const nodeComments = window.currentComments.filter(c => c.nodeId === node.id && !c.parent && !c.resolved);
+                                if (nodeComments.length === 0) return '';
+                                return `
+                                    <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 11.5px;">
+                                        <div style="font-weight: 700; color: #d97706; margin-bottom: 4px;">Stakeholder Feedback</div>
+                                        ${nodeComments.map(c => `
+                                            <div style="margin-bottom: 4px;">
+                                                <strong style="color: #64748b;">${esc(c.expand?.user?.email || 'User')}:</strong>
+                                                <span style="color: #1e293b;">${esc(c.content)}</span>
+                                                ${getThreadHtml(c.id)}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                `;
+                            })()}
                         </div>
                     `;
                 });
-            }
-        });
 
-        html += `</div>`;
+                html += `</div>`;
+            });
+        }
+
+        html += `
+            <div style="font-size: 10px; color: #94a3b8; text-align: right; margin-top: 15px;">
+                Stage ${stIdx + 1} of ${stages.length} • Ptolemy Report
+            </div>
+        </div>`;
     });
 
+    // General Insight & Comments section if present
     if (window.currentComments) {
         const generalComments = window.currentComments.filter(c => !c.nodeId && !c.parent && !c.resolved);
         if (generalComments.length > 0) {
             html += `
-                <div style="margin-top: 40px; page-break-inside: avoid;">
-                    <h2 style="background: #fef3c7; padding: 10px 15px; border-radius: 8px; border-left: 5px solid #f59e0b; margin-bottom: 20px;">
-                        General Insight & Feedback
-                    </h2>
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                <div style="page-break-before: always; padding: 25px 25px 35px 25px; box-sizing: border-box;">
+                    <div style="background: #fef3c7; border-left: 6px solid #f59e0b; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
+                        <h2 style="font-size: 20px; font-weight: 700; color: #92400e; margin: 0;">General Insights & Feedback</h2>
+                    </div>
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
                         ${generalComments.map(c => `
-                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9;">
-                                <strong style="font-size: 0.9rem; color: #64748b;">${c.expand?.user?.email || 'User'}:</strong> 
-                                <span style="font-size: 0.95rem; color: #1e293b;">${c.content}</span>
+                            <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+                                <strong style="font-size: 12px; color: #64748b;">${esc(c.expand?.user?.email || 'User')}:</strong>
+                                <p style="font-size: 13px; color: #1e293b; margin: 4px 0;">${esc(c.content)}</p>
                                 ${getThreadHtml(c.id)}
                             </div>
                         `).join('')}
@@ -862,28 +1112,30 @@ async function exportTextualPDF() {
 
     container.innerHTML = html;
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css';
-    container.appendChild(link);
-
     toggleLoading(true);
+    const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_');
     const opt = {
-        margin: 10,
-        filename: `${title.replace(/\s+/g, '_')}_Text_Report.pdf`,
+        margin: [10, 10, 10, 10],
+        filename: `${cleanTitle}_Executive_Report.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
 
     try {
         await html2pdf().set(opt).from(container).save();
     } catch (err) {
-        console.error('Textual PDF Export error:', err);
-        alert('Failed to export PDF.');
+        console.error('Executive PDF Export error:', err);
+        alert('Failed to generate Executive PDF Report: ' + err.message);
     } finally {
         toggleLoading(false);
     }
+}
+
+// Aliases for backward compatibility
+function exportTextualPDF() {
+    return exportExecutivePDF();
 }
 
 function exportToMarkdown() {
@@ -1055,54 +1307,7 @@ async function exportToPNG() {
 }
 
 async function exportToPDF() {
-    // GTM Custom Export Event
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-        event: 'journey_export',
-        export_format: 'visual_pdf'
-    });
-
-    const wasTable = (activeEditorMode === 'table');
-    if (wasTable) {
-        switchEditorMode('visual');
-        await new Promise(r => setTimeout(r, 150)); // Wait for render
-    }
-
-    const element = document.getElementById('map-grid');
-    if (!element) {
-        if (wasTable) switchEditorMode('table');
-        return;
-    }
-
-    const pins = element.querySelectorAll('.comment-pin');
-    pins.forEach(p => p.style.display = 'none');
-
-    toggleLoading(true);
-    const opt = {
-        margin: 10,
-        filename: `${currentJourney.title.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            windowWidth: element.scrollWidth
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    };
-
-    try {
-        await html2pdf().set(opt).from(element).save();
-    } catch (err) {
-        console.error('PDF Export error:', err);
-        alert('Failed to export PDF.');
-    } finally {
-        pins.forEach(p => p.style.display = 'flex');
-        if (wasTable) {
-            switchEditorMode('table');
-        }
-        toggleLoading(false);
-    }
+    return exportExecutivePDF();
 }
 
 async function importJourney(input) {
