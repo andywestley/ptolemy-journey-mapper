@@ -52,6 +52,22 @@ include __DIR__ . '/includes/header.php';
         scroll-margin-left: 215px;
         scroll-margin-top: 80px;
     }
+    .node-card * {
+        pointer-events: none;
+        cursor: default;
+    }
+    .node-card .node-comment-badge,
+    .node-card .node-comment-badge * {
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    tr.cursor-pointer {
+        cursor: pointer;
+    }
+    tr.cursor-pointer * {
+        pointer-events: none;
+        cursor: default;
+    }
 </style>
 
 <!-- Loading Overlay -->

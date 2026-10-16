@@ -112,6 +112,8 @@ function renderVisualMap() {
                 card.dataset.nodeTitle = node.title || 'Untitled Node';
                 if (node.isMomentOfTruth) card.classList.add('moment-of-truth');
                 card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `${node.title || 'Step'}. Click to inspect details`);
                 if (!isReadOnly) {
                     card.setAttribute('draggable', 'true');
                     card.ondragstart = (e) => handleNodeDragStart(e, node.id);
@@ -119,6 +121,13 @@ function renderVisualMap() {
                 card.onclick = (e) => {
                     if (window.feedbackMode) return;
                     openNodeModal(node.id);
+                };
+                card.onkeydown = (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (window.feedbackMode) return;
+                        openNodeModal(node.id);
+                    }
                 };
 
                 // Node content rendering

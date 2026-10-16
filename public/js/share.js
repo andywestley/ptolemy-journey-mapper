@@ -114,7 +114,16 @@ function renderPublicTable() {
 
         const tr = document.createElement('tr');
         tr.className = 'cursor-pointer';
+        tr.setAttribute('role', 'button');
+        tr.setAttribute('tabindex', '0');
+        tr.setAttribute('aria-label', `Step: ${node.title || 'Untitled'}. Click to inspect details`);
         tr.onclick = () => openNodeModal(node.id);
+        tr.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openNodeModal(node.id);
+            }
+        };
         tr.innerHTML = `
             <td>
                 <span class="fw-semibold text-primary">${escapeHtml(node.title)}</span>

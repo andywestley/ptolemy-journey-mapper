@@ -127,6 +127,31 @@ code {
 
 .cursor-pointer { cursor: pointer; }
 
+/* Prevent false affordance on static children of interactive card/row containers */
+.node-card {
+    cursor: pointer;
+}
+
+.node-card * {
+    pointer-events: none;
+    cursor: default;
+}
+
+.node-card .node-comment-badge,
+.node-card .node-comment-badge * {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+tr.cursor-pointer {
+    cursor: pointer;
+}
+
+tr.cursor-pointer * {
+    pointer-events: none;
+    cursor: default;
+}
+
 /* Auth Card Styles */
 .auth-page {
     height: 100vh;

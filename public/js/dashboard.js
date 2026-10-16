@@ -133,7 +133,7 @@ async function loadJourneys(type = null) {
                 }
 
                 col.innerHTML = `
-                    <div class="card h-100 cursor-pointer shadow-sm hover-shadow border-0 rounded-4" onclick="openEditor('${escapeHtml(j.id)}')">
+                    <div class="card h-100 cursor-pointer shadow-sm hover-shadow border-0 rounded-4" role="button" tabindex="0" aria-label="Open journey: ${escapeHtml(j.title || 'Untitled Journey')}" onclick="openEditor('${escapeHtml(j.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEditor('${escapeHtml(j.id)}');}">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h5 class="card-title fw-bold mb-0 text-dark">${escapeHtml(j.title || 'Untitled Journey')}</h5>

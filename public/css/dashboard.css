@@ -282,6 +282,17 @@ body {
     scroll-margin-top: 80px;
 }
 
+.node-card * {
+    pointer-events: none;
+    cursor: default;
+}
+
+.node-card .node-comment-badge,
+.node-card .node-comment-badge * {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
 .node-card:hover {
     border-color: var(--accent-color);
     transform: translateY(-2px);
@@ -594,4 +605,15 @@ body {
 
 .italic {
     font-style: italic;
+}
+
+.card.cursor-pointer .card-body > * {
+    pointer-events: none;
+    cursor: default;
+}
+
+.card.cursor-pointer .dropdown,
+.card.cursor-pointer .dropdown * {
+    pointer-events: auto;
+    cursor: pointer;
 }
