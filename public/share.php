@@ -166,7 +166,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
                     <?php if (!empty($ojfData['pointOfView'])): ?>
                     <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-2">
-                        <i class="bi bi-eye me-1"></i>POV: <?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?>
+                        <i class="bi bi-eye me-1"></i>Point of View: <?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?>
                     </span>
                     <?php endif; ?>
 

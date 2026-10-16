@@ -120,7 +120,7 @@ include __DIR__ . '/includes/navbar.php';
                     </div>
                     <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
                     <div class="d-flex align-items-center">
-                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">POV:</span>
+                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Point of View:</span>
                         <input type="text" id="editor-pov" class="metadata-inline-input" placeholder="e.g. Booking a flight" aria-label="Point of view">
                     </div>
                     <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
