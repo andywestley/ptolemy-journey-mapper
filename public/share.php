@@ -199,7 +199,7 @@ include __DIR__ . '/includes/public_navbar.php';
                 <label class="form-check-label text-muted small" for="toggle-blueprint-mode">Blueprint Mode</label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="toggle-emotional-curve" checked onchange="drawEmotionalCurve()">
+                <input class="form-check-input" type="checkbox" id="toggle-emotional-curve" checked onchange="toggleEmotionalCurve()">
                 <label class="form-check-label text-muted small" for="toggle-emotional-curve">Show Emotional Curve</label>
             </div>
         </div>

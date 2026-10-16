@@ -81,22 +81,27 @@ function renderVisualMap() {
     }
 
     // 2c. Sentiment Row (Dedicated space for curve)
-    const sentimentHeader = document.createElement('div');
-    sentimentHeader.className = 'grid-header-emotion';
-    sentimentHeader.innerHTML = 'Sentiment';
-    grid.appendChild(sentimentHeader);
+    const toggleCurve = document.getElementById('toggle-emotional-curve');
+    const showEmotionalCurve = toggleCurve ? toggleCurve.checked : true;
 
-    stages.forEach(stage => {
-        const cell = document.createElement('div');
-        cell.className = 'grid-cell-emotion';
-        cell.dataset.stageId = stage.id;
-        grid.appendChild(cell);
-    });
+    if (showEmotionalCurve) {
+        const sentimentHeader = document.createElement('div');
+        sentimentHeader.className = 'grid-header-emotion';
+        sentimentHeader.innerHTML = 'Sentiment';
+        grid.appendChild(sentimentHeader);
 
-    if (!isReadOnly) {
-        const sentimentEndSpacer = document.createElement('div');
-        sentimentEndSpacer.className = 'grid-cell-empty';
-        grid.appendChild(sentimentEndSpacer);
+        stages.forEach(stage => {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell-emotion';
+            cell.dataset.stageId = stage.id;
+            grid.appendChild(cell);
+        });
+
+        if (!isReadOnly) {
+            const sentimentEndSpacer = document.createElement('div');
+            sentimentEndSpacer.className = 'grid-cell-empty';
+            grid.appendChild(sentimentEndSpacer);
+        }
     }
 
     // 3. Rows
@@ -279,6 +284,24 @@ function toggleBlueprintMode() {
 
     renderVisualMap();
 }
+
+/**
+ * Emotional Curve Toggle (toggles entire sentiment row & curve)
+ */
+function toggleEmotionalCurve() {
+    const toggle = document.getElementById('toggle-emotional-curve');
+    const enabled = toggle ? toggle.checked : true;
+    
+    // GTM Emotional Curve Toggle
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'toggle_emotional_curve',
+        enabled: enabled
+    });
+
+    renderVisualMap();
+}
+window.toggleEmotionalCurve = toggleEmotionalCurve;
 
 function renderBlueprintLayers() {
     const grid = document.getElementById('map-grid');
