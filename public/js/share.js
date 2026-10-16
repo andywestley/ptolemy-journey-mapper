@@ -170,6 +170,7 @@ function exportToMarkdown() {
     const title = window.currentJourney.title || 'Untitled Journey';
     const persona = window.originalOJF.persona || '';
     const pov = window.originalOJF.pointOfView || '';
+    const notes = window.currentJourney.notes || window.currentJourney.description || window.originalOJF.notes || '';
     const stages = window.originalOJF.stages || [];
     const swimlanes = window.originalOJF.swimlanes || [];
     const nodes = window.originalOJF.nodes || [];
@@ -177,6 +178,7 @@ function exportToMarkdown() {
     let md = `# Journey Map: ${title}\n\n`;
     if (persona) md += `**Persona:** ${persona}\n`;
     if (pov) md += `**Point of View:** ${pov}\n`;
+    if (notes) md += `**Notes:** ${notes}\n`;
     md += `\n---\n\n`;
 
     stages.forEach(stage => {
@@ -269,6 +271,7 @@ async function exportTextualPDF() {
     const title = window.currentJourney?.title || 'Journey';
     const persona = window.originalOJF?.persona || '';
     const pov = window.originalOJF?.pointOfView || '';
+    const notes = window.currentJourney?.notes || window.currentJourney?.description || window.originalOJF?.notes || '';
     const stages = window.originalOJF?.stages || [];
     const swimlanes = window.originalOJF?.swimlanes || [];
     const nodes = window.originalOJF?.nodes || [];
@@ -283,6 +286,7 @@ async function exportTextualPDF() {
             <h1 style="color: #6366f1; margin-bottom: 5px;">Journey Map Report: ${escapeHtml(title)}</h1>
             ${persona ? `<p style="margin: 5px 0;"><strong>Persona:</strong> ${escapeHtml(persona)}</p>` : ''}
             ${pov ? `<p style="margin: 5px 0;"><strong>Point of View:</strong> ${escapeHtml(pov)}</p>` : ''}
+            ${notes ? `<p style="margin: 5px 0; white-space: pre-wrap;"><strong>Notes:</strong> ${escapeHtml(notes)}</p>` : ''}
         </div>
     `;
 

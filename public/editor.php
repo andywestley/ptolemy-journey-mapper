@@ -35,6 +35,11 @@ $isPublic = !empty($journeyRecord['is_public']);
 $collaborators = Journey::getCollaborators($journeyId);
 
 $initialMode = in_array($_GET['mode'] ?? '', ['visual', 'table'], true) ? $_GET['mode'] : 'visual';
+$initialNotes = $journeyRecord['description'] ?? '';
+$initialOjf = is_string($journeyRecord['ojf_data']) ? json_decode($journeyRecord['ojf_data'], true) : ($journeyRecord['ojf_data'] ?? []);
+if (empty($initialNotes) && !empty($initialOjf['notes'])) {
+    $initialNotes = $initialOjf['notes'];
+}
 
 $pageTitle = htmlspecialchars($journeyRecord['title'] ?? 'Journey', ENT_QUOTES, 'UTF-8') . " | Editor";
 $pageDescription = "Interactive OpenJourney format editor";
@@ -96,76 +101,86 @@ include __DIR__ . '/includes/navbar.php';
 
 <main id="main-content" class="container-fluid px-lg-5 mt-4">
     <!-- Editor Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div class="d-flex align-items-center">
-            <a href="/dashboard/" class="btn btn-link link-secondary me-3 p-0" title="Back to Journeys">
-                <i class="bi bi-arrow-left fs-3"></i>
-            </a>
-            <div>
-                <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>
-                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                    <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0" style="max-width: 480px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
+    <div class="mb-4">
+        <!-- Title Bar: Back Arrow, Title Input, Privacy Badge, Save Status, Actions Dropdown -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+            <div class="d-flex align-items-center flex-grow-1 me-3">
+                <a href="/dashboard/" class="btn btn-link link-secondary me-3 p-0" title="Back to Journeys">
+                    <i class="bi bi-arrow-left fs-3"></i>
+                </a>
+                <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
+                    <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>
+                    <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 flex-grow-1" style="min-width: 240px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
                     <!-- Sharing & Privacy Status Badge -->
-                    <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
+                    <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1 flex-shrink-0" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
                         <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?>"></i>
                         <span><?php echo $isPublic ? 'Public' : 'Private'; ?></span>
                     </button>
                 </div>
+            </div>
 
-                <!-- Unboxed Clean Metadata Row -->
-                <div class="metadata-clean-row d-flex align-items-center flex-wrap gap-3 text-muted small mt-1 mb-2">
-                    <div class="d-flex align-items-center">
-                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Persona:</span>
-                        <input type="text" id="editor-persona" class="metadata-inline-input" placeholder="e.g. Frequent Traveler" aria-label="Persona">
-                    </div>
-                    <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
-                    <div class="d-flex align-items-center">
-                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Point of View:</span>
-                        <input type="text" id="editor-pov" class="metadata-inline-input" placeholder="e.g. Booking a flight" aria-label="Point of view">
-                    </div>
-                    <span class="text-muted opacity-50 d-none d-sm-inline">•</span>
-                    <div class="d-flex align-items-center">
-                        <span class="text-uppercase fw-semibold text-secondary me-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">Score:</span>
-                        <span id="scorecard-value" class="fw-bold text-dark me-1">-</span>
-                        <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
-                    </div>
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <!-- Auto-save Sync Status Indicator -->
+                <div id="save-status" class="d-flex align-items-center text-muted small opacity-0" aria-live="polite">
+                    <span class="save-indicator-dot"></span>
+                    <span id="save-text">Saved</span>
                 </div>
 
-                <!-- Mode Toggle (Visual Map | Table Editor) -->
-                <div class="btn-group btn-group-sm mt-1" role="group" aria-label="Journey editor mode">
-                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'visual' ? 'active' : ''; ?>" id="mode-visual" aria-pressed="<?php echo $initialMode === 'visual' ? 'true' : 'false'; ?>" onclick="switchEditorMode('visual')">
-                        <i class="bi bi-diagram-3 me-1"></i>Visual Map
+                <!-- Clean Actions Menu -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical me-1"></i> Actions
                     </button>
-                    <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
-                        <i class="bi bi-table me-1"></i>Table Editor
-                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li><button type="button" class="dropdown-item py-2" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
+                        <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
+                        <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
+                        <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
+                        <li><button type="button" class="dropdown-item py-2" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</button></li>
+                        <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
+                        <li><button type="button" class="dropdown-item py-2" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</button></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-3">
-            <!-- Auto-save Sync Status Indicator -->
-            <div id="save-status" class="d-flex align-items-center text-muted small opacity-0" aria-live="polite">
-                <span class="save-indicator-dot"></span>
-                <span id="save-text">Saved</span>
+        <!-- Separate lines for each datapoint to its full extent -->
+        <div class="ps-sm-5 ms-sm-2 mb-3">
+            <!-- Persona -->
+            <div class="d-flex align-items-baseline mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Persona:</span>
+                <input type="text" id="editor-persona" class="metadata-full-input" placeholder="e.g. Frequent Traveler" aria-label="Persona">
             </div>
 
-            <!-- Clean Actions Menu -->
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-three-dots-vertical me-1"></i> Actions
+            <!-- Point of View -->
+            <div class="d-flex align-items-baseline mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Point of View:</span>
+                <input type="text" id="editor-pov" class="metadata-full-input" placeholder="e.g. Booking an emergency business flight" aria-label="Point of view">
+            </div>
+
+            <!-- Score -->
+            <div class="d-flex align-items-center mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Score:</span>
+                <span id="scorecard-value" class="fw-bold text-dark me-2">-</span>
+                <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
+            </div>
+
+            <!-- Notes field displayed above the map -->
+            <div class="d-flex align-items-start mb-3">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0 pt-1" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Notes:</span>
+                <textarea id="editor-notes" class="metadata-full-textarea" rows="1" placeholder="Add notes or background context for this journey map..." aria-label="Journey Notes"><?php echo htmlspecialchars($initialNotes, ENT_QUOTES, 'UTF-8'); ?></textarea>
+            </div>
+
+            <!-- Mode Toggle (Visual Map | Table Editor) -->
+            <div class="btn-group btn-group-sm mt-1" role="group" aria-label="Journey editor mode">
+                <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'visual' ? 'active' : ''; ?>" id="mode-visual" aria-pressed="<?php echo $initialMode === 'visual' ? 'true' : 'false'; ?>" onclick="switchEditorMode('visual')">
+                    <i class="bi bi-diagram-3 me-1"></i>Visual Map
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><button type="button" class="dropdown-item py-2" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
-                    <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportTextualPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>Text Report (PDF)</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPDF()"><i class="bi bi-file-earmark-pdf me-2"></i>PDF Document</button></li>
-                </ul>
+                <button type="button" class="btn btn-outline-primary <?php echo $initialMode === 'table' ? 'active' : ''; ?>" id="mode-table" aria-pressed="<?php echo $initialMode === 'table' ? 'true' : 'false'; ?>" onclick="switchEditorMode('table')">
+                    <i class="bi bi-table me-1"></i>Table Editor
+                </button>
             </div>
         </div>
     </div>

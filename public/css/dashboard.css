@@ -534,6 +534,71 @@ body {
     font-style: italic;
 }
 
+.metadata-full-input {
+    border: none;
+    border-bottom: 1px dashed transparent;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 4px;
+    width: 100%;
+    flex-grow: 1;
+    transition: all 0.2s;
+}
+
+.metadata-full-input:hover {
+    border-bottom-color: #94a3b8;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.metadata-full-input:focus {
+    background: #ffffff;
+    outline: none;
+    border-bottom-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+.metadata-full-input::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.metadata-full-textarea {
+    border: none;
+    border-bottom: 1px dashed transparent;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.5;
+    padding: 2px 4px;
+    border-radius: 4px;
+    width: 100%;
+    flex-grow: 1;
+    resize: none;
+    overflow: hidden;
+    transition: all 0.2s;
+    min-height: 28px;
+}
+
+.metadata-full-textarea:hover {
+    border-bottom-color: #94a3b8;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.metadata-full-textarea:focus {
+    background: #ffffff;
+    outline: none;
+    border-bottom-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+.metadata-full-textarea::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
 /* Legacy Metadata Bar Compatibility */
 .metadata-bar {
     display: flex;
@@ -734,14 +799,20 @@ body {
 }
 
 /* Dark Mode Support for Visual Map & Metadata */
-[data-bs-theme="dark"] .metadata-inline-input {
+[data-bs-theme="dark"] .metadata-inline-input,
+[data-bs-theme="dark"] .metadata-full-input,
+[data-bs-theme="dark"] .metadata-full-textarea {
     color: #f8fafc;
 }
-[data-bs-theme="dark"] .metadata-inline-input:hover {
+[data-bs-theme="dark"] .metadata-inline-input:hover,
+[data-bs-theme="dark"] .metadata-full-input:hover,
+[data-bs-theme="dark"] .metadata-full-textarea:hover {
     border-bottom-color: #475569;
     background: rgba(255, 255, 255, 0.05);
 }
-[data-bs-theme="dark"] .metadata-inline-input:focus {
+[data-bs-theme="dark"] .metadata-inline-input:focus,
+[data-bs-theme="dark"] .metadata-full-input:focus,
+[data-bs-theme="dark"] .metadata-full-textarea:focus {
     background: #1e293b;
     border-bottom-color: var(--accent-color);
 }

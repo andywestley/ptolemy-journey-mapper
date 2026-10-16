@@ -53,6 +53,7 @@ function expandJourney($db, $journey) {
     // Map timestamps to match PocketBase
     $journey['created'] = $journey['created_at'];
     $journey['updated'] = $journey['updated_at'];
+    $journey['notes'] = $journey['description'] ?? ($journey['ojf_data']['notes'] ?? '');
     
     return $journey;
 }
@@ -131,7 +132,7 @@ if ($method === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     
     $title = trim($input['title'] ?? 'Untitled Journey');
-    $description = trim($input['description'] ?? '');
+    $description = isset($input['notes']) ? trim($input['notes']) : (isset($input['description']) ? trim($input['description']) : '');
     $folder = trim($input['folder'] ?? '');
     $journeyStatus = trim($input['journey_status'] ?? 'active');
     
@@ -153,6 +154,9 @@ if ($method === 'POST') {
         "nodes" => [],
         "personas" => []
     ];
+    if (is_array($ojfData) && !empty($description)) {
+        $ojfData['notes'] = $description;
+    }
     
     $journeyId = generateId();
     
@@ -205,14 +209,22 @@ if ($method === 'PUT' || $method === 'PATCH') {
     }
     
     $title = isset($input['title']) ? trim($input['title']) : $existing['title'];
-    $description = isset($input['description']) ? trim($input['description']) : $existing['description'];
+    $description = isset($input['notes']) ? trim($input['notes']) : (isset($input['description']) ? trim($input['description']) : $existing['description']);
     $folder = isset($input['folder']) ? trim($input['folder']) : $existing['folder'];
     $journeyStatus = isset($input['journey_status']) ? trim($input['journey_status']) : $existing['journey_status'];
     $isPublic = isset($input['is_public']) ? (!empty($input['is_public']) ? 1 : 0) : (int)($existing['is_public'] ?? 0);
     
     $ojfData = $existing['ojf_data'];
     if (isset($input['ojf_data'])) {
-        $ojfData = json_encode($input['ojf_data']);
+        $parsed = is_string($input['ojf_data']) ? json_decode($input['ojf_data'], true) : $input['ojf_data'];
+        if (is_array($parsed)) {
+            if (isset($input['notes']) || isset($input['description'])) {
+                $parsed['notes'] = $description;
+            }
+            $ojfData = json_encode($parsed);
+        } else {
+            $ojfData = json_encode($input['ojf_data']);
+        }
     }
     
     $stmt = $db->prepare("

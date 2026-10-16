@@ -23,8 +23,10 @@ if ($journey && ($journey['journey_status'] ?? '') !== 'trash') {
 
 // Parse OJF
 $ojfData = [];
+$notesContent = '';
 if ($isAllowed && $journey) {
     $ojfData = is_string($journey['ojf_data']) ? json_decode($journey['ojf_data'], true) : $journey['ojf_data'];
+    $notesContent = !empty($journey['description']) ? $journey['description'] : ($ojfData['notes'] ?? '');
 }
 
 $pageTitle = $isAllowed ? htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8') . " | OpenJourney Map" : "Private Journey | Ptolemy";
@@ -150,38 +152,39 @@ include __DIR__ . '/includes/public_navbar.php';
 <main id="main-content" class="container-fluid px-lg-5 mt-4">
     <!-- Journey Header Banner -->
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
-            <div>
-                <h1 class="h3 fw-bold mb-2 text-dark" id="display-title"><?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
-                <?php if (!empty($journey['description'])): ?>
-                <p class="text-muted small mb-3"><?php echo htmlspecialchars($journey['description'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <?php endif; ?>
+        <h1 class="h3 fw-bold mb-3 text-dark" id="display-title"><?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
 
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <?php if (!empty($ojfData['persona'])): ?>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">
-                        <i class="bi bi-person me-1"></i>Persona: <?php echo htmlspecialchars($ojfData['persona'], ENT_QUOTES, 'UTF-8'); ?>
-                    </span>
-                    <?php endif; ?>
+        <!-- Each datapoint on its own separate line to its full extent -->
+        <div class="header-datapoints">
+            <?php if (!empty($ojfData['persona'])): ?>
+            <div class="d-flex align-items-baseline mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Persona:</span>
+                <span class="text-dark fw-medium"><?php echo htmlspecialchars($ojfData['persona'], ENT_QUOTES, 'UTF-8'); ?></span>
+            </div>
+            <?php endif; ?>
 
-                    <?php if (!empty($ojfData['pointOfView'])): ?>
-                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-2">
-                        <i class="bi bi-eye me-1"></i>Point of View: <?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?>
-                    </span>
-                    <?php endif; ?>
+            <?php if (!empty($ojfData['pointOfView'])): ?>
+            <div class="d-flex align-items-baseline mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Point of View:</span>
+                <span class="text-dark fw-medium"><?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?></span>
+            </div>
+            <?php endif; ?>
 
-                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
-                        <i class="bi bi-calendar3 me-1"></i>Updated: <?php echo date('M j, Y', strtotime($journey['updated_at'])); ?>
-                    </span>
-                </div>
+            <div class="d-flex align-items-center mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Score:</span>
+                <span id="scorecard-value" class="fw-bold text-dark me-2">-</span>
+                <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
             </div>
 
-            <div class="d-flex align-items-center bg-light p-3 rounded-3 border">
-                <div class="text-end me-3">
-                    <span class="d-block small text-muted text-uppercase fw-bold">Journey Score</span>
-                    <span id="scorecard-sentiment" class="badge rounded-pill bg-secondary text-white fw-medium">Unscored</span>
-                </div>
-                <span id="scorecard-value" class="fw-bold fs-3 text-primary">-</span>
+            <?php if (!empty($notesContent)): ?>
+            <div class="d-flex align-items-start mb-2">
+                <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0 pt-1" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Notes:</span>
+                <div class="text-muted" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5;"><?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?></div>
+            </div>
+            <?php endif; ?>
+
+            <div class="text-muted small mt-2">
+                <i class="bi bi-calendar3 me-1"></i>Updated: <?php echo date('M j, Y', strtotime($journey['updated_at'])); ?>
             </div>
         </div>
     </div>
@@ -190,6 +193,7 @@ include __DIR__ . '/includes/public_navbar.php';
     <input type="hidden" id="editor-title" value="<?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?>">
     <input type="hidden" id="editor-persona" value="<?php echo htmlspecialchars($ojfData['persona'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
     <input type="hidden" id="editor-pov" value="<?php echo htmlspecialchars($ojfData['pointOfView'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="editor-notes" value="<?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?>">
 
     <!-- Sub-View: Visual Map -->
     <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map">

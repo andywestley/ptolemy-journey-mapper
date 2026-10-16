@@ -21,12 +21,17 @@ const triggerAutoSave = debounce(async () => {
     if (dotEl) dotEl.classList.add('save-indicator-syncing');
 
     try {
+        const notesEl = document.getElementById('editor-notes');
+        const notesVal = notesEl ? notesEl.value : '';
         const updatedData = {
             title: document.getElementById('editor-title').value,
+            description: notesVal,
+            notes: notesVal,
             ojf_data: {
                 ...originalOJF,
                 persona: document.getElementById('editor-persona').value,
-                pointOfView: document.getElementById('editor-pov').value
+                pointOfView: document.getElementById('editor-pov').value,
+                notes: notesVal
             }
         };
         const response = await fetch(`/api/journeys.php?id=${currentJourney.id}`, {
@@ -473,9 +478,18 @@ async function saveJourney() {
     if (!currentJourney) return;
     toggleLoading(true);
 
+    const notesEl = document.getElementById('editor-notes');
+    const notesVal = notesEl ? notesEl.value : '';
     const updatedData = {
         title: document.getElementById('editor-title').value,
-        ojf_data: originalOJF
+        description: notesVal,
+        notes: notesVal,
+        ojf_data: {
+            ...originalOJF,
+            persona: document.getElementById('editor-persona').value,
+            pointOfView: document.getElementById('editor-pov').value,
+            notes: notesVal
+        }
     };
 
     try {
@@ -736,6 +750,8 @@ async function exportTextualPDF() {
     const title = document.getElementById('editor-title').value;
     const persona = document.getElementById('editor-persona').value;
     const pov = document.getElementById('editor-pov').value;
+    const notesEl = document.getElementById('editor-notes');
+    const notes = notesEl ? notesEl.value : (currentJourney.description || currentJourney.ojf_data?.notes || '');
     const stages = originalOJF.stages || [];
     const swimlanes = originalOJF.swimlanes || [];
     const nodes = originalOJF.nodes || [];
@@ -751,6 +767,7 @@ async function exportTextualPDF() {
             <h1 style="color: #6366f1; margin-bottom: 5px;">Journey Map Report: ${title}</h1>
             ${persona ? `<p style="margin: 5px 0;"><strong>Persona:</strong> ${persona}</p>` : ''}
             ${pov ? `<p style="margin: 5px 0;"><strong>Point of View:</strong> ${pov}</p>` : ''}
+            ${notes ? `<p style="margin: 5px 0; white-space: pre-wrap;"><strong>Notes:</strong> ${notes}</p>` : ''}
         </div>
     `;
 
@@ -882,6 +899,8 @@ function exportToMarkdown() {
     const title = document.getElementById('editor-title').value;
     const persona = document.getElementById('editor-persona').value;
     const pov = document.getElementById('editor-pov').value;
+    const notesEl = document.getElementById('editor-notes');
+    const notes = notesEl ? notesEl.value : (currentJourney.description || currentJourney.ojf_data?.notes || '');
     const stages = originalOJF.stages || [];
     const swimlanes = originalOJF.swimlanes || [];
     const nodes = originalOJF.nodes || [];
@@ -889,6 +908,7 @@ function exportToMarkdown() {
     let md = `# Journey Map: ${title}\n\n`;
     if (persona) md += `**Persona:** ${persona}\n`;
     if (pov) md += `**Point of View:** ${pov}\n`;
+    if (notes) md += `**Notes:** ${notes}\n`;
     md += `\n---\n\n`;
 
     stages.forEach(stage => {
@@ -967,11 +987,15 @@ function exportToOJF() {
         export_format: 'ojf'
     });
 
+    const notesEl = document.getElementById('editor-notes');
+    const notesVal = notesEl ? notesEl.value : (originalOJF.notes || '');
+
     const exportData = {
         ...originalOJF,
         title: document.getElementById('editor-title').value,
         persona: document.getElementById('editor-persona').value,
-        pointOfView: document.getElementById('editor-pov').value
+        pointOfView: document.getElementById('editor-pov').value,
+        notes: notesVal
     };
 
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
@@ -1256,6 +1280,23 @@ async function loadEditorJourney(id, initialMode = 'table') {
 
         if (typeof loadComments === 'function') {
             loadComments();
+        }
+
+        const notesEl = document.getElementById('editor-notes');
+        if (notesEl) {
+            notesEl.value = currentJourney.notes || currentJourney.description || currentJourney.ojf_data?.notes || '';
+            const resizeNotes = () => {
+                notesEl.style.height = 'auto';
+                notesEl.style.height = notesEl.scrollHeight + 'px';
+            };
+            resizeNotes();
+            if (!notesEl.dataset.bound) {
+                notesEl.dataset.bound = 'true';
+                notesEl.addEventListener('input', () => {
+                    resizeNotes();
+                    triggerAutoSave();
+                });
+            }
         }
 
         if (titleEl && !titleEl.dataset.bound) {
