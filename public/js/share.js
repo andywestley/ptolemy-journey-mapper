@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         renderPublicTable();
     }
-    if (typeof calculateJourneyScorecard === 'function') {
-        calculateJourneyScorecard();
+    if (typeof updateScorecard === 'function') {
+        updateScorecard();
     }
 });
