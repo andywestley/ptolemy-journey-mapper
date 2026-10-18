@@ -376,7 +376,7 @@ function renderEditorTables() {
             <td class="text-muted small">${escapeHtml(stage.id)}</td>
             <td><input type="text" class="w-100" value="${escapeHtml(stage.name)}" onchange="updateStage(${idx}, this.value)" aria-label="Stage name for ${escapeHtml(stage.id)}"></td>
             <td><input type="number" class="w-100" min="-5" max="5" value="${escapeHtml(stage.overrideEmotion || '')}" onchange="updateStageEmotionOverride(${idx}, this.value)" placeholder="auto" aria-label="Override emotion for ${escapeHtml(stage.id)}"></td>
-            <td><button class="btn btn-sm text-danger" onclick="removeStage(${idx})" title="Remove stage" aria-label="Remove stage ${escapeHtml(stage.name || stage.id)}"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
+            <td><button class="btn btn-sm text-danger d-inline-flex align-items-center justify-content-center p-1" onclick="removeStage(${idx})" title="Remove stage" aria-label="Remove stage ${escapeHtml(stage.name || stage.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
         `;
         if (stagesBody) stagesBody.appendChild(tr);
     });
@@ -386,7 +386,7 @@ function renderEditorTables() {
         tr.innerHTML = `
             <td class="text-muted small">${escapeHtml(lane.id)}</td>
             <td><input type="text" class="w-100" value="${escapeHtml(lane.name)}" onchange="updateSwimlane(${idx}, this.value)" aria-label="Swimlane name for ${escapeHtml(lane.id)}"></td>
-            <td><button class="btn btn-sm text-danger" onclick="removeSwimlane(${idx})" title="Remove swimlane" aria-label="Remove swimlane ${escapeHtml(lane.name || lane.id)}"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
+            <td><button class="btn btn-sm text-danger d-inline-flex align-items-center justify-content-center p-1" onclick="removeSwimlane(${idx})" title="Remove swimlane" aria-label="Remove swimlane ${escapeHtml(lane.name || lane.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
         `;
         if (swimlanesBody) swimlanesBody.appendChild(tr);
     });
@@ -418,8 +418,8 @@ function renderEditorTables() {
                 ${(node.score !== undefined && node.score !== null && node.score !== '') ? `<span class="badge bg-light text-muted border ms-1">Emotion: ${escapeHtml(node.score)}</span>` : ''}
             </td>
             <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="openNodeModal('${escapeHtml(node.id)}')" title="Edit step" aria-label="Edit step ${escapeHtml(node.title || node.id)}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteNode('${escapeHtml(node.id)}')" title="Delete step" aria-label="Delete step ${escapeHtml(node.title || node.id)}"><i class="bi bi-trash" aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-outline-secondary me-1 d-inline-flex align-items-center justify-content-center" onclick="openNodeModal('${escapeHtml(node.id)}')" title="Edit step" aria-label="Edit step ${escapeHtml(node.title || node.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-pencil" aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deleteNode('${escapeHtml(node.id)}')" title="Delete step" aria-label="Delete step ${escapeHtml(node.title || node.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button>
             </td>
         `;
         if (nodesBody) nodesBody.appendChild(tr);

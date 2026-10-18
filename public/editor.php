@@ -105,8 +105,8 @@ include __DIR__ . '/includes/navbar.php';
         <!-- Title Bar: Back Arrow, Title Input, Privacy Badge, Save Status, Actions Dropdown -->
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
             <div class="d-flex align-items-center flex-grow-1 me-3">
-                <a href="/dashboard/" class="btn btn-link link-secondary me-3 p-0" title="Back to Journeys">
-                    <i class="bi bi-arrow-left fs-3"></i>
+                <a href="/dashboard/" class="btn btn-link link-secondary me-3 p-0 d-inline-flex align-items-center justify-content-center" title="Back to Journeys" aria-label="Back to Journeys" style="min-width: 32px; min-height: 32px;">
+                    <i class="bi bi-arrow-left fs-3" aria-hidden="true"></i>
                 </a>
                 <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
                     <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>

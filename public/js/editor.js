@@ -652,7 +652,7 @@ function renderCollaborators() {
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         li.innerHTML = `
             <span>${escapeHtml(user.email)}</span>
-            <button class="btn btn-sm text-danger" onclick="removeCollaborator('${escapeHtml(user.id)}')" title="Remove collaborator" aria-label="Remove collaborator ${escapeHtml(user.email || user.name || '')}">
+            <button class="btn btn-sm text-danger d-inline-flex align-items-center justify-content-center p-1" onclick="removeCollaborator('${escapeHtml(user.id)}')" title="Remove collaborator" aria-label="Remove collaborator ${escapeHtml(user.email || user.name || '')}" style="min-width: 28px; min-height: 28px;">
                 <i class="bi bi-person-x" aria-hidden="true"></i>
             </button>
         `;

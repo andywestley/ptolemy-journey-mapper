@@ -108,10 +108,10 @@ async function loadJourneys(type = null) {
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
                         <div class="d-flex gap-2" onclick="event.stopPropagation()">
-                            <button class="btn btn-sm btn-outline-success" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}">
+                            <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(j.title || '')}">
+                            <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-trash-fill" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -119,7 +119,7 @@ async function loadJourneys(type = null) {
                 } else if (isOwner) {
                     actionsHTML = `
                         <div class="dropdown" onclick="event.stopPropagation()">
-                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}">
+                            <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
