@@ -110,6 +110,8 @@ include __DIR__ . '/includes/public_navbar.php';
 <footer class="w-100 py-4 mt-auto border-top text-muted small bg-white">
     <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3" style="max-width: 1000px;">
         <nav aria-label="Footer Navigation" class="d-flex flex-wrap gap-2">
+            <a href="/" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center">Home</a>
+            <a href="/login" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center active fw-bold text-decoration-underline" aria-current="page">Sign In</a>
             <a href="/about/" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center" rel="help">Help &amp; Guides</a>
             <a href="/templates/" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center">Templates</a>
             <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer help" class="text-decoration-none py-2 px-2 d-inline-flex align-items-center" title="Get human support or report an issue on GitHub">Help &amp; Support <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a>
