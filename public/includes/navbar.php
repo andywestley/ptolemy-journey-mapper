@@ -23,23 +23,23 @@ $activeNav = $activeNav ?? 'dashboard';
         <div class="collapse navbar-collapse" id="ptolemyNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo $activeNav === 'dashboard' ? 'active fw-semibold text-primary' : ''; ?>" href="/dashboard/">
+                    <a class="nav-link px-3 <?php echo $activeNav === 'dashboard' ? 'active fw-semibold text-primary' : ''; ?>" <?php echo $activeNav === 'dashboard' ? 'aria-current="page"' : ''; ?> href="/dashboard/">
                         <i class="bi bi-grid me-1"></i>Journeys
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo $activeNav === 'templates' ? 'active fw-semibold text-primary' : ''; ?>" href="/templates/">
+                    <a class="nav-link px-3 <?php echo $activeNav === 'templates' ? 'active fw-semibold text-primary' : ''; ?>" <?php echo $activeNav === 'templates' ? 'aria-current="page"' : ''; ?> href="/templates/">
                         <i class="bi bi-collection me-1"></i>Templates
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo $activeNav === 'invites' ? 'active fw-semibold text-primary' : ''; ?>" href="/invites/">
+                    <a class="nav-link px-3 <?php echo $activeNav === 'invites' ? 'active fw-semibold text-primary' : ''; ?>" <?php echo $activeNav === 'invites' ? 'aria-current="page"' : ''; ?> href="/invites/">
                         <i class="bi bi-envelope-paper me-1"></i>Invites
                     </a>
                 </li>
                 <?php if (!empty($currentUser['is_admin'])): ?>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo $activeNav === 'admin' ? 'active fw-semibold text-primary' : ''; ?>" href="/admin/">
+                    <a class="nav-link px-3 <?php echo $activeNav === 'admin' ? 'active fw-semibold text-primary' : ''; ?>" <?php echo $activeNav === 'admin' ? 'aria-current="page"' : ''; ?> href="/admin/">
                         <i class="bi bi-shield-lock me-1"></i>Admin
                     </a>
                 </li>
@@ -50,7 +50,7 @@ $activeNav = $activeNav ?? 'dashboard';
                 </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link px-3 text-secondary <?php echo $activeNav === 'help' ? 'active fw-semibold text-primary' : ''; ?>" href="/about/" rel="help" title="Help documentation, guides, and OpenJourney format">
+                    <a class="nav-link px-3 text-secondary <?php echo $activeNav === 'help' ? 'active fw-semibold text-primary' : ''; ?>" <?php echo $activeNav === 'help' ? 'aria-current="page"' : ''; ?> href="/about/" rel="help" title="Help documentation, guides, and OpenJourney format">
                         <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
                     </a>
                 </li>

@@ -49,6 +49,14 @@ include __DIR__ . '/includes/header.php';
         backdrop-filter: blur(8px);
         border-bottom: 1px solid #e2e8f0;
     }
+    .public-navbar .nav-link.active {
+        color: #0f172a;
+    }
+    .public-navbar .nav-link.active:hover,
+    .public-navbar .nav-link.active:focus {
+        color: var(--accent-color, #4f46e5);
+        text-decoration: underline;
+    }
     .node-card {
         cursor: pointer;
         scroll-margin-left: 215px;
@@ -107,6 +115,13 @@ include __DIR__ . '/includes/public_navbar.php';
             <span class="fw-bold fs-6">Ptolemy</span>
             <span class="badge bg-light text-muted border ms-2 fw-normal d-none d-sm-inline" style="font-size: 0.7rem;">Read Only</span>
         </a>
+
+        <div class="d-flex align-items-center me-auto ms-2 ms-md-3 overflow-hidden">
+            <span class="text-muted me-2 d-none d-sm-inline" aria-hidden="true">/</span>
+            <a href="/share/<?php echo htmlspecialchars($journey['id'], ENT_QUOTES, 'UTF-8'); ?>/" class="nav-link active text-dark fw-semibold text-truncate p-0" aria-current="page" style="max-width: clamp(140px, 35vw, 360px);" title="<?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                <?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        </div>
 
         <div class="d-flex align-items-center gap-2 ms-auto">
             <!-- Mode Toggle Switch -->

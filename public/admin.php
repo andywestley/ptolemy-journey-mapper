@@ -107,6 +107,11 @@ include __DIR__ . '/includes/header.php';
             <span class="badge bg-primary ms-2 fs-7">Admin</span>
         </a>
 
+        <div class="d-flex align-items-center me-auto ms-2 ms-md-3">
+            <span class="text-white-50 me-2 d-none d-sm-inline" aria-hidden="true">/</span>
+            <a href="/admin/" class="nav-link active text-white fw-semibold p-0" aria-current="page">User &amp; Access Management</a>
+        </div>
+
         <div class="ms-auto d-flex align-items-center">
             <a href="/about/" class="btn btn-outline-secondary btn-sm me-2" rel="help" title="About Ptolemy and Help Guides">
                 <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help
