@@ -165,7 +165,7 @@ if ($format === 'json') {
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i>Action executed: 
                 <strong><?php echo htmlspecialchars(json_encode($actionResult), ENT_QUOTES, 'UTF-8'); ?></strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 

@@ -182,14 +182,14 @@ function renderUsersTable(users) {
             </td>
             <td class="text-end">
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-secondary" onclick="openEditModal('${escapeHtml(u.id)}')" title="Edit User">
-                        <i class="bi bi-pencil"></i>
+                    <button class="btn btn-outline-secondary" onclick="openEditModal('${escapeHtml(u.id)}')" title="Edit User" aria-label="Edit user ${escapeHtml(u.name || u.email)}">
+                        <i class="bi bi-pencil" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-outline-secondary" onclick="openResetPasswordModal('${escapeHtml(u.id)}', '${escapeHtml(u.name)}')" title="Reset Password">
-                        <i class="bi bi-key"></i>
+                    <button class="btn btn-outline-secondary" onclick="openResetPasswordModal('${escapeHtml(u.id)}', '${escapeHtml(u.name)}')" title="Reset Password" aria-label="Reset password for ${escapeHtml(u.name || u.email)}">
+                        <i class="bi bi-key" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-outline-danger" onclick="deleteUser('${escapeHtml(u.id)}', '${escapeHtml(u.name)}')" ${isSelf ? 'disabled title="You cannot delete yourself"' : 'title="Delete User"'}>
-                        <i class="bi bi-trash"></i>
+                    <button class="btn btn-outline-danger" onclick="deleteUser('${escapeHtml(u.id)}', '${escapeHtml(u.name)}')" ${isSelf ? 'disabled title="You cannot delete yourself"' : 'title="Delete User"'} aria-label="Delete user ${escapeHtml(u.name || u.email)}">
+                        <i class="bi bi-trash" aria-hidden="true"></i>
                     </button>
                 </div>
             </td>

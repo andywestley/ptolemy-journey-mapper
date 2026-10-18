@@ -108,25 +108,25 @@ async function loadJourneys(type = null) {
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
                         <div class="d-flex gap-2" onclick="event.stopPropagation()">
-                            <button class="btn btn-sm btn-outline-success" onclick="restoreJourney('${j.id}')" title="Restore">
-                                <i class="bi bi-arrow-counterclockwise"></i>
+                            <button class="btn btn-sm btn-outline-success" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}">
+                                <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deletePermanently('${j.id}')" title="Delete Permanently">
-                                <i class="bi bi-trash-fill"></i>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(j.title || '')}">
+                                <i class="bi bi-trash-fill" aria-hidden="true"></i>
                             </button>
                         </div>
                     `;
                 } else if (isOwner) {
                     actionsHTML = `
                         <div class="dropdown" onclick="event.stopPropagation()">
-                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
-                                <i class="bi bi-three-dots-vertical"></i>
+                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}">
+                                <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                                <li><button type="button" class="dropdown-item py-2" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2"></i> Move to Folder</button></li>
-                                ${j.is_public ? `<li><a class="dropdown-item py-2" href="/share/${escapeHtml(j.id)}/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab"><i class="bi bi-globe me-2 text-primary"></i> View Public Link <i class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.75rem;" aria-hidden="true"></i><span class="visually-hidden">(opens in a new tab)</span></a></li>` : ''}
+                                <li><button type="button" class="dropdown-item py-2" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2" aria-hidden="true"></i> Move to Folder</button></li>
+                                ${j.is_public ? `<li><a class="dropdown-item py-2" href="/share/${escapeHtml(j.id)}/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i> View Public Link <i class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.75rem;" aria-hidden="true"></i><span class="visually-hidden">(opens in a new tab)</span></a></li>` : ''}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><button type="button" class="dropdown-item py-2 text-danger" onclick="moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2"></i> Move to Trash</button></li>
+                                <li><button type="button" class="dropdown-item py-2 text-danger" onclick="moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2" aria-hidden="true"></i> Move to Trash</button></li>
                             </ul>
                         </div>
                     `;

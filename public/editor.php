@@ -529,7 +529,7 @@ include __DIR__ . '/includes/navbar.php';
         <div class="modal-content">
             <div class="modal-header py-2">
                 <h2 class="modal-title h6" id="commentModalTitle">Add Feedback</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="comment-x">
@@ -549,7 +549,7 @@ include __DIR__ . '/includes/navbar.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title h5">Discussion</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div id="thread-list" class="mb-4"></div>

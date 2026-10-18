@@ -652,8 +652,8 @@ function renderCollaborators() {
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         li.innerHTML = `
             <span>${escapeHtml(user.email)}</span>
-            <button class="btn btn-sm text-danger" onclick="removeCollaborator('${escapeHtml(user.id)}')">
-                <i class="bi bi-person-x"></i>
+            <button class="btn btn-sm text-danger" onclick="removeCollaborator('${escapeHtml(user.id)}')" title="Remove collaborator" aria-label="Remove collaborator ${escapeHtml(user.email || user.name || '')}">
+                <i class="bi bi-person-x" aria-hidden="true"></i>
             </button>
         `;
         list.appendChild(li);

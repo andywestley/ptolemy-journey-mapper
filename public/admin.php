@@ -221,7 +221,7 @@ include __DIR__ . '/includes/header.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title h5 fw-bold">Create New Account</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="create-user-form" onsubmit="handleCreateUser(event)">
                 <div class="modal-body">
@@ -302,7 +302,7 @@ include __DIR__ . '/includes/header.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title h5 fw-bold">Edit Account</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="edit-user-form" onsubmit="handleEditUser(event)">
                 <input type="hidden" id="edit-id" name="id">
@@ -344,7 +344,7 @@ include __DIR__ . '/includes/header.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title h5 fw-bold">Reset Password</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="reset-password-form" onsubmit="handleResetPassword(event)">
                 <input type="hidden" id="reset-id" name="id">
@@ -381,7 +381,7 @@ include __DIR__ . '/includes/header.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title h5 fw-bold" id="credentials-modal-title">Account Credentials</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-success d-flex align-items-center mb-3">

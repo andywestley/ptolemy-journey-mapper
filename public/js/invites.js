@@ -38,8 +38,8 @@ async function loadInvites() {
             tr.innerHTML = `
                 <td>
                     <code class="user-select-all">${escapeHtml(inv.token)}</code>
-                    <button class="btn btn-sm btn-link py-0" onclick="copyToClipboard('${escapeHtml(inviteUrl)}')" title="Copy Invite Link">
-                        <i class="bi bi-clipboard"></i>
+                    <button class="btn btn-sm btn-link py-0" onclick="copyToClipboard('${escapeHtml(inviteUrl)}')" title="Copy Invite Link" aria-label="Copy invite link for token ${escapeHtml(inv.token)}">
+                        <i class="bi bi-clipboard" aria-hidden="true"></i>
                     </button>
                 </td>
                 <td>
@@ -49,8 +49,8 @@ async function loadInvites() {
                 </td>
                 <td class="small text-muted">${new Date(inv.created).toLocaleString()}</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteInvite('${escapeHtml(inv.id)}')" ${inv.isUsed ? 'disabled' : ''}>
-                        <i class="bi bi-trash"></i>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteInvite('${escapeHtml(inv.id)}')" ${inv.isUsed ? 'disabled' : ''} title="Delete Invite" aria-label="Delete invite for token ${escapeHtml(inv.token)}">
+                        <i class="bi bi-trash" aria-hidden="true"></i>
                     </button>
                 </td>
             `;
