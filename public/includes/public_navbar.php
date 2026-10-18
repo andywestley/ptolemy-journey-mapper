@@ -3,7 +3,7 @@
  * Shared Public Navigation Bar for Ptolemy (for unauthenticated / public pages)
  *
  * Expected variables:
- * - $activePublicNav (string, optional): 'home', 'about', 'templates'
+ * - $activePublicNav (string, optional): 'home', 'login', 'about', 'templates'
  */
 $activePublicNav = $activePublicNav ?? '';
 ?>
@@ -15,8 +15,8 @@ $activePublicNav = $activePublicNav ?? '';
             <small class="text-muted fw-normal ms-2 d-none d-sm-inline" style="font-size: 0.8rem;">the OpenJourney editor</small>
         </a>
         <div class="d-flex align-items-center gap-2 ms-auto">
-            <?php if ($activePublicNav !== 'home'): ?>
-                <a href="/" class="btn btn-outline-primary btn-sm fw-semibold">Sign In</a>
+            <?php if ($activePublicNav !== 'home' && $activePublicNav !== 'login'): ?>
+                <a href="/login" class="btn btn-outline-primary btn-sm fw-semibold">Sign In</a>
             <?php endif; ?>
             <a href="/about/" class="btn btn-outline-secondary btn-sm fw-semibold <?php echo $activePublicNav === 'about' ? 'active' : ''; ?>" rel="help" title="About Ptolemy, guides, and help">
                 <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Help

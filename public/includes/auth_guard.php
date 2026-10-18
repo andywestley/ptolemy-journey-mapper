@@ -10,7 +10,16 @@ initSecureSession();
  */
 function requireAuth(): array {
     if (empty($_SESSION['user_id'])) {
-        header('Location: /');
+        $target = $_SERVER['REQUEST_URI'] ?? '/dashboard/';
+        // Prevent open redirect vulnerabilities: must start with / and not //
+        if (!str_starts_with($target, '/') || str_starts_with($target, '//')) {
+            $target = '/dashboard/';
+        }
+        $loginUrl = '/login';
+        if ($target !== '/login' && $target !== '/login/' && $target !== '/' && $target !== '/index.php') {
+            $loginUrl .= '?redirect=' . urlencode($target);
+        }
+        header('Location: ' . $loginUrl);
         exit;
     }
 
@@ -19,7 +28,15 @@ function requireAuth(): array {
     if (!$user) {
         // Stale session
         session_destroy();
-        header('Location: /');
+        $target = $_SERVER['REQUEST_URI'] ?? '/dashboard/';
+        if (!str_starts_with($target, '/') || str_starts_with($target, '//')) {
+            $target = '/dashboard/';
+        }
+        $loginUrl = '/login';
+        if ($target !== '/login' && $target !== '/login/' && $target !== '/' && $target !== '/index.php') {
+            $loginUrl .= '?redirect=' . urlencode($target);
+        }
+        header('Location: ' . $loginUrl);
         exit;
     }
 

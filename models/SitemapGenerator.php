@@ -32,6 +32,12 @@ class SitemapGenerator {
             'changefreq' => 'monthly',
             'priority' => '0.8'
         ];
+        $pages[] = [
+            'path' => '/login/',
+            'file' => dirname(__DIR__) . '/public/login.php',
+            'changefreq' => 'monthly',
+            'priority' => '0.8'
+        ];
 
         if (!$includeAuth) {
             // Standard Public Sitemap: only publicly shared journeys

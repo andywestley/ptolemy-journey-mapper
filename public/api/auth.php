@@ -67,14 +67,27 @@ if ($action === 'login') {
                 "is_service_account" => (bool)($user['is_service_account'] ?? 0)
             ]);
         } else {
-            header("Location: /dashboard/");
+            $redirectTarget = '/dashboard/';
+            $candidateRedirect = $_POST['redirect'] ?? $_GET['redirect'] ?? '';
+            if (is_string($candidateRedirect) && str_starts_with($candidateRedirect, '/') && !str_starts_with($candidateRedirect, '//')) {
+                $redirectTarget = $candidateRedirect;
+            }
+            header("Location: " . $redirectTarget);
         }
     } else {
         if ($isJsonRequest) {
             http_response_code(401);
             echo json_encode(["error" => "Invalid email/username or password."]);
         } else {
-            header("Location: /?error=" . urlencode("Invalid email/username or password."));
+            $referrer = $_SERVER['HTTP_REFERER'] ?? '';
+            $isLoginRoute = str_contains($referrer, '/login');
+            $fallbackBase = $isLoginRoute ? '/login' : '/';
+            $candidateRedirect = $_POST['redirect'] ?? $_GET['redirect'] ?? '';
+            $queryParams = ["error" => "Invalid email/username or password."];
+            if (is_string($candidateRedirect) && str_starts_with($candidateRedirect, '/') && !str_starts_with($candidateRedirect, '//')) {
+                $queryParams['redirect'] = $candidateRedirect;
+            }
+            header("Location: " . $fallbackBase . '?' . http_build_query($queryParams));
         }
     }
     exit;
