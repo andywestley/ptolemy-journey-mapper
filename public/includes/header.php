@@ -23,12 +23,14 @@
     })(window,document,'script','dataLayer','GTM-TNL8J42G');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2 to maintain single primary h1 per page -->
+    <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2 and ensures landmarks exist -->
     <script>
     (function() {
-        function demoteStcmHeadings(root) {
+        function normalizeStcm(root) {
             var target = root || document;
             if (!target.querySelectorAll) return;
+
+            // 1. Demote any h1 to h2 to maintain single primary h1 per page
             var h1s = target.querySelectorAll('#stcm-modal h1, #stcm-banner h1, .stcm-modal h1, .stcm-banner h1');
             h1s.forEach(function(h1) {
                 var h2 = document.createElement('h2');
@@ -40,6 +42,67 @@
                     h1.parentNode.replaceChild(h2, h1);
                 }
             });
+
+            // 2. Ensure CMP banners, modals, and badges act as proper landmarks for Axe/WCAG region rules
+            var banners = target.querySelectorAll('#stcm-banner, .stcm-banner');
+            banners.forEach(function(banner) {
+                if (!banner.getAttribute('role')) {
+                    banner.setAttribute('role', 'region');
+                }
+                if (!banner.getAttribute('aria-label')) {
+                    banner.setAttribute('aria-label', 'Cookie consent');
+                }
+            });
+            if (target.id === 'stcm-banner' || (target.classList && target.classList.contains('stcm-banner'))) {
+                if (!target.getAttribute('role')) {
+                    target.setAttribute('role', 'region');
+                }
+                if (!target.getAttribute('aria-label')) {
+                    target.setAttribute('aria-label', 'Cookie consent');
+                }
+            }
+
+            var modals = target.querySelectorAll('#stcm-modal, .stcm-modal');
+            modals.forEach(function(modal) {
+                if (!modal.getAttribute('role')) {
+                    modal.setAttribute('role', 'dialog');
+                }
+                if (!modal.getAttribute('aria-modal')) {
+                    modal.setAttribute('aria-modal', 'true');
+                }
+                if (!modal.getAttribute('aria-label')) {
+                    modal.setAttribute('aria-label', 'Cookie preferences');
+                }
+            });
+            if (target.id === 'stcm-modal' || (target.classList && target.classList.contains('stcm-modal'))) {
+                if (!target.getAttribute('role')) {
+                    target.setAttribute('role', 'dialog');
+                }
+                if (!target.getAttribute('aria-modal')) {
+                    target.setAttribute('aria-modal', 'true');
+                }
+                if (!target.getAttribute('aria-label')) {
+                    target.setAttribute('aria-label', 'Cookie preferences');
+                }
+            }
+
+            var badges = target.querySelectorAll('#stcm-badge, .stcm-badge');
+            badges.forEach(function(badge) {
+                if (!badge.getAttribute('role')) {
+                    badge.setAttribute('role', 'region');
+                }
+                if (!badge.getAttribute('aria-label')) {
+                    badge.setAttribute('aria-label', 'Cookie settings');
+                }
+            });
+            if (target.id === 'stcm-badge' || (target.classList && target.classList.contains('stcm-badge'))) {
+                if (!target.getAttribute('role')) {
+                    target.setAttribute('role', 'region');
+                }
+                if (!target.getAttribute('aria-label')) {
+                    target.setAttribute('aria-label', 'Cookie settings');
+                }
+            }
         }
 
         if (typeof MutationObserver !== 'undefined') {
@@ -49,8 +112,9 @@
                     for (var j = 0; j < added.length; j++) {
                         var node = added[j];
                         if (node.nodeType === 1) {
-                            if (node.id === 'stcm-modal' || node.id === 'stcm-banner' || (node.querySelector && node.querySelector('#stcm-modal, #stcm-banner, .stcm-modal, .stcm-banner'))) {
-                                demoteStcmHeadings(node);
+                            if (node.id === 'stcm-modal' || node.id === 'stcm-banner' || node.id === 'stcm-badge' || 
+                               (node.querySelector && node.querySelector('#stcm-modal, #stcm-banner, #stcm-badge, .stcm-modal, .stcm-banner, .stcm-badge'))) {
+                                normalizeStcm(node);
                             }
                         }
                     }
@@ -60,10 +124,18 @@
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() { demoteStcmHeadings(); });
+            document.addEventListener('DOMContentLoaded', function() { normalizeStcm(); });
         } else {
-            demoteStcmHeadings();
+            normalizeStcm();
         }
+
+        // Periodic check for delayed CMP initialization from GTM
+        var checkCount = 0;
+        var timer = setInterval(function() {
+            normalizeStcm();
+            checkCount++;
+            if (checkCount > 20) clearInterval(timer);
+        }, 250);
     })();
     </script>
 
@@ -120,5 +192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <!-- Skip Link for Accessibility -->
-    <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#main-content" style="z-index: 9999;">Skip to main content</a>
+    <nav aria-label="Skip links">
+        <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#main-content" style="z-index: 9999;">Skip to main content</a>
+    </nav>
 
