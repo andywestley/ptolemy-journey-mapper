@@ -107,7 +107,7 @@ async function loadJourneys(type = null) {
                 let actionsHTML = '';
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
-                        <div class="d-flex gap-2" onclick="event.stopPropagation()">
+                        <div class="d-flex gap-2 position-relative" style="z-index: 2;" onclick="event.stopPropagation()">
                             <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
@@ -118,7 +118,7 @@ async function loadJourneys(type = null) {
                     `;
                 } else if (isOwner) {
                     actionsHTML = `
-                        <div class="dropdown" onclick="event.stopPropagation()">
+                        <div class="dropdown position-relative" style="z-index: 2;" onclick="event.stopPropagation()">
                             <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
@@ -133,24 +133,28 @@ async function loadJourneys(type = null) {
                 }
 
                 col.innerHTML = `
-                    <div class="card h-100 cursor-pointer shadow-sm hover-shadow border-0 rounded-4" role="button" tabindex="0" aria-label="Open journey: ${escapeHtml(j.title || 'Untitled Journey')}" onclick="openEditor('${escapeHtml(j.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEditor('${escapeHtml(j.id)}');}">
+                    <div class="card h-100 position-relative shadow-sm hover-shadow border-0 rounded-4">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title fw-bold mb-0 text-dark">${escapeHtml(j.title || 'Untitled Journey')}</h5>
+                                <h2 class="h5 card-title fw-bold mb-0 text-dark">
+                                    <a href="/journey/${escapeHtml(j.id)}/" class="text-decoration-none text-dark stretched-link">
+                                        ${escapeHtml(j.title || 'Untitled Journey')}
+                                    </a>
+                                </h2>
                                 ${actionsHTML}
                             </div>
                             <p class="card-text text-muted small mb-3 text-truncate-2">${escapeHtml(j.description || 'No description provided.')}</p>
                             
-                            <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top position-relative" style="z-index: 2;">
                                 <div class="d-flex align-items-center gap-1">
                                     <span class="badge bg-light text-dark border rounded-pill px-2" style="font-size: 0.7rem;">
                                         ${j.ojf_data?.stages?.length || 0} Stages
                                     </span>
-                                    ${j.is_public ? '<span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill" style="font-size: 0.65rem;"><i class="bi bi-globe"></i> Public</span>' : ''}
+                                    ${j.is_public ? '<span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill" style="font-size: 0.65rem;"><i class="bi bi-globe" aria-hidden="true"></i> Public</span>' : ''}
                                 </div>
                                 <small class="text-muted" style="font-size: 0.7rem;">${new Date(j.updated).toLocaleDateString()}</small>
                             </div>
-                            ${j.folder ? `<div class="mt-2"><span class="badge bg-primary-subtle text-primary border-0 rounded-pill"><i class="bi bi-folder2 me-1"></i> ${escapeHtml(j.folder)}</span></div>` : ''}
+                            ${j.folder ? `<div class="mt-2 position-relative" style="z-index: 2;"><span class="badge bg-primary-subtle text-primary border-0 rounded-pill"><i class="bi bi-folder2 me-1" aria-hidden="true"></i> ${escapeHtml(j.folder)}</span></div>` : ''}
                         </div>
                     </div>
                 `;

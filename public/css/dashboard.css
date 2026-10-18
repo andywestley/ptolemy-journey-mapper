@@ -797,15 +797,13 @@ body {
     font-style: italic;
 }
 
-.card.cursor-pointer .card-body > * {
-    pointer-events: none;
-    cursor: default;
+.card.hover-shadow {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card.cursor-pointer .dropdown,
-.card.cursor-pointer .dropdown * {
-    pointer-events: auto;
-    cursor: pointer;
+.card.hover-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Dark Mode Support for Visual Map & Metadata */
