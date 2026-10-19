@@ -104,14 +104,25 @@ async function loadJourneys(type = null) {
                 const col = document.createElement('div');
                 col.className = 'col-md-4 col-sm-6';
 
+                const journeyTitle = j.title || 'Untitled Journey';
+                const updatedDate = j.updated ? new Date(j.updated).toLocaleDateString() : '';
+                const stagesCount = j.ojf_data?.stages?.length || 0;
+                const shortId = j.id ? String(j.id).substring(0, 8) : '';
+                const descDetails = [];
+                if (updatedDate) descDetails.push(`updated ${updatedDate}`);
+                descDetails.push(`${stagesCount} stage${stagesCount === 1 ? '' : 's'}`);
+                if (j.folder && j.folder.trim()) descDetails.push(`folder: ${j.folder.trim()}`);
+                if (shortId) descDetails.push(`ID: ${shortId}`);
+                const disambiguatedLabel = `${journeyTitle} (${descDetails.join(', ')})`;
+
                 let actionsHTML = '';
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
                         <div class="d-flex gap-2 position-relative" style="z-index: 2;">
-                            <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
+                            <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
+                            <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-trash-fill" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -119,7 +130,7 @@ async function loadJourneys(type = null) {
                 } else if (isOwner) {
                     actionsHTML = `
                         <div class="dropdown position-relative" style="z-index: 2;">
-                            <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
+                            <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
@@ -137,8 +148,8 @@ async function loadJourneys(type = null) {
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h2 class="h5 card-title fw-bold mb-0 text-dark">
-                                    <a href="/journey/${escapeHtml(j.id)}/" class="text-decoration-none text-dark stretched-link">
-                                        ${escapeHtml(j.title || 'Untitled Journey')}
+                                    <a href="/journey/${escapeHtml(j.id)}/" class="text-decoration-none text-dark stretched-link" aria-label="${escapeHtml(disambiguatedLabel)}">
+                                        ${escapeHtml(journeyTitle)}
                                     </a>
                                 </h2>
                                 ${actionsHTML}

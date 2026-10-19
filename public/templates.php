@@ -50,7 +50,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-mortarboard fs-3 text-primary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Learn how to use Ptolemy interactively by exploring a map that explains how to build a map. Highly recommended for first-time users.</p>
-                    <button class="btn btn-primary w-100" onclick="importTemplate('/samples/self-guided-tutorial.ojf')">
+                    <button class="btn btn-primary w-100" onclick="importTemplate('/samples/self-guided-tutorial.ojf')" aria-label="Use Self-Guided Tutorial template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -66,7 +66,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-buildings fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A complex enterprise procurement journey involving multiple stakeholders, security reviews, and vendor touchpoints.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/b2b-software-purchase.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/b2b-software-purchase.ojf')" aria-label="Use B2B Software Purchase template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -82,7 +82,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-box-seam fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A negative friction flow demonstrating how an unhappy path (returning a broken item) is tracked with low Emotion scores and pain point tags.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-return.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-return.ojf')" aria-label="Use E-commerce Return template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -98,7 +98,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-cart-check fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A happy-path flow for a high-end product purchase, from initial discovery to onboarding.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-purchase.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/ecommerce-purchase.ojf')" aria-label="Use E-commerce Purchase template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -114,7 +114,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-headset fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A service-focused journey documenting a support interaction for a technical hardware issue.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/customer-support.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/customer-support.ojf')" aria-label="Use Customer Support template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -130,7 +130,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-calendar-event fs-3 text-secondary"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Tracking travel logistics and registration for an international conference.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/event-booking.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/event-booking.ojf')" aria-label="Use Event Booking template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -146,7 +146,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-diagram-3 fs-3 text-info"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A multi-layered service blueprint demonstrating Frontstage/Backstage actions and Physical Evidence for a luxury hotel arrival.</p>
-                    <button class="btn btn-info text-white w-100" onclick="importTemplate('/samples/hotel-check-in-blueprint.ojf')">
+                    <button class="btn btn-info text-white w-100" onclick="importTemplate('/samples/hotel-check-in-blueprint.ojf')" aria-label="Use Hotel Check-in Blueprint template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -162,7 +162,7 @@ include __DIR__ . '/includes/navbar.php';
                         <i class="bi bi-hospital fs-3 text-success"></i>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A healthcare service blueprint focusing on clinical triage, backstage record management, and EMR support systems.</p>
-                    <button class="btn btn-success text-white w-100" onclick="importTemplate('/samples/clinic-visit-blueprint.ojf')">
+                    <button class="btn btn-success text-white w-100" onclick="importTemplate('/samples/clinic-visit-blueprint.ojf')" aria-label="Use Clinic Visit Blueprint template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -190,7 +190,7 @@ include __DIR__ . '/includes/navbar.php';
                         <span class="badge bg-primary text-white">NHS</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">The 8am GP phone queue, online eConsult triage via NHS App, and instant prescription dispensing under the community Pharmacy First scheme.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/nhs-gp-appointment.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/nhs-gp-appointment.ojf')" aria-label="Use NHS GP & Pharmacy First template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -206,7 +206,7 @@ include __DIR__ . '/includes/navbar.php';
                         <span class="badge bg-success text-white">Property</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">From Lifetime ISA (LISA) deposit and Mortgage in Principle (AIP) to survey damp findings, the dread of gazumping, and legal exchange & completion.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-first-time-buyer.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-first-time-buyer.ojf')" aria-label="Use First-Time Home Buyer (UK) template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -222,7 +222,7 @@ include __DIR__ . '/includes/navbar.php';
                         <span class="badge bg-dark text-white">GOV.UK</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Receiving the green D798 postal reminder from Swansea, renewing online on GOV.UK, cross-checking HM Passport photo, and Royal Mail delivery.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/dvla-driving-licence-renewal.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/dvla-driving-licence-renewal.ojf')" aria-label="Use DVLA Licence Renewal template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -238,7 +238,7 @@ include __DIR__ . '/includes/navbar.php';
                         <span class="badge bg-warning text-dark">Transport</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">A morning commute disrupted by a Network Rail signalling failure, resulting in missed meetings and a 50% Delay Repay refund directly to Monzo.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-train-delay-repay.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/uk-train-delay-repay.ojf')" aria-label="Use Train Commute & Delay Repay template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
@@ -254,7 +254,7 @@ include __DIR__ . '/includes/navbar.php';
                         <span class="badge bg-info text-dark">HMRC</span>
                     </div>
                     <p class="card-text text-muted small mb-4 flex-grow-1">Sole trader tax filing before the 31st January midnight deadline, Government Gateway 2FA login, allowable expenses, and Payment on Account.</p>
-                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/hmrc-self-assessment.ojf')">
+                    <button class="btn btn-outline-primary w-100" onclick="importTemplate('/samples/hmrc-self-assessment.ojf')" aria-label="Use HMRC Self Assessment Return template">
                         <i class="bi bi-plus-circle me-1"></i> Use Template
                     </button>
                 </div>
