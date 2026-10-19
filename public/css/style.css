@@ -378,6 +378,10 @@ section#stcm-form .stcm-toggle .stcm-toggle-on,
     margin: 0;
 }
 
+#stcm-modal[hidden] {
+    display: none !important;
+}
+
 /* Dark mode support for shared navbar and footer */
 [data-bs-theme="dark"] .navbar.bg-white,
 [data-bs-theme="dark"] footer.bg-white {

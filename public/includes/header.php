@@ -23,9 +23,38 @@
     })(window,document,'script','dataLayer','GTM-TNL8J42G');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2 and ensures landmarks exist -->
+    <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2, ensures landmarks exist, and handles modal accessibility -->
     <script>
     (function() {
+        function normalizeModal(modal) {
+            if (!modal) return;
+            var hasContent = modal.children && modal.children.length > 0 && modal.innerHTML.trim() !== '';
+            if (!hasContent) {
+                modal.removeAttribute('role');
+                modal.removeAttribute('aria-modal');
+                modal.setAttribute('aria-hidden', 'true');
+                modal.setAttribute('hidden', '');
+            } else {
+                modal.removeAttribute('hidden');
+                modal.removeAttribute('aria-hidden');
+                if (!modal.getAttribute('role')) {
+                    modal.setAttribute('role', 'dialog');
+                }
+                if (!modal.getAttribute('aria-modal')) {
+                    modal.setAttribute('aria-modal', 'true');
+                }
+                if (!modal.getAttribute('aria-label')) {
+                    modal.setAttribute('aria-label', 'Cookie preferences');
+                }
+                // Ensure explicit, accessible close button for UX & WCAG best practices
+                var closeBtns = modal.querySelectorAll('.stcm-modal-close, button.stcm-modal-close, [class*="modal-close"]');
+                closeBtns.forEach(function(btn) {
+                    btn.setAttribute('aria-label', 'Close modal');
+                    btn.setAttribute('title', 'Close modal');
+                });
+            }
+        }
+
         function normalizeStcm(root) {
             var target = root || document;
             if (!target.querySelectorAll) return;
@@ -63,27 +92,9 @@
             }
 
             var modals = target.querySelectorAll('#stcm-modal, .stcm-modal');
-            modals.forEach(function(modal) {
-                if (!modal.getAttribute('role')) {
-                    modal.setAttribute('role', 'dialog');
-                }
-                if (!modal.getAttribute('aria-modal')) {
-                    modal.setAttribute('aria-modal', 'true');
-                }
-                if (!modal.getAttribute('aria-label')) {
-                    modal.setAttribute('aria-label', 'Cookie preferences');
-                }
-            });
+            modals.forEach(normalizeModal);
             if (target.id === 'stcm-modal' || (target.classList && target.classList.contains('stcm-modal'))) {
-                if (!target.getAttribute('role')) {
-                    target.setAttribute('role', 'dialog');
-                }
-                if (!target.getAttribute('aria-modal')) {
-                    target.setAttribute('aria-modal', 'true');
-                }
-                if (!target.getAttribute('aria-label')) {
-                    target.setAttribute('aria-label', 'Cookie preferences');
-                }
+                normalizeModal(target);
             }
 
             var badges = target.querySelectorAll('#stcm-badge, .stcm-badge');
@@ -107,21 +118,47 @@
 
         if (typeof MutationObserver !== 'undefined') {
             var observer = new MutationObserver(function(mutations) {
+                var checkNeeded = false;
                 for (var i = 0; i < mutations.length; i++) {
                     var added = mutations[i].addedNodes;
                     for (var j = 0; j < added.length; j++) {
                         var node = added[j];
                         if (node.nodeType === 1) {
                             if (node.id === 'stcm-modal' || node.id === 'stcm-banner' || node.id === 'stcm-badge' || 
-                               (node.querySelector && node.querySelector('#stcm-modal, #stcm-banner, #stcm-badge, .stcm-modal, .stcm-banner, .stcm-badge'))) {
-                                normalizeStcm(node);
+                               (node.querySelector && node.querySelector('#stcm-modal, #stcm-banner, #stcm-badge, .stcm-modal, .stcm-banner, .stcm-badge')) ||
+                               (node.closest && node.closest('#stcm-modal, .stcm-modal'))) {
+                                checkNeeded = true;
+                                break;
                             }
                         }
                     }
+                    if (mutations[i].removedNodes && mutations[i].removedNodes.length > 0) {
+                        checkNeeded = true;
+                    }
+                    if (checkNeeded) break;
+                }
+                if (checkNeeded) {
+                    normalizeStcm();
                 }
             });
             observer.observe(document.documentElement, { childList: true, subtree: true });
         }
+
+        // Ensure pressing Escape key dismisses CMP modal if open
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+                var modal = document.getElementById('stcm-modal');
+                if (modal && modal.children && modal.children.length > 0) {
+                    var closeBtn = modal.querySelector('.stcm-modal-close, button.stcm-modal-close, [class*="modal-close"]');
+                    if (closeBtn) {
+                        closeBtn.click();
+                    } else {
+                        modal.innerHTML = '';
+                        normalizeModal(modal);
+                    }
+                }
+            }
+        });
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() { normalizeStcm(); });
