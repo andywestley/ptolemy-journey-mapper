@@ -107,7 +107,7 @@ async function loadJourneys(type = null) {
                 let actionsHTML = '';
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
-                        <div class="d-flex gap-2 position-relative" style="z-index: 2;" onclick="event.stopPropagation()">
+                        <div class="d-flex gap-2 position-relative" style="z-index: 2;">
                             <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(j.title || '')}" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
@@ -118,7 +118,7 @@ async function loadJourneys(type = null) {
                     `;
                 } else if (isOwner) {
                     actionsHTML = `
-                        <div class="dropdown position-relative" style="z-index: 2;" onclick="event.stopPropagation()">
+                        <div class="dropdown position-relative" style="z-index: 2;">
                             <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(j.title || 'Untitled Journey')}" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
