@@ -191,8 +191,8 @@ if (!function_exists('loadCssAsset')) {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Skip Link for Accessibility -->
+    <!-- Skip Link for Accessibility (WCAG 2.5.8 compliant target size) -->
     <nav aria-label="Skip links">
-        <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#main-content" style="z-index: 9999;">Skip to main content</a>
+        <a class="skip-to-content-link btn btn-primary" href="#main-content">Skip to main content</a>
     </nav>
 
