@@ -21,7 +21,7 @@ function renderVisualMap() {
                 <div class="mb-3">
                     <i class="bi bi-diagram-3 text-primary" style="font-size: 3rem;" aria-hidden="true"></i>
                 </div>
-                <h3 class="h4 fw-bold mb-2 text-dark">No Journey Steps Yet</h3>
+                <h2 class="h4 fw-bold mb-2 text-dark">No Journey Steps Yet</h2>
                 <p class="text-muted mb-4" style="font-size: 0.95rem; line-height: 1.6;">
                     Your journey map doesn't have any steps yet. Get started by defining phases and adding steps in the Table Editor, or create your first step right here.
                 </p>
