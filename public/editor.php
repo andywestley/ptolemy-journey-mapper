@@ -287,7 +287,7 @@ include __DIR__ . '/includes/navbar.php';
 </main>
 
 <!-- Share Modal (with Public Link Sharing) -->
-<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="shareModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -348,7 +348,7 @@ include __DIR__ . '/includes/navbar.php';
 </div>
 
 <!-- Node Modal -->
-<div class="modal fade" id="nodeModal" tabindex="-1" aria-labelledby="nodeModalLabel" aria-hidden="true">
+<div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="nodeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -524,7 +524,7 @@ include __DIR__ . '/includes/navbar.php';
 </div>
 
 <!-- Comment Modal -->
-<div class="modal fade" id="commentModal" tabindex="-1">
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="commentModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header py-2">
@@ -544,11 +544,11 @@ include __DIR__ . '/includes/navbar.php';
 </div>
 
 <!-- Thread Modal -->
-<div class="modal fade" id="threadModal" tabindex="-1">
+<div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="threadModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title h5">Discussion</h2>
+                <h2 class="modal-title h5" id="threadModalTitle">Discussion</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

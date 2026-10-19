@@ -105,6 +105,7 @@ function renderVisualMap() {
     }
 
     // 3. Rows
+    let firstCardFound = false;
     swimlanes.forEach((swimlane, idx) => {
         // Swimlane Header (Left Column)
         const sHead = document.createElement('div');
@@ -149,22 +150,65 @@ function renderVisualMap() {
                 card.dataset.nodeId = node.id;
                 card.dataset.nodeTitle = node.title || 'Untitled Node';
                 if (node.isMomentOfTruth) card.classList.add('moment-of-truth');
-                card.setAttribute('tabindex', '0');
+
+                // Roving tabindex: exactly one card in the grid has tabindex="0"
+                const isActive = window.lastFocusedNodeId 
+                    ? (node.id === window.lastFocusedNodeId) 
+                    : !firstCardFound;
+                if (isActive) firstCardFound = true;
+                card.setAttribute('tabindex', isActive ? '0' : '-1');
                 card.setAttribute('role', 'button');
-                card.setAttribute('aria-label', `${node.title || 'Step'}. Click to inspect details`);
+                card.setAttribute('aria-label', `${node.title || 'Step'}. Use arrow keys to navigate steps, Enter to inspect details`);
                 if (!isReadOnly) {
                     card.setAttribute('draggable', 'true');
                     card.ondragstart = (e) => handleNodeDragStart(e, node.id);
                 }
                 card.onclick = (e) => {
                     if (window.feedbackMode) return;
+                    window.lastFocusedNodeId = node.id;
                     openNodeModal(node.id);
                 };
+                card.addEventListener('focus', () => {
+                    window.lastFocusedNodeId = node.id;
+                    const allCards = grid.querySelectorAll('.node-card');
+                    allCards.forEach(c => {
+                        if (c !== card) c.setAttribute('tabindex', '-1');
+                    });
+                    card.setAttribute('tabindex', '0');
+                });
                 card.onkeydown = (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         if (window.feedbackMode) return;
+                        window.lastFocusedNodeId = node.id;
                         openNodeModal(node.id);
+                        return;
+                    }
+
+                    const allCards = Array.from(grid.querySelectorAll('.node-card'));
+                    const currentIdx = allCards.indexOf(card);
+                    if (currentIdx === -1) return;
+
+                    let targetCard = null;
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        targetCard = allCards[(currentIdx + 1) % allCards.length];
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        targetCard = allCards[(currentIdx - 1 + allCards.length) % allCards.length];
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        targetCard = allCards[0];
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        targetCard = allCards[allCards.length - 1];
+                    }
+
+                    if (targetCard) {
+                        allCards.forEach(c => c.setAttribute('tabindex', '-1'));
+                        targetCard.setAttribute('tabindex', '0');
+                        targetCard.focus();
+                        window.lastFocusedNodeId = targetCard.dataset.nodeId;
                     }
                 };
 
@@ -256,6 +300,15 @@ function renderVisualMap() {
             const bottomSpacer = document.createElement('div');
             bottomSpacer.className = 'grid-cell-empty';
             grid.appendChild(bottomSpacer);
+        }
+    }
+
+    // Ensure at least one card in the grid has tabindex="0" if nodes exist
+    const allRenderedCards = grid.querySelectorAll('.node-card');
+    if (allRenderedCards.length > 0) {
+        const hasActive = Array.from(allRenderedCards).some(c => c.getAttribute('tabindex') === '0');
+        if (!hasActive) {
+            allRenderedCards[0].setAttribute('tabindex', '0');
         }
     }
 

@@ -62,6 +62,13 @@ include __DIR__ . '/includes/header.php';
         scroll-margin-left: 215px;
         scroll-margin-top: 80px;
     }
+    .node-card:focus-visible {
+        outline: 2px solid var(--accent-color, #4f46e5);
+        outline-offset: 2px;
+        border-color: var(--accent-color, #4f46e5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
+    }
     .node-card * {
         pointer-events: none;
         cursor: default;
@@ -136,10 +143,10 @@ include __DIR__ . '/includes/public_navbar.php';
 
             <!-- Export Dropdown -->
             <div class="dropdown">
-                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="exportDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                     <i class="bi bi-download me-1"></i> Export
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="exportDropdownBtn">
                     <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
                     <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
                     <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
@@ -250,7 +257,7 @@ include __DIR__ . '/includes/public_navbar.php';
 </main>
 
 <!-- Read-Only Node Inspection Modal -->
-<div class="modal fade" id="publicNodeModal" tabindex="-1" aria-labelledby="inspect-title" aria-hidden="true">
+<div class="modal fade" id="publicNodeModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="inspect-title" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header">

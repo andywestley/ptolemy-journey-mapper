@@ -21,12 +21,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     calculateJourneyScorecard();
+
+    const modalEl = document.getElementById('publicNodeModal');
+    if (modalEl) {
+        modalEl.addEventListener('shown.bs.modal', () => {
+            const closeBtn = modalEl.querySelector('.btn-close');
+            if (closeBtn) closeBtn.focus();
+        });
+        modalEl.addEventListener('hidden.bs.modal', () => {
+            if (window.lastFocusedNodeId) {
+                const targetCard = document.querySelector(`.node-card[data-node-id="${window.lastFocusedNodeId}"]`);
+                if (targetCard) {
+                    const allCards = document.querySelectorAll('.node-card');
+                    allCards.forEach(c => c.setAttribute('tabindex', '-1'));
+                    targetCard.setAttribute('tabindex', '0');
+                    targetCard.focus();
+                } else {
+                    const targetRow = document.querySelector(`tr[data-node-id="${window.lastFocusedNodeId}"]`);
+                    if (targetRow) targetRow.focus();
+                }
+            }
+        });
+    }
 });
 
 /**
  * Public Read-Only Node Inspection Modal
  */
 function openNodeModal(nodeId) {
+    window.lastFocusedNodeId = nodeId;
     if (!window.originalOJF || !window.originalOJF.nodes) return;
     const node = window.originalOJF.nodes.find(n => n.id === nodeId);
     if (!node) return;
@@ -71,8 +94,11 @@ function openNodeModal(nodeId) {
         }
     }
 
-    const modal = new bootstrap.Modal(document.getElementById('publicNodeModal'));
-    modal.show();
+    const modalEl = document.getElementById('publicNodeModal');
+    if (modalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
 }
 
 function renderInspectBpList(listId, groupId, items, formatFn) {
@@ -114,6 +140,7 @@ function renderPublicTable() {
 
         const tr = document.createElement('tr');
         tr.className = 'cursor-pointer';
+        tr.dataset.nodeId = node.id;
         tr.setAttribute('role', 'button');
         tr.setAttribute('tabindex', '0');
         tr.setAttribute('aria-label', `Step: ${node.title || 'Untitled'}. Click to inspect details`);
