@@ -375,90 +375,104 @@ include __DIR__ . '/includes/navbar.php';
                         <form id="node-form">
                             <input type="hidden" id="node-id">
 
-                            <div class="mb-3">
-                                <label for="node-title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="node-title" required placeholder="Node title">
-                            </div>
-                            <div class="mb-3">
-                                <label for="node-description" class="form-label">Description</label>
-                                <textarea class="form-control" id="node-description" rows="3" placeholder="Brief description"></textarea>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <label for="node-stage-id" class="form-label">Stage</label>
-                                    <select class="form-select" id="node-stage-id"></select>
+                            <!-- Section 1: Core Step Information -->
+                            <fieldset class="mb-4">
+                                <legend class="h6 fw-bold text-uppercase text-secondary border-bottom pb-2 mb-3" style="font-size: 0.8rem; letter-spacing: 0.05em;">Core Step Information</legend>
+                                <div class="mb-3">
+                                    <label for="node-title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="node-title" required placeholder="Node title">
                                 </div>
-                                <div class="col-6">
-                                    <label for="node-swimlane-id" class="form-label">Swimlane</label>
-                                    <select class="form-select" id="node-swimlane-id"></select>
+                                <div class="mb-3">
+                                    <label for="node-description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="node-description" rows="3" placeholder="Brief description"></textarea>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <label for="node-severity" class="form-label">Severity</label>
-                                    <select class="form-select" id="node-severity">
-                                        <option value="low">Low</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="high">High</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label for="node-score" class="form-label">Emotion score (-5 to +5)</label>
-                                    <input type="number" class="form-control" id="node-score" min="-5" max="5" placeholder="Emotion score">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <label for="node-sentiment" class="form-label">Sentiment (Tone)</label>
-                                    <select class="form-select" id="node-sentiment">
-                                        <option value="">None / Neutral</option>
-                                        <option value="positive">Positive</option>
-                                        <option value="negative">Negative</option>
-                                        <option value="anxious">Anxious</option>
-                                        <option value="frustrated">Frustrated</option>
-                                        <option value="delighted">Delighted</option>
-                                        <option value="surprised">Surprised</option>
-                                        <option value="confused">Confused</option>
-                                        <option value="relieved">Relieved</option>
-                                        <option value="bored">Bored</option>
-                                        <option value="angry">Angry</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label for="node-purpose" class="form-label">Purpose (Role)</label>
-                                    <select class="form-select" id="node-purpose">
-                                        <option value="">None</option>
-                                        <option value="touchpoint">Touchpoint</option>
-                                        <option value="pain-point">Pain Point</option>
-                                        <option value="gain">Gain</option>
-                                        <option value="opportunity">Opportunity</option>
-                                        <option value="milestone">Milestone</option>
-                                        <option value="bottleneck">Bottleneck</option>
-                                        <option value="decision">Decision</option>
-                                        <option value="observation">Observation</option>
-                                        <option value="note">Note</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <label class="form-label">Background Theme</label>
-                                    <div class="color-grid" id="color-picker-grid"></div>
-                                    <input type="hidden" id="node-icon-color">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <label for="node-tags" class="form-label">Tags (comma separated)</label>
-                                    <input type="text" class="form-control" id="node-tags" placeholder="tag1, tag2">
-                                </div>
-                                <div class="col-6 d-flex align-items-end">
-                                    <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="node-moment-of-truth">
-                                        <label class="form-check-label" for="node-moment-of-truth">Moment of Truth</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="node-stage-id" class="form-label">Stage</label>
+                                        <select class="form-select" id="node-stage-id"></select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-swimlane-id" class="form-label">Swimlane</label>
+                                        <select class="form-select" id="node-swimlane-id"></select>
                                     </div>
                                 </div>
-                            </div>
+                            </fieldset>
+
+                            <!-- Section 2: Experience & Sentiment -->
+                            <fieldset class="mb-4">
+                                <legend class="h6 fw-bold text-uppercase text-secondary border-bottom pb-2 mb-3" style="font-size: 0.8rem; letter-spacing: 0.05em;">Experience &amp; Sentiment</legend>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="node-severity" class="form-label">Severity</label>
+                                        <select class="form-select" id="node-severity">
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-score" class="form-label">Emotion score (-5 to +5)</label>
+                                        <input type="number" class="form-control" id="node-score" min="-5" max="5" placeholder="Emotion score">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="node-sentiment" class="form-label">Sentiment (Tone)</label>
+                                        <select class="form-select" id="node-sentiment">
+                                            <option value="">None / Neutral</option>
+                                            <option value="positive">Positive</option>
+                                            <option value="negative">Negative</option>
+                                            <option value="anxious">Anxious</option>
+                                            <option value="frustrated">Frustrated</option>
+                                            <option value="delighted">Delighted</option>
+                                            <option value="surprised">Surprised</option>
+                                            <option value="confused">Confused</option>
+                                            <option value="relieved">Relieved</option>
+                                            <option value="bored">Bored</option>
+                                            <option value="angry">Angry</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="node-purpose" class="form-label">Purpose (Role)</label>
+                                        <select class="form-select" id="node-purpose">
+                                            <option value="">None</option>
+                                            <option value="touchpoint">Touchpoint</option>
+                                            <option value="pain-point">Pain Point</option>
+                                            <option value="gain">Gain</option>
+                                            <option value="opportunity">Opportunity</option>
+                                            <option value="milestone">Milestone</option>
+                                            <option value="bottleneck">Bottleneck</option>
+                                            <option value="decision">Decision</option>
+                                            <option value="observation">Observation</option>
+                                            <option value="note">Note</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- Section 3: Styling & Classification -->
+                            <fieldset class="mb-3">
+                                <legend class="h6 fw-bold text-uppercase text-secondary border-bottom pb-2 mb-3" style="font-size: 0.8rem; letter-spacing: 0.05em;">Styling &amp; Classification</legend>
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label class="form-label">Background Theme</label>
+                                        <div class="color-grid" id="color-picker-grid"></div>
+                                        <input type="hidden" id="node-icon-color">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="node-tags" class="form-label">Tags (comma separated)</label>
+                                        <input type="text" class="form-control" id="node-tags" placeholder="tag1, tag2">
+                                    </div>
+                                    <div class="col-6 d-flex align-items-end">
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="node-moment-of-truth">
+                                            <label class="form-check-label" for="node-moment-of-truth">Moment of Truth</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
 
