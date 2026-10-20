@@ -603,6 +603,7 @@ $ojfData = is_string($journeyRecord['ojf_data']) ? json_decode($journeyRecord['o
 </script>
 
 <?php
+$hideBackToTop = true;
 $extraJs = ["auth.js", "utils.js", "rendering.js", "editor.js", "comments.js"];
 include __DIR__ . '/includes/footer.php';
 ?>

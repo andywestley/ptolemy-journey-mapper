@@ -334,6 +334,7 @@ include __DIR__ . '/includes/public_navbar.php';
 <?php endif; ?>
 
 <?php
+$hideBackToTop = true;
 $extraJs = ["utils.js", "rendering.js", "share.js"];
 include __DIR__ . '/includes/footer.php';
 ?>

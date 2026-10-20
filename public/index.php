@@ -213,6 +213,7 @@ include __DIR__ . '/includes/public_navbar.php';
 </footer>
 
 <?php
+$hideBackToTop = true;
 $extraJs = ['auth.js'];
 include __DIR__ . '/includes/footer.php';
 ?>

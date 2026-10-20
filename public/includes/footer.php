@@ -1,4 +1,5 @@
-    <!-- Back to Top Escape Button (WCAG 2.2.2 Compliant) -->
+<?php if (empty($hideBackToTop)): ?>
+    <!-- Back to Top Escape Button (WCAG 2.2.2 & 2.2.1 Compliant) -->
     <button type="button" id="btn-back-to-top" class="btn btn-primary rounded-circle shadow back-to-top" aria-label="Back to top" title="Back to top" aria-hidden="true" tabindex="-1">
         <i class="bi bi-arrow-up" aria-hidden="true"></i>
     </button>
@@ -8,11 +9,12 @@
         if (!backToTopBtn) return;
         var isTicking = false;
         function updateBackToTop() {
-            if (window.scrollY > 300) {
+            // Hysteresis threshold to prevent rapid flickering or vanishing content on transient scrolls
+            if (window.scrollY > 400) {
                 backToTopBtn.classList.add('show');
                 backToTopBtn.removeAttribute('aria-hidden');
                 backToTopBtn.removeAttribute('tabindex');
-            } else {
+            } else if (window.scrollY < 200) {
                 backToTopBtn.classList.remove('show');
                 backToTopBtn.setAttribute('aria-hidden', 'true');
                 backToTopBtn.setAttribute('tabindex', '-1');
@@ -35,6 +37,7 @@
         });
     })();
     </script>
+<?php endif; ?>
 
     <!-- Modal Backdrop Accessibility Guard (WCAG 4.1.2 & Ghost Modal Prevention) -->
     <script>
