@@ -20,7 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPublicTable();
     }
 
-    calculateJourneyScorecard();
+    if (typeof updateScorecard === 'function') {
+        updateScorecard();
+    }
 
     const modalEl = document.getElementById('publicNodeModal');
     if (modalEl) {
