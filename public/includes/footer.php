@@ -1,5 +1,5 @@
-    <!-- Back to Top Escape Button -->
-    <button type="button" id="btn-back-to-top" class="btn btn-primary rounded-circle shadow back-to-top" aria-label="Back to top" title="Back to top">
+    <!-- Back to Top Escape Button (WCAG 2.2.2 Compliant) -->
+    <button type="button" id="btn-back-to-top" class="btn btn-primary rounded-circle shadow back-to-top" aria-label="Back to top" title="Back to top" aria-hidden="true" tabindex="-1">
         <i class="bi bi-arrow-up" aria-hidden="true"></i>
     </button>
     <script>
@@ -10,8 +10,12 @@
         function updateBackToTop() {
             if (window.scrollY > 300) {
                 backToTopBtn.classList.add('show');
+                backToTopBtn.removeAttribute('aria-hidden');
+                backToTopBtn.removeAttribute('tabindex');
             } else {
                 backToTopBtn.classList.remove('show');
+                backToTopBtn.setAttribute('aria-hidden', 'true');
+                backToTopBtn.setAttribute('tabindex', '-1');
             }
             isTicking = false;
         }

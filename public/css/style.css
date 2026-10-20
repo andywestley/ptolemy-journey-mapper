@@ -400,11 +400,29 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
     html {
-        scroll-behavior: auto;
+        scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .back-to-top {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .back-to-top.show {
+        transform: none !important;
     }
 }
 
-/* Floating Back to Top Button */
+/* Floating Back to Top Button (WCAG 2.2.2 Compliant - No spatial displacement/continuous motion) */
 .back-to-top {
     position: fixed;
     bottom: 24px;
@@ -412,27 +430,23 @@ html {
     width: 44px;
     height: 44px;
     padding: 0;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     z-index: 1040;
     opacity: 0;
-    visibility: hidden;
-    transform: translateY(16px);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .back-to-top.show {
+    display: flex;
     opacity: 0.95;
-    visibility: visible;
-    transform: translateY(0);
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
     opacity: 1;
-    transform: translateY(-2px);
 }
 
 /* WCAG 2.5.8 Compliant Skip to Content Link (Minimum 24x24px Target Size) */
