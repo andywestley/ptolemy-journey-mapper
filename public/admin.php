@@ -221,11 +221,11 @@ include __DIR__ . '/includes/header.php';
 </main>
 
 <!-- Modal 1: Create User / Service Account -->
-<div class="modal fade" id="createUserModal" tabindex="-1">
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="create-user-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title h5 fw-bold">Create New Account</h2>
+                <h2 class="modal-title h5 fw-bold" id="create-user-modal-title">Create New Account</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="create-user-form" onsubmit="handleCreateUser(event)">
@@ -302,11 +302,11 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <!-- Modal 2: Edit User Profile & Role -->
-<div class="modal fade" id="editUserModal" tabindex="-1">
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="edit-user-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title h5 fw-bold">Edit Account</h2>
+                <h2 class="modal-title h5 fw-bold" id="edit-user-modal-title">Edit Account</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="edit-user-form" onsubmit="handleEditUser(event)">
@@ -344,11 +344,11 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <!-- Modal 3: Reset Password -->
-<div class="modal fade" id="resetPasswordModal" tabindex="-1">
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="reset-password-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title h5 fw-bold">Reset Password</h2>
+                <h2 class="modal-title h5 fw-bold" id="reset-password-modal-title">Reset Password</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="reset-password-form" onsubmit="handleResetPassword(event)">
@@ -381,7 +381,7 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <!-- Modal 4: Account Credentials Display -->
-<div class="modal fade" id="credentialsModal" tabindex="-1" data-bs-backdrop="static">
+<div class="modal fade" id="credentialsModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="credentials-modal-title" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

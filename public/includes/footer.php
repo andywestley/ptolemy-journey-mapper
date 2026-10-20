@@ -36,6 +36,62 @@
     })();
     </script>
 
+    <!-- Modal Backdrop Accessibility Guard (WCAG 4.1.2 & Ghost Modal Prevention) -->
+    <script>
+    (function() {
+        function secureBackdrop(el) {
+            if (!el || el.nodeType !== 1) return;
+            if (!el.hasAttribute('aria-hidden')) {
+                el.setAttribute('aria-hidden', 'true');
+            }
+            if (!el.hasAttribute('role')) {
+                el.setAttribute('role', 'presentation');
+            }
+        }
+
+        function secureAllBackdrops() {
+            var backdrops = document.querySelectorAll('.modal-backdrop');
+            for (var i = 0; i < backdrops.length; i++) {
+                secureBackdrop(backdrops[i]);
+            }
+        }
+
+        if (typeof MutationObserver !== 'undefined') {
+            var observer = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    var added = mutations[i].addedNodes;
+                    for (var j = 0; j < added.length; j++) {
+                        var node = added[j];
+                        if (node.nodeType === 1) {
+                            if (node.classList && node.classList.contains('modal-backdrop')) {
+                                secureBackdrop(node);
+                            } else if (node.getElementsByClassName) {
+                                var nested = node.getElementsByClassName('modal-backdrop');
+                                for (var k = 0; k < nested.length; k++) {
+                                    secureBackdrop(nested[k]);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (document.body) {
+                observer.observe(document.body, { childList: true });
+            } else {
+                document.addEventListener('DOMContentLoaded', function() {
+                    observer.observe(document.body, { childList: true });
+                });
+            }
+        }
+
+        document.addEventListener('show.bs.modal', function() {
+            setTimeout(secureAllBackdrops, 0);
+        });
+        document.addEventListener('shown.bs.modal', secureAllBackdrops);
+    })();
+    </script>
+
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
 
