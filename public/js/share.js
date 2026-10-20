@@ -247,6 +247,7 @@ async function exportToPNG() {
     if (element) {
         toggleLoading(true);
         try {
+            await ensureHtml2Canvas();
             const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
             const link = document.createElement('a');
             link.download = `${(window.currentJourney.title || 'journey').replace(/\s+/g, '_')}.png`;
@@ -586,6 +587,7 @@ async function exportExecutivePDF() {
     };
 
     try {
+        await ensureHtml2Pdf();
         await html2pdf().set(opt).from(container).save();
     } catch (err) {
         console.error('Executive PDF Export error:', err);

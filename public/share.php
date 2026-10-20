@@ -35,10 +35,6 @@ $extraCss = ["dashboard.css"];
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Export Libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer crossorigin="anonymous"></script>
-
 <style>
     body {
         padding-top: 65px;

@@ -235,3 +235,49 @@ function sanitizeOJFIds(ojf) {
     }
 }
 window.sanitizeOJFIds = sanitizeOJFIds;
+
+/**
+ * Asynchronously load an external script on demand
+ */
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+            if (existing.dataset.loaded === 'true') {
+                return resolve();
+            }
+            existing.addEventListener('load', () => resolve());
+            existing.addEventListener('error', (e) => reject(e));
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = src;
+        script.crossOrigin = 'anonymous';
+        script.onload = () => {
+            script.dataset.loaded = 'true';
+            resolve();
+        };
+        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(script);
+    });
+}
+window.loadScript = loadScript;
+
+/**
+ * On-demand loader for html2canvas
+ */
+async function ensureHtml2Canvas() {
+    if (typeof html2canvas === 'function') return;
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+}
+window.ensureHtml2Canvas = ensureHtml2Canvas;
+
+/**
+ * On-demand loader for html2pdf
+ */
+async function ensureHtml2Pdf() {
+    if (typeof html2pdf === 'function') return;
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
+}
+window.ensureHtml2Pdf = ensureHtml2Pdf;
+
