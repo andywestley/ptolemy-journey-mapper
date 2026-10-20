@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    loadFolders();
     loadJourneys(currentTab);
 });
 
@@ -54,6 +53,7 @@ async function loadJourneys(type = null) {
         const response = await fetch('/api/journeys.php');
         if (!response.ok) throw new Error('Failed to load journeys');
         const allJourneys = await response.json();
+        loadFolders(allJourneys);
 
         const user = window.currentUser || {};
         const currentUserId = user.id ? String(user.id) : '';
@@ -183,11 +183,14 @@ async function loadJourneys(type = null) {
 /**
  * Load folders sidebar
  */
-async function loadFolders() {
+async function loadFolders(cachedJourneys = null) {
     try {
-        const response = await fetch('/api/journeys.php');
-        if (!response.ok) return;
-        const allJourneys = await response.json();
+        let allJourneys = cachedJourneys;
+        if (!allJourneys) {
+            const response = await fetch('/api/journeys.php');
+            if (!response.ok) return;
+            allJourneys = await response.json();
+        }
 
         const user = window.currentUser || {};
         const currentUserId = user.id ? String(user.id) : '';

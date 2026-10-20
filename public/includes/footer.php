@@ -33,7 +33,7 @@
     </script>
 
     <!-- Bootstrap 5 Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
 
     <?php
     // Asset loader helper for JS with automatic minification detection & cache busting
@@ -57,7 +57,7 @@
     ?>
     <?php if (isset($extraJs)): ?>
         <?php foreach ($extraJs as $jsFile): ?>
-            <script src="<?php echo loadJsAsset($jsFile); ?>"></script>
+            <script src="<?php echo loadJsAsset($jsFile); ?>" defer></script>
         <?php endforeach; ?>
     <?php endif; ?>
 </body>

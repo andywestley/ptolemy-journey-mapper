@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initPasswordToggles();
     const isIndex = isAuthPage();
 
-    // Validate session with backend
-    if (window.currentUser) {
+    // Validate session with backend if not already verified by the server on this page
+    if (window.currentUser && !window.serverAuthVerified) {
         fetch('/api/auth.php?action=me')
             .then(res => {
                 if (!res.ok) {
