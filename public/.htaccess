@@ -94,6 +94,11 @@ AddType application/json .ojf
         Header set Cache-Control "max-age=31536000, public, immutable"
     </FilesMatch>
 
+    # Webfonts CORS header
+    <FilesMatch "\.(woff2|woff|ttf|eot)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+
     # Dynamic HTML & PHP pages
     <FilesMatch "\.(html|htm|php)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate"

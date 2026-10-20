@@ -194,13 +194,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" crossorigin="anonymous">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-    
 <?php
 // Asset loader helper for CSS with automatic minification detection & cache busting
 if (!function_exists('loadCssAsset')) {
@@ -221,6 +214,13 @@ if (!function_exists('loadCssAsset')) {
     }
 }
 ?>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Bootstrap Icons (Local with font-display: swap) -->
+    <link rel="stylesheet" href="<?php echo loadCssAsset('bootstrap-icons.css'); ?>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo loadCssAsset('style.css'); ?>">
     <?php if (isset($extraCss)): ?>
         <?php foreach ($extraCss as $cssFile): ?>
