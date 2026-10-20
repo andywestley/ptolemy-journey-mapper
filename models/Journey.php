@@ -35,6 +35,46 @@ class Journey {
     }
 
     /**
+     * Retrieve active public journeys with OJF data (e.g. Point of View) for the homepage showcase.
+     */
+    public static function findPublicShowcase(int $limit = 5): array {
+        $db = getDBConnection(false);
+        if (!$db) {
+            return [];
+        }
+        $stmt = $db->prepare("
+            SELECT id, title, description, ojf_data, updated_at 
+            FROM journeys 
+            WHERE (is_public = 1 OR is_public = '1') 
+              AND (journey_status IS NULL OR journey_status != 'trash') 
+            ORDER BY updated_at DESC 
+            LIMIT ?
+        ");
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll() ?: [];
+
+        $showcase = [];
+        foreach ($rows as $row) {
+            $ojf = [];
+            if (!empty($row['ojf_data'])) {
+                $ojf = is_string($row['ojf_data']) ? json_decode($row['ojf_data'], true) : $row['ojf_data'];
+            }
+            $pov = !empty($ojf['pointOfView']) ? $ojf['pointOfView'] : (!empty($ojf['pov']) ? $ojf['pov'] : '');
+            if (empty($pov) && !empty($row['description'])) {
+                $pov = $row['description'];
+            }
+            $showcase[] = [
+                'id' => $row['id'],
+                'title' => $row['title'] ?? 'Untitled Journey',
+                'pov' => $pov,
+                'updated_at' => $row['updated_at'] ?? ''
+            ];
+        }
+        return $showcase;
+    }
+
+    /**
      * Retrieve all active journeys (both public and private) for authorised audit crawlers.
      */
     public static function findAllForAudit(): array {
