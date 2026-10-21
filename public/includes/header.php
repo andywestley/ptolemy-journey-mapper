@@ -199,7 +199,13 @@
 <?php
 // Asset loader helper for CSS with automatic minification detection & cache busting
 if (!function_exists('loadCssAsset')) {
-    function loadCssAsset($file) {
+    /**
+     * Resolves the versioned path for a CSS asset.
+     *
+     * @param string $file Asset file name (e.g., 'style.css')
+     * @return string Versioned asset path
+     */
+    function loadCssAsset(string $file): string {
         $baseName = preg_replace('/\.min\.css$|\.css$/', '', $file);
         $minFile = $baseName . '.min.css';
         $rawFile = $baseName . '.css';

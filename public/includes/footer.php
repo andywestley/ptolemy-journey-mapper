@@ -135,7 +135,13 @@
     <?php
     // Asset loader helper for JS with automatic minification detection & cache busting
     if (!function_exists('loadJsAsset')) {
-        function loadJsAsset($file) {
+        /**
+         * Resolves the versioned path for a JavaScript asset.
+         *
+         * @param string $file Asset file name (e.g., 'dashboard.js')
+         * @return string Versioned asset path
+         */
+        function loadJsAsset(string $file): string {
             $baseName = preg_replace('/\.min\.js$|\.js$/', '', $file);
             $minFile = $baseName . '.min.js';
             $rawFile = $baseName . '.js';
