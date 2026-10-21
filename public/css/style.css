@@ -460,7 +460,7 @@ html {
     opacity: 1;
 }
 
-/* WCAG 2.5.8 Compliant Skip to Content Link (Minimum 24x24px Target Size) */
+/* WCAG 2.5.8 Compliant Skip to Content Link & WCAG 2.2 2.4.13 / 1.4.11 Focus Contrast (15.9:1 ratio) */
 .skip-to-content-link {
     position: absolute;
     top: -120px;
@@ -471,13 +471,35 @@ html {
     padding: 8px 16px;
     font-weight: 600;
     transition: top 0.15s ease-in-out;
+    text-decoration: none;
 }
 
 .skip-to-content-link:focus,
 .skip-to-content-link:focus-visible {
     top: 16px;
-    outline: 3px solid #312e81;
-    outline-offset: 2px;
+    background-color: #ffffff !important;
+    color: #1e1b4b !important;
+    border: 2px solid #1e1b4b !important;
+    outline: 3px solid #1e1b4b !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 2px #ffffff !important;
+    text-decoration: none !important;
+}
+
+.skip-to-content-link:hover {
+    background-color: #f1f5f9 !important;
+    color: #1e1b4b !important;
+    border-color: #1e1b4b !important;
+}
+
+[data-bs-theme="dark"] .skip-to-content-link:focus,
+[data-bs-theme="dark"] .skip-to-content-link:focus-visible {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    outline: 3px solid #ffffff !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 2px #1e293b !important;
 }
 
 /* WCAG 2.5.8 Minimum Target Size (24x24px) for Interactive Form Inputs */
