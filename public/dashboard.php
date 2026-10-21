@@ -88,7 +88,7 @@ include __DIR__ . '/includes/navbar.php';
 
                 <div id="empty-state" class="empty-state" style="display: none;">
                     <i class="bi bi-folder2-open display-1 mb-3 text-muted"></i>
-                    <h2 class="h4">No journeys found</h2>
+                    <h2 class="h4">No journeys yet</h2>
                     <p class="text-muted">Create your first user journey map or import an existing .ojf file.</p>
                 </div>
             </section>

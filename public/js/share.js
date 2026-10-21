@@ -134,7 +134,7 @@ function renderPublicTable() {
 
     const nodes = window.originalOJF.nodes || [];
     if (nodes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No nodes found in this map.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No steps in this journey map.</td></tr>';
         return;
     }
 
