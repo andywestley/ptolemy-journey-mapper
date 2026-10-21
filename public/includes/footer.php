@@ -95,6 +95,40 @@
     })();
     </script>
 
+    <!-- Global Status Announcer & Dropdown Accessibility Guard (WCAG 4.1.2 & Heuristic silent-update Guard) -->
+    <div id="global-status-announcer" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script>
+    (function() {
+        document.addEventListener('show.bs.dropdown', function(e) {
+            var toggle = e.target.querySelector('[data-bs-toggle="dropdown"]') || e.target;
+            if (toggle && toggle.setAttribute) {
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+            var menu = e.target.querySelector('.dropdown-menu');
+            if (menu) {
+                if (!menu.getAttribute('aria-live')) {
+                    menu.setAttribute('aria-live', 'polite');
+                }
+            }
+            var announcer = document.getElementById('global-status-announcer');
+            if (announcer && toggle) {
+                var label = toggle.getAttribute('aria-label') || toggle.innerText.trim() || 'Menu';
+                announcer.textContent = label + ' opened';
+            }
+        });
+        document.addEventListener('hide.bs.dropdown', function(e) {
+            var toggle = e.target.querySelector('[data-bs-toggle="dropdown"]') || e.target;
+            if (toggle && toggle.setAttribute) {
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+            var announcer = document.getElementById('global-status-announcer');
+            if (announcer) {
+                announcer.textContent = '';
+            }
+        });
+    })();
+    </script>
+
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
 

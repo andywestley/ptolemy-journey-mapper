@@ -124,10 +124,10 @@ include __DIR__ . '/includes/navbar.php';
 
                 <!-- Clean Actions Menu -->
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" id="editorActionsDropdownBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="editorActionsMenu">
                         <i class="bi bi-three-dots-vertical me-1"></i> Actions
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="editorActionsMenu" aria-labelledby="editorActionsDropdownBtn" aria-live="polite">
                         <li><button type="button" class="dropdown-item py-2" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
                         <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
                         <li><hr class="dropdown-divider"></li>

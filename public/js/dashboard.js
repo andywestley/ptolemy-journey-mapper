@@ -119,10 +119,10 @@ async function loadJourneys(type = null) {
                 if (typeToLoad === 'trash') {
                     actionsHTML = `
                         <div class="d-flex gap-2 position-relative" style="z-index: 2;">
-                            <button class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
+                            <button type="button" class="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center" onclick="restoreJourney('${j.id}')" title="Restore" aria-label="Restore journey ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
+                            <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deletePermanently('${j.id}')" title="Delete Permanently" aria-label="Delete journey permanently ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px;">
                                 <i class="bi bi-trash-fill" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -130,10 +130,10 @@ async function loadJourneys(type = null) {
                 } else if (isOwner) {
                     actionsHTML = `
                         <div class="dropdown position-relative" style="z-index: 2;">
-                            <button class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Journey actions for ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
+                            <button type="button" id="journey-actions-btn-${j.id}" class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="journey-actions-menu-${j.id}" aria-label="Journey actions for ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="journey-actions-menu-${j.id}" aria-labelledby="journey-actions-btn-${j.id}" aria-live="polite">
                                 <li><button type="button" class="dropdown-item py-2" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2" aria-hidden="true"></i> Move to Folder</button></li>
                                 ${j.is_public ? `<li><a class="dropdown-item py-2" href="/share/${escapeHtml(j.id)}/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i> View Public Link <i class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.75rem;" aria-hidden="true"></i><span class="visually-hidden">(opens in a new tab)</span></a></li>` : ''}
                                 <li><hr class="dropdown-divider"></li>
@@ -171,6 +171,11 @@ async function loadJourneys(type = null) {
                 `;
                 if (grid) grid.appendChild(col);
             });
+
+            const announcer = document.getElementById('global-status-announcer');
+            if (announcer) {
+                announcer.textContent = journeys.length === 0 ? 'No journeys in this view' : `${journeys.length} journeys loaded`;
+            }
         }
     } catch (err) {
         console.error('Fetch journeys error:', err);
