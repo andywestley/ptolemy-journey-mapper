@@ -155,7 +155,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">Human-Led, AI-Built</h3>
     <p class="mb-4">
-        There’s one more thing you should know about how Ptolemy was made. While I provided the vision, the UX requirements, and the final design calls, I actually wrote very little of the source code by hand.
+        There’s one more thing you should know about how Ptolemy was made. While I provided the vision, the UX requirements, and the final design calls, I wrote little of the source code by hand.
     </p>
     <p class="mb-4">
         Instead, Ptolemy was built using <strong>Google Antigravity</strong>, an agentic AI coding assistant. We worked together in a high-intensity pair-programming process where I acted as the navigator and the AI acted as the primary builder. It allowed me to focus on the problem I wanted to solve, while the AI handled the heavy lifting of implementation.
@@ -163,10 +163,10 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">Help Make it Better</h3>
     <p class="mb-4">
-        Ptolemy is currently in <strong>public beta</strong>. Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for a new feature, find a bug, or just want to chat about the future of open journey standards, I'd love to hear from you.
+        Ptolemy is in <strong>public beta</strong>. Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for a new feature, find a bug, or just want to chat about the future of open journey standards, I'd love to hear from you.
     </p>
     <p class="mb-4">
-        <strong>Need an invite code?</strong> We are managing scale by issuing manual invite codes during the beta period. Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">open a GitHub Issue <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a> to request yours!
+        <strong>Need an invite code?</strong> We are managing scale by issuing manual invite codes during the beta period. Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">open a GitHub Issue <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a> to get yours!
     </p>
     <p class="mb-5">
         Feel free to contribute code or report issues on GitHub. Let's make journey mapping better for everyone.
