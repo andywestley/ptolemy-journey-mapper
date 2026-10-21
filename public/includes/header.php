@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+
+    <!-- Preconnect for Google Fonts & CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
+
+    <!-- Preload critical Google Fonts CSS -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap">
 
     <!-- Silktide/GTM Consent pre-config -->
     <script>
@@ -176,10 +187,6 @@
     })();
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
-
 <?php include __DIR__ . '/metadata.php'; ?>
 
 <?php if (!empty($currentUser)): ?>
@@ -188,11 +195,6 @@
         window.serverAuthVerified = true;
     </script>
 <?php endif; ?>
-
-    <!-- Preconnect for Google Fonts & CDN -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
 
 <?php
 // Asset loader helper for CSS with automatic minification detection & cache busting
@@ -219,8 +221,11 @@ if (!function_exists('loadCssAsset')) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!-- Bootstrap Icons (Local with font-display: swap) -->
     <link rel="stylesheet" href="<?php echo loadCssAsset('bootstrap-icons.css'); ?>">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Non-render-blocking via print media swap & noscript fallback) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap">
+    </noscript>
     <link rel="stylesheet" href="<?php echo loadCssAsset('style.css'); ?>">
     <?php if (isset($extraCss)): ?>
         <?php foreach ($extraCss as $cssFile): ?>
