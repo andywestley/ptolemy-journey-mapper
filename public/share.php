@@ -169,21 +169,21 @@ include __DIR__ . '/includes/public_navbar.php';
 <main id="main-content" class="container-fluid px-lg-5 mt-4">
     <!-- Journey Header Banner -->
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-        <h1 class="h3 fw-bold mb-3 text-dark" id="display-title"><?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
+        <h1 class="h3 fw-bold mb-3 text-dark ugc" id="display-title" data-ugc="true" data-audit-ignore="content"><?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
 
         <!-- Each datapoint on its own separate line to its full extent -->
         <div class="header-datapoints">
             <?php if (!empty($ojfData['persona'])): ?>
-            <div class="d-flex align-items-baseline mb-2">
+            <div class="d-flex align-items-baseline mb-2 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Persona:</span>
-                <span class="text-dark fw-medium"><?php echo htmlspecialchars($ojfData['persona'], ENT_QUOTES, 'UTF-8'); ?></span>
+                <span class="text-dark fw-medium ugc" data-ugc="true" data-audit-ignore="content"><?php echo htmlspecialchars($ojfData['persona'], ENT_QUOTES, 'UTF-8'); ?></span>
             </div>
             <?php endif; ?>
 
             <?php if (!empty($ojfData['pointOfView'])): ?>
-            <div class="d-flex align-items-baseline mb-2">
+            <div class="d-flex align-items-baseline mb-2 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Point of View:</span>
-                <span class="text-dark fw-medium"><?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?></span>
+                <span class="text-dark fw-medium ugc" data-ugc="true" data-audit-ignore="content"><?php echo htmlspecialchars($ojfData['pointOfView'], ENT_QUOTES, 'UTF-8'); ?></span>
             </div>
             <?php endif; ?>
 
@@ -194,9 +194,9 @@ include __DIR__ . '/includes/public_navbar.php';
             </div>
 
             <?php if (!empty($notesContent)): ?>
-            <div class="d-flex align-items-start mb-2">
+            <div class="d-flex align-items-start mb-2 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0 pt-1" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Notes:</span>
-                <div class="text-muted" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5;"><?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?></div>
+                <div class="text-muted ugc" data-ugc="true" data-audit-ignore="content" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5;"><?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?></div>
             </div>
             <?php endif; ?>
 
@@ -207,10 +207,10 @@ include __DIR__ . '/includes/public_navbar.php';
     </div>
 
     <!-- Hidden form elements for exporter compatibility -->
-    <input type="hidden" id="editor-title" value="<?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?>">
-    <input type="hidden" id="editor-persona" value="<?php echo htmlspecialchars($ojfData['persona'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-    <input type="hidden" id="editor-pov" value="<?php echo htmlspecialchars($ojfData['pointOfView'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-    <input type="hidden" id="editor-notes" value="<?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="editor-title" class="ugc" data-ugc="true" data-audit-ignore="content" value="<?php echo htmlspecialchars($journey['title'], ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="editor-persona" class="ugc" data-ugc="true" data-audit-ignore="content" value="<?php echo htmlspecialchars($ojfData['persona'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="editor-pov" class="ugc" data-ugc="true" data-audit-ignore="content" value="<?php echo htmlspecialchars($ojfData['pointOfView'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="editor-notes" class="ugc" data-ugc="true" data-audit-ignore="content" value="<?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?>">
 
     <!-- Sub-View: Visual Map -->
     <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map">
@@ -245,7 +245,7 @@ include __DIR__ . '/includes/public_navbar.php';
                             <th>Score</th>
                         </tr>
                     </thead>
-                    <tbody id="public-nodes-table-body"></tbody>
+                    <tbody id="public-nodes-table-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
                 </table>
             </div>
         </div>
@@ -259,12 +259,12 @@ include __DIR__ . '/includes/public_navbar.php';
             <div class="modal-header">
                 <div>
                     <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill mb-1" id="inspect-stage-swimlane">Stage &bull; Swimlane</span>
-                    <h2 class="modal-title h5 fw-bold" id="inspect-title">Step Title</h2>
+                    <h2 class="modal-title h5 fw-bold ugc" id="inspect-title" data-ugc="true" data-audit-ignore="content">Step Title</h2>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p id="inspect-description" class="lead fs-6 text-muted mb-4"></p>
+                <p id="inspect-description" class="lead fs-6 text-muted mb-4 ugc" data-ugc="true" data-audit-ignore="content"></p>
 
                 <div class="row g-3 mb-4">
                     <div class="col-sm-3 col-6">
@@ -290,24 +290,24 @@ include __DIR__ . '/includes/public_navbar.php';
                 </div>
 
                 <!-- Service Blueprint Section -->
-                <div id="inspect-blueprint-container" class="border-top pt-3 d-none">
+                <div id="inspect-blueprint-container" class="border-top pt-3 d-none ugc" data-ugc="true" data-audit-ignore="content">
                     <h3 class="h6 fw-bold mb-3 text-primary"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> Service Blueprint Context</h3>
                     <div class="row g-3">
                         <div class="col-md-6" id="inspect-onstage-group">
                             <h4 class="small text-muted text-uppercase fw-bold">Onstage Actions</h4>
-                            <ul class="list-group list-group-flush small" id="inspect-onstage-list"></ul>
+                            <ul class="list-group list-group-flush small ugc" id="inspect-onstage-list" data-ugc="true" data-audit-ignore="content"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-backstage-group">
                             <h4 class="small text-muted text-uppercase fw-bold">Backstage Actions</h4>
-                            <ul class="list-group list-group-flush small" id="inspect-backstage-list"></ul>
+                            <ul class="list-group list-group-flush small ugc" id="inspect-backstage-list" data-ugc="true" data-audit-ignore="content"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-support-group">
                             <h4 class="small text-muted text-uppercase fw-bold">Support Systems</h4>
-                            <ul class="list-group list-group-flush small" id="inspect-support-list"></ul>
+                            <ul class="list-group list-group-flush small ugc" id="inspect-support-list" data-ugc="true" data-audit-ignore="content"></ul>
                         </div>
                         <div class="col-md-6" id="inspect-evidence-group">
                             <h4 class="small text-muted text-uppercase fw-bold">Physical Evidence</h4>
-                            <ul class="list-group list-group-flush small" id="inspect-evidence-list"></ul>
+                            <ul class="list-group list-group-flush small ugc" id="inspect-evidence-list" data-ugc="true" data-audit-ignore="content"></ul>
                         </div>
                     </div>
                 </div>

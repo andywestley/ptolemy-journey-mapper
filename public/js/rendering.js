@@ -63,9 +63,9 @@ function renderVisualMap() {
         const head = document.createElement('div');
         head.className = 'grid-header-stage';
         if (isReadOnly) {
-            head.innerHTML = `<span class="editable-header-text fw-bold">${escapeHtml(stage.name)}</span>`;
+            head.innerHTML = `<span class="editable-header-text fw-bold ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(stage.name)}</span>`;
         } else {
-            head.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${escapeHtml(stage.name)}</span>`;
+            head.innerHTML = `<span contenteditable="true" class="editable-header-text ugc" data-ugc="true" data-audit-ignore="content" onblur="updateStageNameFromVisual(${idx}, this.innerText)">${escapeHtml(stage.name)}</span>`;
         }
         grid.appendChild(head);
     });
@@ -111,9 +111,9 @@ function renderVisualMap() {
         const sHead = document.createElement('div');
         sHead.className = 'grid-header-swimlane';
         if (isReadOnly) {
-            sHead.innerHTML = `<span class="editable-header-text fw-bold">${escapeHtml(swimlane.name)}</span>`;
+            sHead.innerHTML = `<span class="editable-header-text fw-bold ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(swimlane.name)}</span>`;
         } else {
-            sHead.innerHTML = `<span contenteditable="true" class="editable-header-text" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${escapeHtml(swimlane.name)}</span>`;
+            sHead.innerHTML = `<span contenteditable="true" class="editable-header-text ugc" data-ugc="true" data-audit-ignore="content" onblur="updateSwimlaneNameFromVisual(${idx}, this.innerText)">${escapeHtml(swimlane.name)}</span>`;
         }
         grid.appendChild(sHead);
 
@@ -146,7 +146,9 @@ function renderVisualMap() {
 
             cellNodes.forEach(node => {
                 const card = document.createElement('div');
-                card.className = 'node-card';
+                card.className = 'node-card node-body ugc';
+                card.setAttribute('data-ugc', 'true');
+                card.setAttribute('data-audit-ignore', 'content');
                 card.dataset.nodeId = node.id;
                 card.dataset.nodeTitle = node.title || 'Untitled Node';
                 if (node.isMomentOfTruth) card.classList.add('moment-of-truth');
@@ -256,12 +258,12 @@ function renderVisualMap() {
                 card.innerHTML = `
                     <div class="node-card-header" style="background-color: ${headerBg}; color: ${headerText};">
                         <div class="d-flex justify-content-between align-items-start gap-2">
-                            <span class="node-card-title">${escapeHtml(node.title)}</span>
+                            <span class="node-card-title ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.title)}</span>
                             ${node.isMomentOfTruth ? `<span class="badge bg-warning text-dark border-0 py-1 px-2 d-inline-flex align-items-center flex-shrink-0" style="font-size: 0.65rem;" title="Key Moment of Truth"><i class="bi bi-star-fill me-1" aria-hidden="true"></i>Moment of Truth</span>` : ''}
                         </div>
                     </div>
-                    <div class="node-card-body">
-                        ${node.description ? `<p class="node-card-desc mb-2">${escapeHtml(node.description)}</p>` : ''}
+                    <div class="node-card-body node-body ugc" data-ugc="true" data-audit-ignore="content">
+                        ${node.description ? `<p class="node-card-desc mb-2 ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.description)}</p>` : ''}
                         <div class="node-card-footer mt-auto pt-2 d-flex justify-content-between align-items-center flex-wrap gap-1">
                             <div class="d-flex align-items-center flex-wrap gap-1">
                                 ${sentimentHTML}
@@ -390,7 +392,9 @@ function renderBlueprintLayers() {
             stageNodes.forEach(node => {
                 node.blueprint[lane.type].forEach(item => {
                     const el = document.createElement('div');
-                    el.className = 'bp-item-card';
+                    el.className = 'bp-item-card ugc';
+                    el.setAttribute('data-ugc', 'true');
+                    el.setAttribute('data-audit-ignore', 'content');
                     
                     let content = '';
                     if (lane.type === 'evidence') content = `<strong>${escapeHtml(item.item)}</strong> <small class="text-muted">(${escapeHtml(item.type)})</small>`;
@@ -425,9 +429,12 @@ function renderEditorTables() {
 
     (originalOJF.stages || []).forEach((stage, idx) => {
         const tr = document.createElement('tr');
+        tr.className = 'ugc';
+        tr.setAttribute('data-ugc', 'true');
+        tr.setAttribute('data-audit-ignore', 'content');
         tr.innerHTML = `
             <td class="text-muted small">${escapeHtml(stage.id)}</td>
-            <td><input type="text" class="w-100" value="${escapeHtml(stage.name)}" onchange="updateStage(${idx}, this.value)" aria-label="Stage name for ${escapeHtml(stage.id)}"></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><input type="text" class="w-100 ugc" data-ugc="true" data-audit-ignore="content" value="${escapeHtml(stage.name)}" onchange="updateStage(${idx}, this.value)" aria-label="Stage name for ${escapeHtml(stage.id)}"></td>
             <td><input type="number" class="w-100" min="-5" max="5" value="${escapeHtml(stage.overrideEmotion || '')}" onchange="updateStageEmotionOverride(${idx}, this.value)" placeholder="auto" aria-label="Override emotion for ${escapeHtml(stage.id)}"></td>
             <td><button class="btn btn-sm text-danger d-inline-flex align-items-center justify-content-center p-1" onclick="removeStage(${idx})" title="Remove stage" aria-label="Remove stage ${escapeHtml(stage.name || stage.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
         `;
@@ -436,9 +443,12 @@ function renderEditorTables() {
 
     (originalOJF.swimlanes || []).forEach((lane, idx) => {
         const tr = document.createElement('tr');
+        tr.className = 'ugc';
+        tr.setAttribute('data-ugc', 'true');
+        tr.setAttribute('data-audit-ignore', 'content');
         tr.innerHTML = `
             <td class="text-muted small">${escapeHtml(lane.id)}</td>
-            <td><input type="text" class="w-100" value="${escapeHtml(lane.name)}" onchange="updateSwimlane(${idx}, this.value)" aria-label="Swimlane name for ${escapeHtml(lane.id)}"></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><input type="text" class="w-100 ugc" data-ugc="true" data-audit-ignore="content" value="${escapeHtml(lane.name)}" onchange="updateSwimlane(${idx}, this.value)" aria-label="Swimlane name for ${escapeHtml(lane.id)}"></td>
             <td><button class="btn btn-sm text-danger d-inline-flex align-items-center justify-content-center p-1" onclick="removeSwimlane(${idx})" title="Remove swimlane" aria-label="Remove swimlane ${escapeHtml(lane.name || lane.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button></td>
         `;
         if (swimlanesBody) swimlanesBody.appendChild(tr);
@@ -454,18 +464,22 @@ function renderEditorTables() {
         const displayIcon = node.icon || SENTIMENT_ICONS[node.sentiment] || PURPOSE_ICONS[node.purpose];
 
         const tr = document.createElement('tr');
+        tr.className = 'ugc';
+        tr.setAttribute('data-ugc', 'true');
+        tr.setAttribute('data-audit-ignore', 'content');
         tr.style.backgroundColor = node.iconColor || 'transparent';
         if (node.iconColor && node.iconColor !== '#ffffff' && node.iconColor !== 'transparent') {
             tr.classList.add('table-row-themed');
         }
         tr.innerHTML = `
-            <td class="fw-bold">
+            <td class="fw-bold ugc" data-ugc="true" data-audit-ignore="content">
                 ${displayIcon ? `<i class="bi bi-${escapeHtml(displayIcon)} me-1"></i>` : ''}
-                ${escapeHtml(node.title || '')}
+                <span class="ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.title || '')}</span>
                 ${node.isMomentOfTruth ? '<span class="badge bg-warning text-dark ms-1" style="font-size: 0.6rem;">MT</span>' : ''}
+                ${node.description ? `<div class="small text-muted fw-normal mt-1 ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.description)}</div>` : ''}
             </td>
-            <td><span class="badge bg-light text-dark">${escapeHtml(stage)}</span></td>
-            <td><span class="badge bg-light text-dark">${escapeHtml(lane)}</span></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><span class="badge bg-light text-dark ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(stage)}</span></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><span class="badge bg-light text-dark ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(lane)}</span></td>
             <td>
                 <span class="badge node-severity-${escapeHtml(node.severity || 'low')} border">${escapeHtml(node.severity || 'low')}</span>
                 ${(node.score !== undefined && node.score !== null && node.score !== '') ? `<span class="badge bg-light text-muted border ms-1">Emotion: ${escapeHtml(node.score)}</span>` : ''}

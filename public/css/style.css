@@ -513,3 +513,8 @@ html {
     background-position: calc(100% - 2px) center;
 }
 
+/* User-Generated Content (UGC) classification marker */
+.ugc {
+    /* Audit marker: user-authored content */
+}
+

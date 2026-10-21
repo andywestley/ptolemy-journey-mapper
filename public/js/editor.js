@@ -295,22 +295,24 @@ function renderBlueprintList(type, items = []) {
 
     items.forEach((item, idx) => {
         const div = document.createElement('div');
-        div.className = 'blueprint-item-row d-flex gap-2 mb-2 pb-2 border-bottom border-dashed';
+        div.className = 'blueprint-item-row d-flex gap-2 mb-2 pb-2 border-bottom border-dashed ugc';
+        div.setAttribute('data-ugc', 'true');
+        div.setAttribute('data-audit-ignore', 'content');
         
         if (type === 'evidence') {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="Evidence item" value="${escapeHtml(item.item || '')}" data-field="item">
-                <input type="text" class="form-control form-control-sm" placeholder="Type" value="${escapeHtml(item.type || '')}" data-field="type">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="Evidence item" value="${escapeHtml(item.item || '')}" data-field="item">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="Type" value="${escapeHtml(item.type || '')}" data-field="type">
             `;
         } else if (type === 'support') {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="System/Dept" value="${escapeHtml(item.system || '')}" data-field="system">
-                <input type="text" class="form-control form-control-sm" placeholder="Description" value="${escapeHtml(item.description || '')}" data-field="description">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="System/Dept" value="${escapeHtml(item.system || '')}" data-field="system">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="Description" value="${escapeHtml(item.description || '')}" data-field="description">
             `;
         } else {
             div.innerHTML = `
-                <input type="text" class="form-control form-control-sm" placeholder="Actor" value="${escapeHtml(item.actor || '')}" data-field="actor">
-                <input type="text" class="form-control form-control-sm" placeholder="Action" value="${escapeHtml(item.action || '')}" data-field="action">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="Actor" value="${escapeHtml(item.actor || '')}" data-field="actor">
+                <input type="text" class="form-control form-control-sm ugc" data-ugc="true" data-audit-ignore="content" placeholder="Action" value="${escapeHtml(item.action || '')}" data-field="action">
             `;
         }
         

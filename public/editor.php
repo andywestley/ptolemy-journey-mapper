@@ -106,7 +106,7 @@ include __DIR__ . '/includes/navbar.php';
                 </a>
                 <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
                     <h1 class="visually-hidden" id="editor-page-heading">Journey Editor: <?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?></h1>
-                    <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 flex-grow-1" style="min-width: 240px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
+                    <input type="text" id="editor-title" class="form-control form-control-lg border-0 fw-bold bg-transparent px-0 flex-grow-1 ugc" data-ugc="true" data-audit-ignore="content" style="min-width: 240px;" value="<?php echo htmlspecialchars($journeyRecord['title'] ?? 'Untitled Journey', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Journey Title">
                     <!-- Sharing & Privacy Status Badge -->
                     <button class="btn btn-sm <?php echo $isPublic ? 'btn-outline-success' : 'btn-outline-secondary'; ?> rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1 flex-shrink-0" id="journey-privacy-badge" type="button" onclick="openShareModal()" title="Sharing settings">
                         <i class="bi <?php echo $isPublic ? 'bi-globe' : 'bi-lock'; ?>"></i>
@@ -144,15 +144,15 @@ include __DIR__ . '/includes/navbar.php';
         <!-- Separate lines for each datapoint to its full extent -->
         <div class="ps-sm-5 ms-sm-2 mb-3">
             <!-- Persona -->
-            <div class="d-flex align-items-baseline mb-2">
+            <div class="d-flex align-items-baseline mb-2 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Persona:</span>
-                <input type="text" id="editor-persona" class="metadata-full-input" placeholder="e.g. Frequent Traveler" aria-label="Persona">
+                <input type="text" id="editor-persona" class="metadata-full-input ugc" data-ugc="true" data-audit-ignore="content" placeholder="e.g. Frequent Traveler" aria-label="Persona">
             </div>
 
             <!-- Point of View -->
-            <div class="d-flex align-items-baseline mb-2">
+            <div class="d-flex align-items-baseline mb-2 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Point of View:</span>
-                <input type="text" id="editor-pov" class="metadata-full-input" placeholder="e.g. Booking an emergency business flight" aria-label="Point of view">
+                <input type="text" id="editor-pov" class="metadata-full-input ugc" data-ugc="true" data-audit-ignore="content" placeholder="e.g. Booking an emergency business flight" aria-label="Point of view">
             </div>
 
             <!-- Score -->
@@ -163,9 +163,9 @@ include __DIR__ . '/includes/navbar.php';
             </div>
 
             <!-- Notes field displayed above the map -->
-            <div class="d-flex align-items-start mb-3">
+            <div class="d-flex align-items-start mb-3 ugc" data-ugc="true" data-audit-ignore="content">
                 <span class="text-uppercase fw-semibold text-secondary me-3 flex-shrink-0 pt-1" style="font-size: 0.75rem; letter-spacing: 0.05em; min-width: 105px;">Notes:</span>
-                <textarea id="editor-notes" class="metadata-full-textarea" rows="1" placeholder="Add notes or background context for this journey map..." aria-label="Journey Notes"><?php echo htmlspecialchars($initialNotes, ENT_QUOTES, 'UTF-8'); ?></textarea>
+                <textarea id="editor-notes" class="metadata-full-textarea ugc" data-ugc="true" data-audit-ignore="content" rows="1" placeholder="Add notes or background context for this journey map..." aria-label="Journey Notes"><?php echo htmlspecialchars($initialNotes, ENT_QUOTES, 'UTF-8'); ?></textarea>
             </div>
 
             <!-- Mode Toggle (Visual Map | Table Editor) -->
@@ -211,7 +211,7 @@ include __DIR__ . '/includes/navbar.php';
                             <th style="width: 50px;"></th>
                         </tr>
                     </thead>
-                    <tbody id="stages-body"></tbody>
+                    <tbody id="stages-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
                 </table>
             </div>
         </div>
@@ -235,7 +235,7 @@ include __DIR__ . '/includes/navbar.php';
                             <th style="width: 50px;"></th>
                         </tr>
                     </thead>
-                    <tbody id="swimlanes-body"></tbody>
+                    <tbody id="swimlanes-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
                 </table>
             </div>
         </div>
@@ -258,7 +258,7 @@ include __DIR__ . '/includes/navbar.php';
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="nodes-body"></tbody>
+                    <tbody id="nodes-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
                 </table>
             </div>
         </div>
@@ -376,11 +376,11 @@ include __DIR__ . '/includes/navbar.php';
                                 <legend class="h6 fw-bold text-uppercase text-secondary border-bottom pb-2 mb-3" style="font-size: 0.8rem; letter-spacing: 0.05em;">Core Step Information</legend>
                                 <div class="mb-3">
                                     <label for="node-title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="node-title" required placeholder="Node title">
+                                    <input type="text" class="form-control ugc" id="node-title" data-ugc="true" data-audit-ignore="content" required placeholder="Node title">
                                 </div>
                                 <div class="mb-3">
                                     <label for="node-description" class="form-label">Description</label>
-                                    <textarea class="form-control" id="node-description" rows="3" placeholder="Brief description"></textarea>
+                                    <textarea class="form-control ugc" id="node-description" data-ugc="true" data-audit-ignore="content" rows="3" placeholder="Brief description"></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
@@ -546,7 +546,7 @@ include __DIR__ . '/includes/navbar.php';
                 <input type="hidden" id="comment-y">
                 <input type="hidden" id="comment-parent-id">
                 <input type="hidden" id="comment-node-id">
-                <textarea id="comment-content" class="form-control mb-3" rows="3" placeholder="Drop a note..."></textarea>
+                <textarea id="comment-content" class="form-control mb-3 ugc" data-ugc="true" data-audit-ignore="content" rows="3" placeholder="Drop a note..."></textarea>
                 <button class="btn btn-warning w-100" onclick="saveComment()">Post Note</button>
             </div>
         </div>
@@ -562,10 +562,10 @@ include __DIR__ . '/includes/navbar.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="thread-list" class="mb-4"></div>
+                <div id="thread-list" class="mb-4 ugc" data-ugc="true" data-audit-ignore="content"></div>
                 <div class="input-group mb-2">
                     <input type="hidden" id="reply-parent-id">
-                    <input type="text" id="reply-content" class="form-control" placeholder="Write a reply...">
+                    <input type="text" id="reply-content" class="form-control ugc" data-ugc="true" data-audit-ignore="content" placeholder="Write a reply...">
                     <button class="btn btn-primary" onclick="saveReply()">Reply</button>
                 </div>
                 <div class="form-check">

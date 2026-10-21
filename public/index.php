@@ -146,20 +146,20 @@ include __DIR__ . '/includes/public_navbar.php';
 
                 <div class="auth-body p-3">
                     <?php if (!empty($publicJourneys)): ?>
-                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3 ugc" data-ugc="true" data-audit-ignore="content">
                             <?php foreach ($publicJourneys as $pj): ?>
-                                <li class="journey-showcase-item p-3 rounded-3 border position-relative">
+                                <li class="journey-showcase-item p-3 rounded-3 border position-relative ugc" data-ugc="true" data-audit-ignore="content">
                                     <div class="d-flex justify-content-between align-items-baseline gap-2 mb-1">
-                                        <h3 class="h6 fw-bold mb-0 text-primary">
-                                            <a href="/share/<?= htmlspecialchars($pj['id'], ENT_QUOTES, 'UTF-8') ?>/" class="text-decoration-none text-primary stretched-link">
+                                        <h3 class="h6 fw-bold mb-0 text-primary ugc" data-ugc="true" data-audit-ignore="content">
+                                            <a href="/share/<?= htmlspecialchars($pj['id'], ENT_QUOTES, 'UTF-8') ?>/" class="text-decoration-none text-primary stretched-link ugc" data-ugc="true" data-audit-ignore="content">
                                                 <?= htmlspecialchars($pj['title'], ENT_QUOTES, 'UTF-8') ?>
                                             </a>
                                         </h3>
                                         <span class="small text-muted ms-2 text-nowrap" aria-hidden="true">View &rarr;</span>
                                     </div>
                                     <?php if (!empty($pj['pov'])): ?>
-                                        <p class="small text-muted mb-0 mt-2 line-clamp-2">
-                                            <strong class="text-secondary">PoV:</strong> <?= htmlspecialchars($pj['pov'], ENT_QUOTES, 'UTF-8') ?>
+                                        <p class="small text-muted mb-0 mt-2 line-clamp-2 ugc" data-ugc="true" data-audit-ignore="content">
+                                            <strong class="text-secondary">PoV:</strong> <span class="ugc" data-ugc="true" data-audit-ignore="content"><?= htmlspecialchars($pj['pov'], ENT_QUOTES, 'UTF-8') ?></span>
                                         </p>
                                     <?php endif; ?>
                                 </li>

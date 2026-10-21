@@ -144,17 +144,17 @@ async function loadJourneys(type = null) {
                 }
 
                 col.innerHTML = `
-                    <div class="card h-100 position-relative shadow-sm hover-shadow border-0 rounded-4">
-                        <div class="card-body d-flex flex-column">
+                    <div class="card h-100 position-relative shadow-sm hover-shadow border-0 rounded-4 ugc" data-ugc="true" data-audit-ignore="content">
+                        <div class="card-body d-flex flex-column ugc" data-ugc="true" data-audit-ignore="content">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h2 class="h5 card-title fw-bold mb-0 text-dark">
-                                    <a href="/journey/${escapeHtml(j.id)}/" class="text-decoration-none text-dark stretched-link" aria-label="${escapeHtml(disambiguatedLabel)}">
+                                <h2 class="h5 card-title fw-bold mb-0 text-dark ugc" data-ugc="true" data-audit-ignore="content">
+                                    <a href="/journey/${escapeHtml(j.id)}/" class="text-decoration-none text-dark stretched-link ugc" data-ugc="true" data-audit-ignore="content" aria-label="${escapeHtml(disambiguatedLabel)}">
                                         ${escapeHtml(journeyTitle)}
                                     </a>
                                 </h2>
                                 ${actionsHTML}
                             </div>
-                            <p class="card-text text-muted small mb-3 text-truncate-2">${escapeHtml(j.description || 'No description provided.')}</p>
+                            <p class="card-text text-muted small mb-3 text-truncate-2 ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(j.description || 'No description provided.')}</p>
                             
                             <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top position-relative" style="z-index: 2;">
                                 <div class="d-flex align-items-center gap-1">

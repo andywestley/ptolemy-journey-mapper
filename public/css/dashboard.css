@@ -854,4 +854,10 @@ body {
 }
 [data-bs-theme="dark"] .visual-map-empty-state h3 {
     color: #f8fafc !important;
-}
+}
+
+/* User-Generated Content (UGC) classification marker */
+.ugc {
+    /* Audit marker: user-authored content */
+}
+

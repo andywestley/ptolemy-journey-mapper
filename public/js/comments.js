@@ -135,7 +135,9 @@ function renderCommentPins() {
                 let badge = nodeCard.querySelector('.node-comment-badge');
                 if (!badge) {
                     badge = document.createElement('div');
-                    badge.className = 'node-comment-badge';
+                    badge.className = 'node-comment-badge ugc';
+                    badge.setAttribute('data-ugc', 'true');
+                    badge.setAttribute('data-audit-ignore', 'content');
                     badge.innerHTML = `<i class="bi bi-chat-fill text-warning"></i>`;
                     badge.style.position = 'absolute';
                     badge.style.bottom = '-10px';
@@ -155,7 +157,9 @@ function renderCommentPins() {
             }
         } else {
             const pin = document.createElement('div');
-            pin.className = 'comment-pin';
+            pin.className = 'comment-pin ugc';
+            pin.setAttribute('data-ugc', 'true');
+            pin.setAttribute('data-audit-ignore', 'content');
             pin.style.left = `${comment.x}%`;
             pin.style.top = `${comment.y}%`;
             pin.innerHTML = '<i class="bi bi-chat-left-text-fill"></i>';
@@ -177,13 +181,15 @@ function showCommentThread(commentId) {
 
     thread.forEach(c => {
         const item = document.createElement('div');
-        item.className = 'mb-2 p-2 border-bottom';
+        item.className = 'mb-2 p-2 border-bottom ugc';
+        item.setAttribute('data-ugc', 'true');
+        item.setAttribute('data-audit-ignore', 'content');
         item.innerHTML = `
-            <div class="d-flex justify-content-between small text-muted mb-1">
-                <strong>${escapeHtml(c.expand?.user?.email || 'User')}</strong>
+            <div class="d-flex justify-content-between small text-muted mb-1 ugc" data-ugc="true" data-audit-ignore="content">
+                <strong class="ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(c.expand?.user?.email || 'User')}</strong>
                 <span>${new Date(c.created).toLocaleString()}</span>
             </div>
-            <div>${escapeHtml(c.content)}</div>
+            <div class="ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(c.content)}</div>
         `;
         list.appendChild(item);
     });

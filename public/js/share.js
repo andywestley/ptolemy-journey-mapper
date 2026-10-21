@@ -115,7 +115,9 @@ function renderInspectBpList(listId, groupId, items, formatFn) {
         group.classList.remove('d-none');
         items.forEach(item => {
             const li = document.createElement('li');
-            li.className = 'list-group-item px-0 py-1 bg-transparent border-0';
+            li.className = 'list-group-item px-0 py-1 bg-transparent border-0 ugc';
+            li.setAttribute('data-ugc', 'true');
+            li.setAttribute('data-audit-ignore', 'content');
             li.innerHTML = formatFn(item);
             list.appendChild(li);
         });
@@ -141,8 +143,10 @@ function renderPublicTable() {
         const lane = window.originalOJF.swimlanes.find(l => l.id === node.swimlaneId);
 
         const tr = document.createElement('tr');
-        tr.className = 'cursor-pointer';
+        tr.className = 'cursor-pointer ugc';
         tr.dataset.nodeId = node.id;
+        tr.setAttribute('data-ugc', 'true');
+        tr.setAttribute('data-audit-ignore', 'content');
         tr.setAttribute('role', 'button');
         tr.setAttribute('tabindex', '0');
         tr.setAttribute('aria-label', `Step: ${node.title || 'Untitled'}. Click to inspect details`);
@@ -154,12 +158,13 @@ function renderPublicTable() {
             }
         };
         tr.innerHTML = `
-            <td>
-                <span class="fw-semibold text-primary">${escapeHtml(node.title)}</span>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content">
+                <span class="fw-semibold text-primary ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.title)}</span>
                 ${node.isMomentOfTruth ? '<span class="badge bg-warning text-dark ms-1">Moment of Truth</span>' : ''}
+                ${node.description ? `<div class="small text-muted mt-1 ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(node.description)}</div>` : ''}
             </td>
-            <td><span class="badge bg-light text-dark border">${escapeHtml(stage?.name || '-')}</span></td>
-            <td><span class="badge bg-light text-dark border">${escapeHtml(lane?.name || '-')}</span></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><span class="badge bg-light text-dark border ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(stage?.name || '-')}</span></td>
+            <td class="ugc" data-ugc="true" data-audit-ignore="content"><span class="badge bg-light text-dark border ugc" data-ugc="true" data-audit-ignore="content">${escapeHtml(lane?.name || '-')}</span></td>
             <td><span class="badge bg-${getSeverityBadgeColor(node.severity)}">${escapeHtml(node.severity || 'low')}</span></td>
             <td><span class="text-muted small">${escapeHtml(node.sentiment || '—')}</span></td>
             <td><span class="fw-bold">${node.score !== undefined && node.score !== null ? node.score : '—'}</span></td>
