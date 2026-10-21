@@ -119,7 +119,7 @@ include __DIR__ . '/includes/public_navbar.php';
         If you've ever worked in UX, you know the drill. We spend days researching and building journey maps. Too often, they get trapped inside proprietary tools or static images.
     </p>
     <p class="mb-4" style="font-size: 1.1rem;">
-        I built Ptolemy because I believe our work shouldn't be held hostage by a subscription. We need a way to collaborate, version-control our insights, and share our data freely.
+        I built Ptolemy because I believe subscriptions shouldn't hold our work hostage. We need a way to collaborate, version-control our insights, and share our data freely.
     </p>
 
     <h3 class="mb-3">The OpenJourney Format (.ojf)</h3>
@@ -155,10 +155,10 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">Human-Led, AI-Built</h3>
     <p class="mb-4">
-        There’s one more thing you should know about how Ptolemy was made. While I provided the vision, the UX requirements, and the final design calls, I wrote little of the source code by hand.
+        There’s one more thing you should know about how I built Ptolemy. While I provided the vision, the UX requirements, and the final design calls, I wrote little of the source code by hand.
     </p>
     <p class="mb-4">
-        Instead, Ptolemy was built using <strong>Google Antigravity</strong>, an agentic AI coding assistant. We worked together in a high-intensity pair-programming process where I acted as the navigator and the AI acted as the primary builder. It allowed me to focus on the problem I wanted to solve, while the AI handled the heavy lifting of implementation.
+        Instead, I built Ptolemy using <strong>Google Antigravity</strong>, an agentic AI coding assistant. We worked together in a high-intensity pair-programming process where I acted as the navigator and the AI acted as the primary builder. It allowed me to focus on the problem I wanted to solve, while the AI handled the heavy lifting of implementation.
     </p>
 
     <h3 class="mb-3">Help Make it Better</h3>
