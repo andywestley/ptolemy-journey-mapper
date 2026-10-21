@@ -101,7 +101,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
 <header class="hero">
     <h1 class="display-4 fw-bold mb-3">Hi, I'm Ptolemy</h1>
-    <p class="lead mb-4">A simple, open-source editor for human-centered journey mapping.</p>
+    <p class="lead mb-4">An open-source editor for human-centered journey mapping.</p>
     <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-light btn-lg shadow-sm fw-semibold" title="Opens repository in a new tab">
         Visit the Repository <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.85rem;"></i><span class="visually-hidden">(opens in a new tab)</span>
     </a>
@@ -124,7 +124,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">The OpenJourney Format (.ojf)</h3>
     <p class="mb-4">
-        At the heart of this project is a simple idea: an open, human-readable JSON format for user journeys. By using <strong>.ojf</strong>, your data stays in your hands. You can track changes with Git, build custom reports, or even move your data to a completely different tool without losing a single node.
+        At the heart of this project is a central idea: an open, human-readable JSON format for user journeys. By using <strong>.ojf</strong>, your data stays in your hands. You can track changes with Git, build custom reports, or even move your data to a completely different tool without losing a single node.
     </p>
 
     <div class="bg-light p-4 rounded-3 border mb-5 shadow-sm">
@@ -150,7 +150,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">A Hobby Project with Heart</h3>
     <p class="mb-4">
-        Just to be clear: this isn't a venture-backed enterprise platform. It's a hobby project built by a UX professional who wanted a tool that didn't exist yet. It's built with <strong>PHP + MySQL</strong> and plain old JavaScript, which makes it fast, privacy-focused, and easy to host yourself.
+        To be clear: this isn't a venture-backed enterprise platform. It's a hobby project created by a UX professional who wanted a tool that didn't exist yet. It runs on <strong>PHP + MySQL</strong> and vanilla JavaScript, which keeps it fast, privacy-focused, and straightforward to run on your own server.
     </p>
 
     <h3 class="mb-3">Human-Led, AI-Built</h3>
@@ -163,7 +163,7 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">Help Make it Better</h3>
     <p class="mb-4">
-        Ptolemy is in <strong>public beta</strong>. Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for a new feature, find a bug, or just want to chat about the future of open journey standards, I'd love to hear from you.
+        Ptolemy is in <strong>public beta</strong>. Since this is open-source, it belongs to the community as much as it does to me. If you have an idea for a new feature, find a bug, or want to discuss the future of open journey standards, I'd love to hear from you.
     </p>
     <p class="mb-4">
         <strong>Need an invite code?</strong> We are managing scale by issuing manual invite codes during the beta period. Please <a href="https://github.com/andywestley/ptolemy-journey-mapper/issues" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">open a GitHub Issue <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.75rem;"></i><span class="visually-hidden">(opens in a new tab)</span></a> to get yours!
