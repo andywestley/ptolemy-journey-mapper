@@ -84,22 +84,30 @@
             });
 
             // 2. Ensure CMP banners, modals, and badges act as proper landmarks for Axe/WCAG region rules
-            var banners = target.querySelectorAll('#stcm-banner, .stcm-banner');
-            banners.forEach(function(banner) {
+            function relocateBanner(banner) {
+                if (!banner) return;
                 if (!banner.getAttribute('role')) {
                     banner.setAttribute('role', 'region');
                 }
                 if (!banner.getAttribute('aria-label')) {
                     banner.setAttribute('aria-label', 'Cookie consent');
                 }
-            });
+                // Ensure banner is positioned at the top of the body so DOM order matches visual reading layout (top of page)
+                if (document.body && banner.parentNode === document.body) {
+                    var skipNav = document.querySelector('nav[aria-label="Skip links"], .skip-to-content-link');
+                    var insertionTarget = skipNav ? skipNav.nextSibling : document.body.firstChild;
+                    if (insertionTarget && banner.nextSibling !== insertionTarget && banner !== insertionTarget) {
+                        document.body.insertBefore(banner, insertionTarget);
+                    } else if (!skipNav && document.body.firstChild !== banner) {
+                        document.body.insertBefore(banner, document.body.firstChild);
+                    }
+                }
+            }
+
+            var banners = target.querySelectorAll('#stcm-banner, .stcm-banner');
+            banners.forEach(relocateBanner);
             if (target.id === 'stcm-banner' || (target.classList && target.classList.contains('stcm-banner'))) {
-                if (!target.getAttribute('role')) {
-                    target.setAttribute('role', 'region');
-                }
-                if (!target.getAttribute('aria-label')) {
-                    target.setAttribute('aria-label', 'Cookie consent');
-                }
+                relocateBanner(target);
             }
 
             var modals = target.querySelectorAll('#stcm-modal, .stcm-modal');

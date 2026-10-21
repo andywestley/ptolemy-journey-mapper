@@ -127,15 +127,15 @@ include __DIR__ . '/includes/navbar.php';
                     <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" id="editorActionsDropdownBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="editorActionsMenu">
                         <i class="bi bi-three-dots-vertical me-1"></i> Actions
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="editorActionsMenu" aria-labelledby="editorActionsDropdownBtn" aria-live="polite">
-                        <li><button type="button" class="dropdown-item py-2" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
-                        <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="editorActionsMenu" aria-labelledby="editorActionsDropdownBtn" role="menu">
+                        <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="openShareModal()"><i class="bi bi-share me-2 text-primary"></i>Share Journey</button></li>
+                        <li id="menu-item-feedback" style="display: none;"><button type="button" class="dropdown-item py-2" role="menuitem" onclick="toggleFeedbackMode()"><i class="bi bi-chat-dots me-2"></i><span id="feedback-menu-text">Feedback: OFF</span></button></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li class="dropdown-header text-uppercase small fw-bold text-muted">Export As...</li>
-                        <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
-                        <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
-                        <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
-                        <li><button type="button" class="dropdown-item py-2 fw-medium" onclick="exportExecutivePDF()"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Executive Report (PDF)</button></li>
+                        <li class="dropdown-header text-uppercase small fw-bold text-muted" role="presentation">Export As...</li>
+                        <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
+                        <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
+                        <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
+                        <li><button type="button" class="dropdown-item py-2 fw-medium" role="menuitem" onclick="exportExecutivePDF()"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Executive Report (PDF)</button></li>
                     </ul>
                 </div>
             </div>

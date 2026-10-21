@@ -142,11 +142,11 @@ include __DIR__ . '/includes/public_navbar.php';
                 <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="exportDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-controls="exportDropdownMenu">
                     <i class="bi bi-download me-1"></i> Export
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="exportDropdownMenu" aria-labelledby="exportDropdownBtn" aria-live="polite">
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
-                    <li><button type="button" class="dropdown-item py-2" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
-                    <li><button type="button" class="dropdown-item py-2 fw-medium" onclick="exportExecutivePDF()"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Executive Report (PDF)</button></li>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="exportDropdownMenu" aria-labelledby="exportDropdownBtn" role="menu">
+                    <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToOJF()"><i class="bi bi-filetype-json me-2"></i>.ojf (JSON)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToMarkdown()"><i class="bi bi-filetype-md me-2"></i>.md (Markdown)</button></li>
+                    <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="exportToPNG()"><i class="bi bi-file-earmark-image me-2"></i>PNG Image</button></li>
+                    <li><button type="button" class="dropdown-item py-2 fw-medium" role="menuitem" onclick="exportExecutivePDF()"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Executive Report (PDF)</button></li>
                 </ul>
             </div>
 

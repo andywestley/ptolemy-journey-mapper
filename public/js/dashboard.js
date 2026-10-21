@@ -133,11 +133,11 @@ async function loadJourneys(type = null) {
                             <button type="button" id="journey-actions-btn-${j.id}" class="btn btn-sm btn-link text-muted d-inline-flex align-items-center justify-content-center p-0 rounded-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="journey-actions-menu-${j.id}" aria-label="Journey actions for ${escapeHtml(journeyTitle)} (${shortId})" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">
                                 <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="journey-actions-menu-${j.id}" aria-labelledby="journey-actions-btn-${j.id}" aria-live="polite">
-                                <li><button type="button" class="dropdown-item py-2" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2" aria-hidden="true"></i> Move to Folder</button></li>
-                                ${j.is_public ? `<li><a class="dropdown-item py-2" href="/share/${escapeHtml(j.id)}/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i> View Public Link <i class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.75rem;" aria-hidden="true"></i><span class="visually-hidden">(opens in a new tab)</span></a></li>` : ''}
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="journey-actions-menu-${j.id}" aria-labelledby="journey-actions-btn-${j.id}" role="menu">
+                                <li><button type="button" class="dropdown-item py-2" role="menuitem" onclick="promptFolder('${j.id}', '${escapeHtml(j.folder || '')}')"><i class="bi bi-folder-plus me-2" aria-hidden="true"></i> Move to Folder</button></li>
+                                ${j.is_public ? `<li><a class="dropdown-item py-2" role="menuitem" href="/share/${escapeHtml(j.id)}/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i> View Public Link <i class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.75rem;" aria-hidden="true"></i><span class="visually-hidden">(opens in a new tab)</span></a></li>` : ''}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><button type="button" class="dropdown-item py-2 text-danger" onclick="moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2" aria-hidden="true"></i> Move to Trash</button></li>
+                                <li><button type="button" class="dropdown-item py-2 text-danger" role="menuitem" onclick="moveToTrash('${j.id}')"><i class="bi bi-trash3 me-2" aria-hidden="true"></i> Move to Trash</button></li>
                             </ul>
                         </div>
                     `;

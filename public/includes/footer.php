@@ -104,12 +104,6 @@
             if (toggle && toggle.setAttribute) {
                 toggle.setAttribute('aria-expanded', 'true');
             }
-            var menu = e.target.querySelector('.dropdown-menu');
-            if (menu) {
-                if (!menu.getAttribute('aria-live')) {
-                    menu.setAttribute('aria-live', 'polite');
-                }
-            }
             var announcer = document.getElementById('global-status-announcer');
             if (announcer && toggle) {
                 var label = toggle.getAttribute('aria-label') || toggle.innerText.trim() || 'Menu';
@@ -124,6 +118,37 @@
             var announcer = document.getElementById('global-status-announcer');
             if (announcer) {
                 announcer.textContent = '';
+            }
+        });
+
+        // W3C APG Menu Button keyboard pattern: Close dropdown cleanly on Tab or Escape to avoid focus trapping
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                var openMenus = document.querySelectorAll('.dropdown-menu.show');
+                openMenus.forEach(function(menu) {
+                    var parentDropdown = menu.closest('.dropdown, .dropup, .dropend, .dropstart');
+                    var toggle = parentDropdown ? parentDropdown.querySelector('[data-bs-toggle="dropdown"]') : null;
+                    if (toggle && window.bootstrap && window.bootstrap.Dropdown) {
+                        var instance = bootstrap.Dropdown.getInstance(toggle);
+                        if (instance) {
+                            instance.hide();
+                        }
+                    }
+                });
+            } else if (e.key === 'Escape') {
+                var activeMenu = document.querySelector('.dropdown-menu.show');
+                if (activeMenu) {
+                    var parent = activeMenu.closest('.dropdown, .dropup, .dropend, .dropstart');
+                    var btn = parent ? parent.querySelector('[data-bs-toggle="dropdown"]') : null;
+                    if (btn && window.bootstrap && window.bootstrap.Dropdown) {
+                        var inst = bootstrap.Dropdown.getInstance(btn);
+                        if (inst) {
+                            e.preventDefault();
+                            inst.hide();
+                            btn.focus();
+                        }
+                    }
+                }
             }
         });
     })();
