@@ -155,10 +155,10 @@ include __DIR__ . '/includes/public_navbar.php';
 
     <h3 class="mb-3">Human-Led, AI-Built</h3>
     <p class="mb-4">
-        There’s one more thing you should know about how I built Ptolemy. While I provided the vision, the UX requirements, and the final design calls, I wrote little of the source code by hand.
+        There is one more detail about how I built Ptolemy. I provided the UX vision and product requirements, but wrote little of the source code by hand.
     </p>
     <p class="mb-4">
-        Instead, I built Ptolemy using <strong>Google Antigravity</strong>, an agentic AI coding assistant. We worked together in a high-intensity pair-programming process where I acted as the navigator and the AI acted as the primary builder. It allowed me to focus on the problem I wanted to solve, while the AI handled the heavy lifting of implementation.
+        Instead, I built Ptolemy with <strong>Google Antigravity</strong>, an AI coding assistant. We paired closely together throughout development. I acted as the navigator, and the AI served as the primary builder. This workflow let me focus on the user experience, while the AI handled the technical implementation.
     </p>
 
     <h3 class="mb-3">Help Make it Better</h3>
