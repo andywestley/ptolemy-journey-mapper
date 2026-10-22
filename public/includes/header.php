@@ -1,3 +1,29 @@
+<?php
+// Asset loader helper for CSS with automatic minification detection & cache busting
+if (!function_exists('loadCssAsset')) {
+    /**
+     * Resolves the versioned path for a CSS asset.
+     *
+     * @param string $file Asset file name (e.g., 'style.css')
+     * @return string Versioned asset path
+     */
+    function loadCssAsset(string $file): string {
+        $baseName = preg_replace('/\.min\.css$|\.css$/', '', $file);
+        $minFile = $baseName . '.min.css';
+        $rawFile = $baseName . '.css';
+
+        $cssDir = __DIR__ . '/../css/';
+        if (file_exists($cssDir . $minFile)) {
+            $v = filemtime($cssDir . $minFile);
+            return '/css/' . $minFile . '?v=' . $v;
+        } elseif (file_exists($cssDir . $rawFile)) {
+            $v = filemtime($cssDir . $rawFile);
+            return '/css/' . $rawFile . '?v=' . $v;
+        }
+        return '/css/' . $file;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +34,18 @@
     <!-- Preconnect for Google Fonts & CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-    <!-- Preload critical Google Fonts CSS -->
+    <!-- Preload critical stylesheets & fonts to eliminate critical request chains -->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="preload" as="style" href="<?php echo loadCssAsset('style.css'); ?>">
+    <?php if (isset($extraCss)): ?>
+        <?php foreach ($extraCss as $cssFile): ?>
+            <link rel="preload" as="style" href="<?php echo loadCssAsset($cssFile); ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap">
+    <link rel="preload" href="/fonts/bootstrap-icons.woff2?1fa40e8900654d2863d011707b9fb6f2" as="font" type="font/woff2" crossorigin>
 
     <!-- Silktide/GTM Consent pre-config -->
     <script>
@@ -236,42 +270,19 @@
     </script>
 <?php endif; ?>
 
-<?php
-// Asset loader helper for CSS with automatic minification detection & cache busting
-if (!function_exists('loadCssAsset')) {
-    /**
-     * Resolves the versioned path for a CSS asset.
-     *
-     * @param string $file Asset file name (e.g., 'style.css')
-     * @return string Versioned asset path
-     */
-    function loadCssAsset(string $file): string {
-        $baseName = preg_replace('/\.min\.css$|\.css$/', '', $file);
-        $minFile = $baseName . '.min.css';
-        $rawFile = $baseName . '.css';
-
-        $cssDir = __DIR__ . '/../css/';
-        if (file_exists($cssDir . $minFile)) {
-            $v = filemtime($cssDir . $minFile);
-            return '/css/' . $minFile . '?v=' . $v;
-        } elseif (file_exists($cssDir . $rawFile)) {
-            $v = filemtime($cssDir . $rawFile);
-            return '/css/' . $rawFile . '?v=' . $v;
-        }
-        return '/css/' . $file;
-    }
-}
-?>
-
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <!-- Bootstrap Icons (Local with font-display: swap) -->
-    <link rel="stylesheet" href="<?php echo loadCssAsset('bootstrap-icons.css'); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (Non-render-blocking via print media swap & noscript fallback) -->
+    <link rel="stylesheet" href="<?php echo loadCssAsset('bootstrap-icons.css'); ?>" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="<?php echo loadCssAsset('bootstrap-icons.css'); ?>">
+    </noscript>
     <!-- Google Fonts (Non-render-blocking via print media swap & noscript fallback) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" media="print" onload="this.media='all'">
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap">
     </noscript>
+    <!-- Core Application Styling -->
     <link rel="stylesheet" href="<?php echo loadCssAsset('style.css'); ?>">
     <?php if (isset($extraCss)): ?>
         <?php foreach ($extraCss as $cssFile): ?>

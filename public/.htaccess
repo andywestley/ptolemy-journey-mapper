@@ -99,8 +99,8 @@ AddType application/json .ojf
         Header set Access-Control-Allow-Origin "*"
     </FilesMatch>
 
-    # Dynamic HTML & PHP pages
+    # Dynamic HTML & PHP pages (Allow bfcache via private, no-cache while preventing stale proxy caching)
     <FilesMatch "\.(html|htm|php)$">
-        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Cache-Control "private, no-cache, must-revalidate"
     </FilesMatch>
 </IfModule>

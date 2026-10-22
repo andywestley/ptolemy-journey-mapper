@@ -122,6 +122,10 @@ function initSecureSession() {
         if ($isHttps) {
             ini_set('session.cookie_secure', '1');
         }
+
+        // Prevent PHP's default 'nocache' limiter from emitting 'Cache-Control: no-store'
+        // which disables browser Back/Forward Cache (bfcache).
+        session_cache_limiter('');
         session_start();
     }
 }
