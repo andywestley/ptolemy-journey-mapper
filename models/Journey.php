@@ -42,15 +42,17 @@ class Journey {
         if (!$db) {
             return [];
         }
+        // Fetch candidate public journeys, excluding default unedited draft titles
         $stmt = $db->prepare("
             SELECT id, title, description, ojf_data, updated_at 
             FROM journeys 
             WHERE (is_public = 1 OR is_public = '1') 
               AND (journey_status IS NULL OR journey_status != 'trash') 
+              AND TRIM(title) NOT IN ('New User Journey', 'Untitled Journey', '')
             ORDER BY updated_at DESC 
             LIMIT ?
         ");
-        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(1, max(20, $limit * 4), PDO::PARAM_INT);
         $stmt->execute();
         $rows = $stmt->fetchAll() ?: [];
 
@@ -60,8 +62,15 @@ class Journey {
             if (!empty($row['ojf_data'])) {
                 $ojf = is_string($row['ojf_data']) ? json_decode($row['ojf_data'], true) : $row['ojf_data'];
             }
+
+            // Ensure journey actually has content / steps
+            $nodes = $ojf['nodes'] ?? [];
+            if (empty($nodes) || !is_array($nodes) || count($nodes) === 0) {
+                continue;
+            }
+
             $pov = !empty($ojf['pointOfView']) ? $ojf['pointOfView'] : (!empty($ojf['pov']) ? $ojf['pov'] : '');
-            if (empty($pov) && !empty($row['description'])) {
+            if (empty($pov) && !empty($row['description']) && $row['description'] !== 'Initial draft map.') {
                 $pov = $row['description'];
             }
             $showcase[] = [
@@ -70,6 +79,10 @@ class Journey {
                 'pov' => $pov,
                 'updated_at' => $row['updated_at'] ?? ''
             ];
+
+            if (count($showcase) >= $limit) {
+                break;
+            }
         }
         return $showcase;
     }

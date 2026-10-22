@@ -51,7 +51,6 @@ if (empty($activePublicNav)) {
                 <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
                 <span class="visually-hidden">(opens in a new tab)</span>
             </a>
-            <a href="/templates/" class="btn btn-outline-secondary btn-sm fw-semibold <?php echo $activePublicNav === 'templates' ? 'active' : ''; ?>" <?php echo $activePublicNav === 'templates' ? 'aria-current="page"' : ''; ?>>Templates</a>
             <a href="https://github.com/andywestley/ptolemy-journey-mapper" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm fw-semibold" title="Opens repository in a new tab">
                 <i class="bi bi-github me-1" aria-hidden="true"></i>GitHub
                 <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true" style="font-size: 0.7rem;"></i>
