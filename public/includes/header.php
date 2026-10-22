@@ -133,6 +133,16 @@
                     target.setAttribute('aria-label', 'Cookie settings');
                 }
             }
+
+            // 3. Ensure optional marketing/tracking checkboxes are unselected by default (GDPR, PECR & Ethical UX compliance)
+            var hasMarketingConsent = localStorage.getItem('stcm.consent.marketing') === 'true' || localStorage.getItem('silktideCookieChoice_marketing') === 'true';
+            if (!hasMarketingConsent) {
+                var marketingCheckboxes = target.querySelectorAll('#consent-marketing[checked], input[type="checkbox"][id*="marketing"][checked], input[type="checkbox"][name*="marketing"][checked]');
+                marketingCheckboxes.forEach(function(cb) {
+                    cb.removeAttribute('checked');
+                    cb.checked = false;
+                });
+            }
         }
 
         if (typeof MutationObserver !== 'undefined') {
