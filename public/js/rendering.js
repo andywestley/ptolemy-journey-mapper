@@ -486,7 +486,7 @@ function renderEditorTables() {
             </td>
             <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary me-1 d-inline-flex align-items-center justify-content-center" onclick="openNodeModal('${escapeHtml(node.id)}')" title="Edit step" aria-label="Edit step ${escapeHtml(node.title || node.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-pencil" aria-hidden="true"></i></button>
-                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" onclick="deleteNode('${escapeHtml(node.id)}')" title="Delete step" aria-label="Delete step ${escapeHtml(node.title || node.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteNodeConfirmModal" aria-haspopup="dialog" onclick="deleteNode('${escapeHtml(node.id)}')" title="Delete step" aria-label="Delete step ${escapeHtml(node.title || node.id)}" style="min-width: 28px; min-height: 28px;"><i class="bi bi-trash" aria-hidden="true"></i></button>
             </td>
         `;
         if (nodesBody) nodesBody.appendChild(tr);

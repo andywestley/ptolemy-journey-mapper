@@ -90,7 +90,7 @@ include __DIR__ . '/includes/header.php';
 
 <?php if (!$isAllowed): ?>
 <?php
-$activePublicNav = '';
+$activePublicNav = 'share';
 include __DIR__ . '/includes/public_navbar.php';
 ?>
 <main id="main-content" class="container py-5 text-center" style="max-width: 550px; margin-top: 60px;">

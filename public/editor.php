@@ -525,9 +525,34 @@ include __DIR__ . '/includes/navbar.php';
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger me-auto" id="delete-node-btn" onclick="deleteNodeFromModal()">Delete</button>
+                <button type="button" class="btn btn-outline-danger me-auto" id="delete-node-btn" data-bs-toggle="modal" data-bs-target="#deleteNodeConfirmModal" aria-haspopup="dialog" onclick="prepareDeleteNodeConfirmation()"><i class="bi bi-trash me-1" aria-hidden="true"></i>Delete</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="saveNode()">Save Node</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Node Confirmation Modal (UX Modal Safeguard) -->
+<div class="modal fade" id="deleteNodeConfirmModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="deleteNodeConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h2 class="modal-title h5 fw-bold text-danger d-flex align-items-center gap-2" id="deleteNodeConfirmModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-danger" aria-hidden="true"></i>
+                    <span>Delete Step</span>
+                </h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2">Are you sure you want to delete <strong id="delete-node-title-preview" class="text-break ugc" data-ugc="true" data-audit-ignore="content">this step</strong>?</p>
+                <p class="small text-muted mb-0">This action cannot be undone. All touchpoint details, emotion scores, and service blueprint mappings will be permanently removed.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-delete-node-btn" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-node-btn" onclick="confirmDeleteNode()">
+                    <i class="bi bi-trash me-1" aria-hidden="true"></i>Delete Step
+                </button>
             </div>
         </div>
     </div>

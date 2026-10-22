@@ -443,15 +443,57 @@ function saveNode() {
     triggerAutoSave();
 }
 
+function prepareDeleteNodeConfirmation() {
+    const id = document.getElementById('node-id').value;
+    const title = document.getElementById('node-title').value.trim();
+    const previewEl = document.getElementById('delete-node-title-preview');
+    if (previewEl) {
+        previewEl.textContent = title ? `"${title}"` : 'this step';
+    }
+    window.pendingDeleteNodeId = id;
+    window.deleteNodeOrigin = 'modal';
+    window.deleteNodeConfirmed = false;
+}
+
 function deleteNode(nodeId) {
-    if (confirm('Are you sure you want to delete this node?')) {
-        originalOJF.nodes = originalOJF.nodes.filter(n => n.id !== nodeId);
+    window.pendingDeleteNodeId = nodeId;
+    window.deleteNodeOrigin = 'table';
+    window.deleteNodeConfirmed = false;
+
+    const node = (originalOJF.nodes || []).find(n => n.id === nodeId);
+    const title = node?.title ? `"${node.title}"` : 'this step';
+    const previewEl = document.getElementById('delete-node-title-preview');
+    if (previewEl) {
+        previewEl.textContent = title;
+    }
+
+    const confirmModalEl = document.getElementById('deleteNodeConfirmModal');
+    if (confirmModalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(confirmModalEl);
+        modal.show();
+    }
+}
+
+function deleteNodeFromModal() {
+    prepareDeleteNodeConfirmation();
+    const confirmModalEl = document.getElementById('deleteNodeConfirmModal');
+    if (confirmModalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(confirmModalEl);
+        modal.show();
+    }
+}
+
+function confirmDeleteNode() {
+    const id = window.pendingDeleteNodeId || document.getElementById('node-id').value;
+    if (id) {
+        window.deleteNodeConfirmed = true;
+        originalOJF.nodes = (originalOJF.nodes || []).filter(n => n.id !== id);
 
         // GTM Node Delete
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
             event: 'node_delete',
-            node_id: nodeId
+            node_id: id
         });
 
         if (activeEditorMode === 'table') {
@@ -460,18 +502,60 @@ function deleteNode(nodeId) {
             renderVisualMap();
         }
         triggerAutoSave();
+
+        const announcer = document.getElementById('global-status-announcer');
+        if (announcer) {
+            announcer.textContent = 'Step deleted successfully';
+        }
     }
+
+    const confirmModalEl = document.getElementById('deleteNodeConfirmModal');
+    if (confirmModalEl) {
+        const confirmModal = bootstrap.Modal.getInstance(confirmModalEl);
+        if (confirmModal) confirmModal.hide();
+    }
+
+    const nodeModalEl = document.getElementById('nodeModal');
+    if (nodeModalEl) {
+        const nodeModal = bootstrap.Modal.getInstance(nodeModalEl);
+        if (nodeModal) nodeModal.hide();
+    }
+
+    window.pendingDeleteNodeId = null;
+    window.deleteNodeOrigin = null;
 }
 
-function deleteNodeFromModal() {
-    const id = document.getElementById('node-id').value;
-    if (id) {
-        deleteNode(id);
-        const modalEl = document.getElementById('nodeModal');
-        const modal = bootstrap.Modal.getInstance(modalEl);
-        modal.hide();
+// Lifecycle listeners for Delete Node Confirmation Modal
+document.addEventListener('DOMContentLoaded', () => {
+    const confirmModalEl = document.getElementById('deleteNodeConfirmModal');
+    if (confirmModalEl) {
+        confirmModalEl.addEventListener('hidden.bs.modal', () => {
+            if (!window.deleteNodeConfirmed && window.deleteNodeOrigin === 'modal') {
+                const nodeModalEl = document.getElementById('nodeModal');
+                if (nodeModalEl) {
+                    const nodeModal = bootstrap.Modal.getOrCreateInstance(nodeModalEl);
+                    nodeModal.show();
+                }
+            }
+            window.deleteNodeConfirmed = false;
+            window.deleteNodeOrigin = null;
+            window.pendingDeleteNodeId = null;
+        });
+
+        confirmModalEl.addEventListener('shown.bs.modal', () => {
+            const cancelBtn = document.getElementById('cancel-delete-node-btn');
+            if (cancelBtn) {
+                cancelBtn.focus();
+            }
+        });
     }
-}
+});
+
+window.prepareDeleteNodeConfirmation = prepareDeleteNodeConfirmation;
+window.deleteNode = deleteNode;
+window.deleteNodeFromModal = deleteNodeFromModal;
+window.confirmDeleteNode = confirmDeleteNode;
+window.confirmDeleteNodeFromModal = confirmDeleteNode;
 
 /**
  * Journey save
