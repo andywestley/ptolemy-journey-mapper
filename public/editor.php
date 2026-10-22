@@ -208,7 +208,7 @@ include __DIR__ . '/includes/navbar.php';
                             <th style="width: 80px;">ID</th>
                             <th>Stage Name</th>
                             <th style="width: 150px;" title="Optional score from -5 to +5">Emotion Override</th>
-                            <th style="width: 50px;"></th>
+                            <th style="width: 50px;"><span class="visually-hidden">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody id="stages-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
@@ -232,7 +232,7 @@ include __DIR__ . '/includes/navbar.php';
                         <tr>
                             <th style="width: 80px;">ID</th>
                             <th>Swimlane Name</th>
-                            <th style="width: 50px;"></th>
+                            <th style="width: 50px;"><span class="visually-hidden">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody id="swimlanes-body" class="ugc" data-ugc="true" data-audit-ignore="content"></tbody>
