@@ -527,6 +527,59 @@ tr.cursor-pointer * {
     color: #ffffff;
 }
 
+/* ==========================================================================
+   WCAG 2.2 Focus Appearance (2.4.11 / 2.4.13) & Accessible Focus Indicators
+   Ensure all interactive elements have prominent, high-contrast focus rings.
+   ========================================================================== */
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.btn:focus,
+.navbar-brand:focus-visible,
+.navbar-brand:focus,
+.nav-link:focus-visible,
+.nav-link:focus,
+.list-group-item:focus-visible,
+.list-group-item:focus,
+.dropdown-item:focus-visible,
+.dropdown-item:focus {
+    outline: 3px solid #4338ca !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(67, 56, 202, 0.4) !important;
+}
+
+.btn-outline-danger:focus-visible,
+.btn-outline-danger:focus {
+    outline: 3px solid #b91c1c !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(185, 28, 28, 0.4) !important;
+}
+
+[data-bs-theme="dark"] a:focus-visible,
+[data-bs-theme="dark"] button:focus-visible,
+[data-bs-theme="dark"] .btn:focus-visible,
+[data-bs-theme="dark"] .btn:focus,
+[data-bs-theme="dark"] .navbar-brand:focus-visible,
+[data-bs-theme="dark"] .navbar-brand:focus,
+[data-bs-theme="dark"] .nav-link:focus-visible,
+[data-bs-theme="dark"] .nav-link:focus,
+[data-bs-theme="dark"] .list-group-item:focus-visible,
+[data-bs-theme="dark"] .list-group-item:focus,
+[data-bs-theme="dark"] .dropdown-item:focus-visible,
+[data-bs-theme="dark"] .dropdown-item:focus {
+    outline: 3px solid #818cf8 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px #0f172a, 0 0 0 5px rgba(129, 140, 248, 0.5) !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-danger:focus-visible,
+[data-bs-theme="dark"] .btn-outline-danger:focus {
+    outline: 3px solid #f87171 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px #0f172a, 0 0 0 5px rgba(248, 113, 113, 0.5) !important;
+}
+
 /* Accessible Keyboard Focus for Scrollable Regions */
 pre[tabindex="0"],
 .visual-map-wrapper[tabindex="0"],
@@ -690,6 +743,10 @@ html {
     font-weight: 600;
     transition: top 0.15s ease-in-out;
     text-decoration: none;
+    border-radius: 0.5rem;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border: 2px solid transparent;
 }
 
 .skip-to-content-link:focus,

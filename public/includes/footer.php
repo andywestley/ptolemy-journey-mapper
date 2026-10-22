@@ -121,21 +121,25 @@
             }
         });
 
-        // W3C APG Menu Button keyboard pattern: Close dropdown cleanly on Tab or Escape to avoid focus trapping
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                var openMenus = document.querySelectorAll('.dropdown-menu.show');
-                openMenus.forEach(function(menu) {
-                    var parentDropdown = menu.closest('.dropdown, .dropup, .dropend, .dropstart');
-                    var toggle = parentDropdown ? parentDropdown.querySelector('[data-bs-toggle="dropdown"]') : null;
+        // W3C APG Menu Button keyboard pattern: Close dropdown cleanly on focusout or Escape to avoid focus trapping
+        document.addEventListener('focusout', function(e) {
+            var openMenus = document.querySelectorAll('.dropdown-menu.show');
+            openMenus.forEach(function(menu) {
+                var parentDropdown = menu.closest('.dropdown, .dropup, .dropend, .dropstart');
+                if (parentDropdown && (!e.relatedTarget || !parentDropdown.contains(e.relatedTarget))) {
+                    var toggle = parentDropdown.querySelector('[data-bs-toggle="dropdown"]');
                     if (toggle && window.bootstrap && window.bootstrap.Dropdown) {
                         var instance = bootstrap.Dropdown.getInstance(toggle);
                         if (instance) {
                             instance.hide();
                         }
                     }
-                });
-            } else if (e.key === 'Escape') {
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
                 var activeMenu = document.querySelector('.dropdown-menu.show');
                 if (activeMenu) {
                     var parent = activeMenu.closest('.dropdown, .dropup, .dropend, .dropstart');
