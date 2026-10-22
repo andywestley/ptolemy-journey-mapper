@@ -44,8 +44,11 @@ function getDBConnection($exitOnError = true) {
 
 /**
  * Ensures database columns for Admin and Service Accounts exist
+ *
+ * @param PDO $pdo
+ * @return void
  */
-function ensureSchemaUpToDate($pdo) {
+function ensureSchemaUpToDate(PDO $pdo): void {
     static $checked = false;
     if ($checked) return;
     $checked = true;
