@@ -104,7 +104,7 @@ include __DIR__ . '/includes/public_navbar.php';
         </p>
         <div class="d-flex justify-content-center gap-2">
             <a href="/" class="btn btn-primary px-4">Sign In to Ptolemy</a>
-            <a href="/about/" class="btn btn-outline-secondary px-3">Learn More</a>
+            <a href="/about/" class="btn btn-outline-secondary px-3">About Ptolemy</a>
         </div>
     </div>
 </main>
