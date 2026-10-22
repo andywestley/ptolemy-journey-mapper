@@ -26,12 +26,34 @@
     });
     </script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TNL8J42G');</script>
+    <!-- Google Tag Manager (Deferred via requestIdleCallback/interaction to reduce unused JS on initial load) -->
+    <script>
+    (function(w,d,s,l,i){
+        w[l]=w[l]||[];
+        w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+        function loadGtm() {
+            if (w._gtmLoaded) return;
+            w._gtmLoaded = true;
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        }
+        var events = ['scroll', 'click', 'keydown', 'touchstart'];
+        function onInteraction() {
+            loadGtm();
+            events.forEach(function(e) { w.removeEventListener(e, onInteraction, { passive: true }); });
+        }
+        events.forEach(function(e) { w.addEventListener(e, onInteraction, { passive: true, once: true }); });
+        if ('requestIdleCallback' in w) {
+            requestIdleCallback(function() { loadGtm(); }, { timeout: 2500 });
+        } else {
+            w.addEventListener('load', loadGtm, { once: true });
+        }
+    })(window,document,'script','dataLayer','GTM-TNL8J42G');
+    </script>
     <!-- End Google Tag Manager -->
 
     <!-- Silktide Consent Manager (STCM) Accessibility Normalizer: Demotes third-party CMP h1 to h2, ensures landmarks exist, and handles modal accessibility -->
