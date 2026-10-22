@@ -213,7 +213,7 @@ include __DIR__ . '/includes/public_navbar.php';
     <input type="hidden" id="editor-notes" class="ugc" data-ugc="true" data-audit-ignore="content" value="<?php echo htmlspecialchars($notesContent, ENT_QUOTES, 'UTF-8'); ?>">
 
     <!-- Sub-View: Visual Map -->
-    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map">
+    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" aria-live="polite" aria-atomic="false">
         <div class="d-flex justify-content-end mb-2 gap-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode" onchange="toggleBlueprintMode()">
@@ -230,7 +230,7 @@ include __DIR__ . '/includes/public_navbar.php';
     </div>
 
     <!-- Sub-View: Table View -->
-    <div id="table-editor-view" class="table-editor-container" style="display: none;">
+    <div id="table-editor-view" class="table-editor-container" style="display: none;" role="region" aria-label="Journey Steps Table" aria-live="polite" aria-atomic="false">
         <div class="card p-4 border-0 shadow-sm rounded-4 mb-4">
             <h2 class="h5 fw-bold mb-3"><i class="bi bi-table me-2" aria-hidden="true"></i>Journey Steps</h2>
             <div class="table-responsive" tabindex="0" role="region" aria-label="Journey Steps Table">

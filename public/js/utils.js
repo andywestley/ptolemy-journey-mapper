@@ -179,6 +179,12 @@ function switchEditorMode(mode) {
         }
     }
 
+    // Announce mode change to screen readers and live region listeners
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) {
+        announcer.textContent = mode === 'table' ? 'Switched to Table Editor view' : 'Switched to Visual Journey Map view';
+    }
+
     // Update clean URL if on dedicated journey or share page
     if (window.currentJourney && (window.location.pathname.includes('/journey/') || window.location.pathname.includes('/share/'))) {
         const basePath = window.location.pathname.includes('/share/') ? '/share/' : '/journey/';

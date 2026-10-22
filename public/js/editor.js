@@ -825,6 +825,8 @@ async function removeCollaborator(userId) {
  */
 async function exportExecutivePDF() {
     if (!currentJourney && !window.currentJourney) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Generating Executive PDF Report';
     const journey = currentJourney || window.currentJourney;
     const ojf = originalOJF || window.originalOJF || {};
 
@@ -1227,6 +1229,8 @@ function exportTextualPDF() {
 
 function exportToMarkdown() {
     if (!currentJourney) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Exporting journey in Markdown format';
 
     // GTM Custom Export Event
     window.dataLayer = window.dataLayer || [];
@@ -1318,6 +1322,8 @@ function exportToMarkdown() {
 
 function exportToOJF() {
     if (!currentJourney) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Exporting journey in OJF format';
 
     // GTM Custom Export Event
     window.dataLayer = window.dataLayer || [];
@@ -1349,6 +1355,9 @@ function exportToOJF() {
 }
 
 async function exportToPNG() {
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Generating PNG image export';
+
     // GTM Custom Export Event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({

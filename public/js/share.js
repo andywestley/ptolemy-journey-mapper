@@ -188,6 +188,8 @@ function renderEditorTables() {
  */
 function exportToOJF() {
     if (!window.currentJourney) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Exporting journey in OJF format';
     const blob = new Blob([JSON.stringify(window.originalOJF, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -201,6 +203,8 @@ function exportToOJF() {
 
 function exportToMarkdown() {
     if (!window.currentJourney || !window.originalOJF) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Exporting journey in Markdown format';
     const title = window.currentJourney.title || 'Untitled Journey';
     const persona = window.originalOJF.persona || '';
     const pov = window.originalOJF.pointOfView || '';
@@ -242,6 +246,8 @@ function exportToMarkdown() {
 }
 
 async function exportToPNG() {
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Generating PNG image export';
     const wasTable = activeEditorMode === 'table';
     if (wasTable) {
         switchEditorMode('visual');
@@ -272,6 +278,8 @@ async function exportToPNG() {
 
 async function exportExecutivePDF() {
     if (!window.currentJourney) return;
+    const announcer = document.getElementById('global-status-announcer');
+    if (announcer) announcer.textContent = 'Generating Executive PDF Report';
     const journey = window.currentJourney;
     const ojf = window.originalOJF || {};
 

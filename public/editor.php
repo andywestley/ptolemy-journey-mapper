@@ -181,7 +181,7 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Sub-View: Table Editor -->
-    <div id="table-editor-view" class="table-editor-container" style="<?php echo $initialMode === 'visual' ? 'display: none;' : ''; ?>">
+    <div id="table-editor-view" class="table-editor-container" style="<?php echo $initialMode === 'visual' ? 'display: none;' : ''; ?>" role="region" aria-label="Table Editor View" aria-live="polite" aria-atomic="false">
         <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom flex-wrap gap-2">
             <div>
                 <h2 class="h4 fw-bold mb-1"><i class="bi bi-table text-primary me-2" aria-hidden="true"></i>Table Editor</h2>
@@ -265,7 +265,7 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Sub-View: Visual Map -->
-    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" style="<?php echo $initialMode === 'visual' ? 'display: block;' : 'display: none;'; ?>">
+    <div id="visual-map-view" class="visual-map-wrapper" tabindex="0" role="region" aria-label="Visual Journey Map" style="<?php echo $initialMode === 'visual' ? 'display: block;' : 'display: none;'; ?>" aria-live="polite" aria-atomic="false">
         <div class="d-flex justify-content-end mb-2 gap-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggle-blueprint-mode" onchange="toggleBlueprintMode()">

@@ -23,7 +23,7 @@ function renderVisualMap() {
                 </div>
                 <h2 class="h4 fw-bold mb-2 text-dark">No Journey Steps Yet</h2>
                 <p class="text-muted mb-4" style="font-size: 0.95rem; line-height: 1.6;">
-                    Your journey map doesn't have any steps yet. Get started by defining phases and adding steps in the Table Editor, or create your first step right here.
+                    This journey map has no steps. Define phases and add steps in the Table Editor, or create your first step.
                 </p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
                     <button type="button" class="btn btn-primary px-4 py-2 fw-semibold" onclick="switchEditorMode('table')">
